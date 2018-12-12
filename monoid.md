@@ -1,3 +1,5 @@
+<!-- .slide: style="text-align: left;"> -->  
+
 title: Monetizing the Monoid
 author: Kristoffel Pirard
 
@@ -5,6 +7,7 @@ author: Kristoffel Pirard
 
 # Abstract
 
+<!-- .slide: style="text-align: left; font-size: .5em;"> -->  
 
 We love coding: automating the dull and parameterizing it.  The result makes our users happy.
 
@@ -21,7 +24,7 @@ amount of reuse in my daily practice.  It will show a glimpse of the land of fun
 I believe it's important.  And I believe there's a lot more.
 
 
-Monoid. Encyclopedia of Mathematics. URL: http://www.encyclopediaofmath.org/index.php?title=Monoid&oldid=29746
+note: Monoid. Encyclopedia of Mathematics. URL: http://www.encyclopediaofmath.org/index.php?title=Monoid&oldid=29746
 
 ---
 
