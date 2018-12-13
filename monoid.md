@@ -1,14 +1,14 @@
 <!-- .slide: style="text-align: left;"> -->  
 
-title: Monetizing the Monoid
+title: Using Monoids in C++
 author: Kristoffel Pirard
+url: http://github.com/xtofl/articles/monoid.md
 
 ---
 
 <!-- .slide: style="text-align: left; font-size: .5em;"> -->  
 
 ### Abstract
-
 
 Effective coders recognise tedious repetition and transform it into reusable patterns.  Frameworks, libraries and design patterns arise
 from it.
@@ -28,7 +28,7 @@ Kristoffel Pirard is a consultant with Sioux Embedded Systems N.V. since 2012.  
 
 ---
 
-# Monetizing the Monoid
+# Using Monoids in C++
 
 ---
 
