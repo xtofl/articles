@@ -11,6 +11,18 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "compile concepts",
+            "type": "shell",
+            "command": "make concepts.cxx20",
+            "group": "build",
+            "options": {
+                "cwd": "src/meetingcpp-2018-report"
+            },
+            "problemMatcher": [
+                "$gcc",
+            ]
         }
     ]
 }

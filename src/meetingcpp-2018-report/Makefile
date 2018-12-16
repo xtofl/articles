@@ -1,12 +1,13 @@
 
-show: concepts.diff
-	cat concepts.diff
+
+%.cxx20: %.cxx
+	g++ -std=c++2a -fconcepts $^ 2> $@
+
+concepts.cxx20: concepts.cxx
+	g++ -std=c++2a -fconcepts $^
 
 %.cxx17: %.cxx
 	-g++ -std=c++17 $^ 2> $@
-
-%.cxx20: %.cxx
-	-g++ -std=c++2a -fconcepts $^ 2> $@
 
 concepts.diff: concepts.cxx17 concepts.cxx20
 	diff -u concepts.cxx17 concepts.cxx20 | tee concepts.diff
