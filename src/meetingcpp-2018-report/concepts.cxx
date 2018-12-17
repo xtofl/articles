@@ -3,17 +3,18 @@
 #include <functional>
 #include <memory>
 
-template<typename T>
-concept Monoid = requires (T a, T b, T c) {
+template<typename T> concept bool Monoid =
+requires (T a, T b, T c) {
     {T::identity}; // has identity
     {a + b} -> T; // says nothing about the meaning
     {(a + b) + c == a + (b + c)}
 };
 
 
-template<Monoid T>
-auto sum(T... ms) {
-    return Monoid::zero + ms ...;
+template<Monoid T, Monoid ...Ts>
+auto sum(Ts... ms) {
+    auto start = T::zero;
+    return start + ms...;
 }
 
 int main() {
