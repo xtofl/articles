@@ -20,9 +20,29 @@
             "options": {
                 "cwd": "src/meetingcpp-2018-report"
             },
-            "problemMatcher": [
-                "$gcc",
-            ]
+            "problemMatcher": {
+                "owner": "cpptools",
+                "fileLocation": [
+                    "relative",
+                    "src/meetingcpp-2018-report"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
         }
-    ]
+    }
 }
