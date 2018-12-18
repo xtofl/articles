@@ -87,7 +87,7 @@ Emphasize the importance of
     * scope often becomes smaller
 * the design process
     * forgiving on your input
-    * scrutinous on your output
+    * strict on your output
 
 --
 
@@ -97,7 +97,7 @@ Logic as a science is cumbersome to me.  Lots of funny words and symbols, lots o
 
 ---
 
-# Concepts and Ranges
+# Concepts
 
 (Mateusz Pusz)
 
@@ -114,24 +114,42 @@ Cppcon 2018: Stroustrup talk
 
 ## How do they help
 
-* Library dev: can express expectations explicitly
+Library dev: can express expectations explicitly
 
 ```
-template<Sortable S> bool less(S lhs, S rhs);
+template<Monoid T>
+auto sum(vector<T>  ms) {...}
 ```
 
-* Application dev: gets a 'real' error message
+--
 
-```
-if less(MyType{"a", 1}, MyType{1.5}) ...
+## How do they help
 
-// error message:
-//  error: cannot call less with MyType
-//  note:  concept Sortable<MyType> was not satisfied
-```
+Application dev: gets a 'real' error message
 
-note: error messages are the first complaint I hear when
-introducing people to the C++ stl.
+    s = sum(ds);
+
+Decent error message:
+
+    $ g++-8 -std=gnu++2a -fconcepts concepts.cxx
+
+    constraints not satisfied
+    auto sum(std::vector<T> ms) {
+         ^~~
+    within ‘template<class T> concept const bool
+    Monoid<T> [with T= Distance]’
+    template<typename T> concept bool Monoid =
+                                      ^~~~~~
+    ...
+    the required expression ‘T::identity()’ would be ill-formed
+
+
+--
+
+## 'Truth of a Procedure'
+
+* compiler does some 'concept' check
+* ~= automated 'prologue' verification
 
 ---
 

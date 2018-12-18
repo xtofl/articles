@@ -5,19 +5,32 @@
 
 template<typename T> concept bool Monoid =
 requires (T a, T b, T c) {
-    {T::identity}; // has identity
+    {T::identity()} -> T; // has identity
     {a + b} -> T; // says nothing about the meaning
-    {(a + b) + c == a + (b + c)}
+    // associativity: {(a + b) + c == a + (b + c)}
 };
 
 
-template<Monoid T, Monoid ...Ts>
-auto sum(Ts... ms) {
-    auto start = T::zero;
-    return start + ms...;
+template<Monoid T>
+auto sum(std::vector<T> ms) {
+    auto start = T::identity();
+    return start;
 }
 
+template<class T>
+auto nsum(std::vector<T> ts) {
+    auto start = T::identity();
+    return start;
+}
+
+struct Distance {
+    int value;
+
+    Distance operator+(Distance other){ return other; }
+};
+
 int main() {
-    auto as = std::vector<A>{1, 2, 3};
-    auto as2 = as;
+    std::vector<Distance> ds;
+    auto ns = nsum(ds);
+    auto s = sum(ds);
 }
