@@ -193,7 +193,6 @@ of other types.
 
 --
 
-## Table
 
 |           | err |  excpt |  sumT |  expected |
 | --------- | -- |  -- |  -- |  -- |
