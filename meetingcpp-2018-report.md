@@ -14,8 +14,8 @@ In C++ of course
 Common theme: 'correct' programs
 
 * keynote: Lisa Lippincot: ['truth' of a procedure](https://meetingcpp.com/mcpp/slides/2018/The%20Truth%20of%20a%20Procedure.pdf)
-* talk: Phil Nash: Option(al) is not a Failure
 * talk: Mateusz Pusz: [Concepts/Ranges](https://meetingcpp.com/mcpp/slides/2018/C++%20Concepts%20and%20Ranges%20-%20How%20to%20use%20them.pdf)
+* talk: Phil Nash: Option(al) is not a Failure ([video cppcon](https://www.youtube.com/watch?v=OsRty0KNDZ0))
 * secret lightning talk: Dan Saks: Reframing our Craft as a Discipline
 
 
@@ -104,11 +104,15 @@ Logic as a science is cumbersome to me.  Lots of funny words and symbols, lots o
 Way too much encyclopedic knowledge on one talk.  Too good to throw away, though.
 Cppcon 2018: Stroustrup talk
 
+Here: just touching "Concepts"
+
 --
 
 ## What are Concepts
 
 "Named sets of requirements on a type"
+
+Primary goal: Semantic vs. syntactical info
 
 --
 
@@ -160,6 +164,48 @@ Decent error message:
 * finally an evaluation method
 * 50% of devs: no exceptions!
 * Sum types to the rescue!
+
+--
+
+## Optional, briefly
+
+"Sum" type: contains the union of all possible values
+of other types.
+
+* card (int + bool) = 32484 + 2
+* card (char + int + bool) = 256 + 32484 + 2
+* card (my_type + {nothing}) = card my_type + 1
+
+--
+
+## Evaluation of Error Handling Method
+
+* With a "Score Card"
+  * overhead happy path
+  * overhead error path
+  * safety
+  * noise
+  * separate paths
+  * reasonability
+  * composability
+  * message
+* Still a bit subjective
+
+--
+
+## Table
+
+|           | err |  excpt |  sumT |  expected |
+| --------- | -- |  -- |  -- |  -- |
+| ovh happy | 9 |  10 |  8 |  8 |
+| ovh error | 9 |  1 |  8 |  8 |
+| safety    | 3 |  6 |  6 |  9 |
+| noise     | 3 |  8 |  1 |  5 |
+| separate  | 1 |  10 |  1 |  8 |
+| reason    | 8 |  5 |  10 |  10 |
+| compose   | 3 |  9 |  5 |  10 |
+| message   | 1 |  10 |  10 |  10 |
+
 
 ---
 
