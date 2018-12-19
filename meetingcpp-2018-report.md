@@ -1,13 +1,12 @@
-<!-- $theme: gaia -->
+---
 title: writing correct programs
 author: Kristoffel Pirard
-
-----
+---
 
 # Writing correct programs
 In C++ of course
 
-----
+---
 
 # TL; DR;
 
@@ -17,7 +16,6 @@ Common theme: 'correct' programs
 * talk: Mateusz Pusz: [Concepts/Ranges](https://meetingcpp.com/mcpp/slides/2018/C++%20Concepts%20and%20Ranges%20-%20How%20to%20use%20them.pdf)
 * talk: Phil Nash: Option(al) is not a Failure ([video cppcon](https://www.youtube.com/watch?v=OsRty0KNDZ0))
 * secret lightning talk: Dan Saks: Reframing our Craft as a Discipline
-
 
 ---
 
@@ -176,6 +174,11 @@ of other types.
 * card (char + int + bool) = 256 + 32484 + 2
 * card (my_type + {nothing}) = card my_type + 1
 
+```
+    optional<int> i = parse("abcd");
+    optional<int> ii = i ? optional<int>(*i * *i) : nullopt;
+```
+
 --
 
 ## Evaluation of Error Handling Method
@@ -192,19 +195,23 @@ of other types.
 * Still a bit subjective
 
 --
+<style>
+.reveal .table {
+    font-size: .5em;
+    color: red;
+}
+</style>
 
-
-|           | err |  excpt |  sumT |  expected |
-| --------- | -- |  -- |  -- |  -- |
-| ovh happy | 9 |  10 |  8 |  8 |
-| ovh error | 9 |  1 |  8 |  8 |
-| safety    | 3 |  6 |  6 |  9 |
-| noise     | 3 |  8 |  1 |  5 |
-| separate  | 1 |  10 |  1 |  8 |
-| reason    | 8 |  5 |  10 |  10 |
-| compose   | 3 |  9 |  5 |  10 |
-| message   | 1 |  10 |  10 |  10 |
-
+|           | err |  catch |  sumT |  expct |
+| --------- | --  | --     |  --   |  --    |
+| happy     | 9   | 10     |  8    |  8     |
+| error     | 9   | 1      |  8    |  8     |
+| safety    | 3   | 6      |  6    |  9     |
+| noise     | 3   | 8      |  1    |  5     |
+| separate  | 1   | 10     |  1    |  8     |
+| reason    | 8   | 5      |  10   |  10    |
+| compose   | 3   | 9      |  5    |  10    |
+| message   | 1   | 10     |  10   |  10    |
 
 ---
 
