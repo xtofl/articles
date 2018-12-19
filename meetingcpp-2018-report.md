@@ -186,7 +186,7 @@ of other types.
 * With a "Score Card"
   * overhead happy path
   * overhead error path
-  * safety
+  * safety (discardable)
   * noise
   * separate paths
   * reasonability
@@ -195,23 +195,89 @@ of other types.
 * Still a bit subjective
 
 --
+
+# Example: result
+
+```
+if (create_dir("images") || errno == E_EXISTS) {
+    // happy path
+} else {
+    // error path
+}
+```
+
+--
+
+# Example: errno
+
+```
+create_dir("images");
+if (errno == 0 || errno == E_EXISTS) {
+    // happy path
+} else {
+    // error path
+}
+```
+
+--
+
+# Example: exceptions
+
+```
+try {
+    create_dir("images");
+    // happy path
+} catch(const exception &e) {
+    // error path
+}
+```
+
+--
+
+# Example: std::expected
+
+```
+auto d = create_dir("images");
+if (d) {
+    happy(*d);
+} catch(const exception &e) {
+    cerr << e->error();
+}
+```
+
+--
+
+
+# Example: std::expected monad
+
+```
+auto d = create_dir("images")
+    | [](auto d) { return happy(d); }
+    | [](auto f) { return stuffwith(f); }
+    ;
+    
+```
+
+--
+
+
 <style>
-.reveal .table {
+.reveal table {
     font-size: .5em;
     color: red;
 }
 </style>
 
-|           | err |  catch |  sumT |  expct |
-| --------- | --  | --     |  --   |  --    |
-| happy     | 9   | 10     |  8    |  8     |
-| error     | 9   | 1      |  8    |  8     |
-| safety    | 3   | 6      |  6    |  9     |
-| noise     | 3   | 8      |  1    |  5     |
-| separate  | 1   | 10     |  1    |  8     |
-| reason    | 8   | 5      |  10   |  10    |
-| compose   | 3   | 9      |  5    |  10    |
-| message   | 1   | 10     |  10   |  10    |
+|           | err |  catch |  sumT |  expct | monad |
+| --------- | --  | --     |  --   |  --    | --    |
+| happy     | 9   | 10     |  8    |  8     | 8     |
+| error     | 9   | 1      |  8    |  8     | 8     |
+| safety    | 3   | 6      |  6    |  7     | 9     |
+| noise     | 3   | 8      |  1    |  2     | 5     |
+| separate  | 1   | 10     |  1    |  1     | 8     |
+| reason    | 8   | 5      |  10   |  10    | 10    |
+| compose   | 3   | 9      |  5    |  5     | 10    |
+| message   | 1   | 10     |  10   |  10    | 10    |
 
 ---
 
