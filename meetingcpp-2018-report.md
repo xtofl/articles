@@ -12,7 +12,7 @@ In C++ of course
 
 Common theme: 'correct' programs
 
-* keynote: Lisa Lippincot: ['truth' of a procedure](https://meetingcpp.com/mcpp/slides/2018/The%20Truth%20of%20a%20Procedure.pdf)
+* keynote Lisa Lippincot: ['truth' of a procedure](https://meetingcpp.com/mcpp/slides/2018/The%20Truth%20of%20a%20Procedure.pdf)
 * talk: Mateusz Pusz: [Concepts/Ranges](https://meetingcpp.com/mcpp/slides/2018/C++%20Concepts%20and%20Ranges%20-%20How%20to%20use%20them.pdf)
 * talk: Phil Nash: Option(al) is not a Failure ([video cppcon](https://www.youtube.com/watch?v=OsRty0KNDZ0))
 * secret lightning talk: Dan Saks: Reframing our Craft as a Discipline
@@ -240,8 +240,8 @@ try {
 auto d = create_dir("images");
 if (d) {
     happy(*d);
-} catch(const exception &e) {
-    cerr << e->error();
+} else {
+    cerr << d.error();
 }
 ```
 
