@@ -260,7 +260,6 @@ auto d = create_dir("images")
 
 --
 
-
 <style>
 .reveal table {
     font-size: .5em;
