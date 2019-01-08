@@ -262,8 +262,7 @@ auto d = create_dir("images")
 
 <style>
 .reveal table {
-    font-size: .5em;
-    color: red;
+    font-size: .6em;
 }
 </style>
 
