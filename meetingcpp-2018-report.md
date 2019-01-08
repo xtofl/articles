@@ -266,8 +266,8 @@ auto d = create_dir("images")
 }
 </style>
 
-|           | err |  catch |  sumT |  expct | monad |
-| --------- | --  | --     |  --   |  --    | --    |
+|           | errcode |  try/catch |  optional |  expected | monad |
+| --------- | ---  | ---    |  ---   |  ---    | ---    |
 | happy     | 9   | 10     |  8    |  8     | 8     |
 | error     | 9   | 1      |  8    |  8     | 8     |
 | safety    | 3   | 6      |  6    |  7     | 9     |
