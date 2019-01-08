@@ -267,15 +267,16 @@ auto d = create_dir("images")
 </style>
 
 |           | errcode |  try/catch |  optional |  expected | monad |
-| --------- | ---  | ---    |  ---   |  ---    | ---    |
-| happy     | 9   | 10     |  8    |  8     | 8     |
-| error     | 9   | 1      |  8    |  8     | 8     |
-| safety    | 3   | 6      |  6    |  7     | 9     |
-| noise     | 3   | 8      |  1    |  2     | 5     |
-| separate  | 1   | 10     |  1    |  1     | 8     |
-| reason    | 8   | 5      |  10   |  10    | 10    |
-| compose   | 3   | 9      |  5    |  5     | 10    |
-| message   | 1   | 10     |  10   |  10    | 10    |
+| --------- | ---     | ---        |  ---      |  ---      | ---   |
+| happy     | 9       | 10         |  8        |  8        | 8     |
+| error     | 9       | 1          |  8        |  8        | 8     |
+| safety    | 3       | 6          |  6        |  7        | 9     |
+| noise     | 3       | 8          |  1        |  2        | 5     |
+| separate  | 1       | 10         |  1        |  1        | 8     |
+| reason    | 8       | 5          |  10       |  10       | 10    |
+| compose   | 3       | 9          |  5        |  5        | 10    |
+| message   | 1       | 10         |  10       |  10       | 10    |
+| TOTAL     | 37      | 59         |  49       |  51       | 68    |
 
 ---
 
