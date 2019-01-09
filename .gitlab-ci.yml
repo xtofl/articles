@@ -3,3 +3,6 @@ image: node
 build-pdfs:
   script:
     - make pdf_slides
+  artifacts:
+    paths:
+      - "*.pdf"

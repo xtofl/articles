@@ -61,7 +61,7 @@ import sys
 filename = sys.argv[1]
 
 slide_title = None
-with open(filename) as f:
+with open(filename, 'r', encoding='utf-8') as f:
 	title_lines = [line for line in f.read().splitlines(keepends=False) if line.startswith("title: ")]
 	assert len(title_lines) == 1
 	slide_title = title_lines[0].partition(":")[2]
