@@ -43,10 +43,31 @@ Topics:
 * Applying it in C++
   * Adapting to boost accumulators
   * Adapting to `std::accumulate`
+  * Building a `sum<Ts...>` template
+  * Functions under composition [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
   * How can Concepts help?
 * What's next
   * Category Theory references
 
+---
+
+## Intro
+
+Magic: Monoid a => all possible Accumulation functions just work,
+and so does function composition (on a Monoid).  Cf "So What?" in
+https://wiki.haskell.org/Monoid
+
+    sortStrings = sortBy (comparing length <> compare)
+
+---
+
+## Why all the Hard Stuff
+
+* Generalizing => "Concepts" => can be reused/Synthesized
+* Cf. popularity of point-free style
+  * Addition of lambda's (C++11)
+  * Ranges
+  * Boost.HOF
 
 ---
 
@@ -55,3 +76,5 @@ Topics:
 * Monoid. Encyclopedia of Mathematics. URL: http://www.encyclopediaofmath.org/index.php?title=Monoid&oldid=29746
 * https://fsharpforfunandprofit.com/posts/monoids-without-tears/
 * https://bartoszmilewski.com/2017/02/09/monoids-on-steroids/
+* https://wiki.haskell.org/Monoid
+* https://soundcloud.com/lambda-cast/12-monoids
