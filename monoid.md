@@ -32,22 +32,45 @@ Kristoffel Pirard is a consultant with Sioux Embedded Systems.  Has been coding 
 
 Topics:
 
-* Examples:
+* Intro (5')
+  * the rationale for this presentation (2')
+  * growsery story (3')
+
+* Examples (10'):
   * A glimpse of my complicated grocery list app
-    * how complicated it looked
-    * how it changed
-  * ? A 2d masking problem
-* Generalizing the pattern
+    * how complicated it looked (2')
+    * the epiphany (5'): changing hand-rolled into `sum`
+  * ? A 2d masking problem (3')
+    * rolling density, 1D (2')
+    * rolling density, 2D (1')
+
+* Generalizing the pattern (10')
   * Briefly back to school (algebra?)
+    * Integer under +, *
   * The "Modern" view
-* Applying it in C++
-  * Adapting to boost accumulators
-  * Adapting to `std::accumulate`
-  * Building a `sum<Ts...>` template
-  * Functions under composition [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
+    * Booleans under &&, ||
+    * Lists under 'concat'
+  * Semigroup (2')
+  * Monoid (2')
+
+* Adapting Semigroup to Monoid
+  * `sum(map(mon, elements))`
+  * Maybe
+
+* Applying it in C++ (20')
+  * Adapting to boost accumulators (3')
+  * Adapting to `std::accumulate` (3')
+  * Building a `sum<Ts...>` template (5')
+  * Functions under composition (5') [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
   * How can Concepts help?
-* What's next
+* What's next (10')
   * Category Theory references
+  * Functor
+  * Monad
+
+* Conclusion (2')
+
+* Questions (5')
 
 ---
 
@@ -75,7 +98,7 @@ Make a week menu!
 
 --
 
-### Intro (3/n)
+### Intro
 
 * Monday: saucage, potatoes, compote
 * Tuesday: spaghetti bolognese
@@ -92,7 +115,7 @@ But... what groceries do I need?
 
 --
 
-## Intro
+### Intro
 
 5 chipolata's, 2kg potatoes, 5 apples, 2 packs of pasta, 400g of minced meat, grated cheese, chicken breast, basmati rice, curry sauce ...
 
