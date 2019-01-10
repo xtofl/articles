@@ -53,6 +53,108 @@ Topics:
 
 ## Intro
 
+
+
+Imagine this:
+
+* You have to take care of the groceries from now on
+* You're a man
+  * finding your way around a store???
+  * always too much in your basket
+  * always important stuff missing
+
+Note: < 3 minutes
+
+--
+
+### Intro
+
+It's Saturday, 9am.  Stores are crowded from 10am.  No idea what we need for next week.
+
+Make a week menu!
+
+--
+
+### Intro (3/n)
+
+* Monday: saucage, potatoes, compote
+* Tuesday: spaghetti bolognese
+* Wednesday: chicken, rice, curry sauce
+* ...
+
+--
+
+### Intro
+
+But... what groceries do I need?
+
+... Recipes?
+
+--
+
+## Intro
+
+5 chipolata's, 2kg potatoes, 5 apples, 2 packs of pasta, 400g of minced meat, grated cheese, chicken breast, basmati rice, curry sauce ...
+
+--
+
+O - we still _got_ potatoes.
+
+--
+
+Week
+
+after week
+
+after week
+
+--
+
+_can't a computer do that_?
+
+--
+
+Saturday, 9am.
+
+Start coding.
+
+--
+
+Saturday, 11am.
+
+... coding
+
+--
+
+Saturday, 12am.
+
+```bash
+> python3 growser.py
+o currysaus <1 pak>
+o chipolata <1 pak>
+o basmati <1 kg>
+...
+```
+
+--
+
+[[WLOL]]
+(Wife Laughing Out Loud)
+
+--
+
+```python
+shopping_list_menu = resulting_list(all_dishes, pantry)
+shopping_list = join_ingredients(shopping_list_menu, extras)
+print_ingredients(shopping_list, shop=the_shop)
+```
+
+---
+
+
+
+## 
+
 Magic: Monoid a => all possible Accumulation functions just work,
 and so does function composition (on a Monoid).  Cf "So What?" in
 https://wiki.haskell.org/Monoid
