@@ -81,10 +81,10 @@ Topics:
 Imagine this:
 
 * You have to take care of the groceries from now on
-* You're a man
-  * finding your way around a store???
-  * always too much in your basket
-  * always important stuff missing
+* You're a man <!-- .element: class="fragment shrink" -->
+  * finding your way around a store??? <!-- .element: class="fragment" -->
+  * always too much in your basket <!-- .element: class="fragment" -->
+  * always important stuff missing <!-- .element: class="fragment" -->
 
 Note: < 3 minutes
 
