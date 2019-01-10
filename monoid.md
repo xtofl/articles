@@ -69,6 +69,8 @@ Topics:
   * Monad
 
 * Conclusion (2')
+  * I'm afraid, too :(.  And excited.
+  * boost readability through 'common voc + abstraction'
 
 * Questions (5')
 
