@@ -53,10 +53,24 @@ auto operator+(const IngredientList& a, const IngredientList &b) {
     return result;
 }
 
+template<typename T, typename F>
+auto transform(const std::vector<T> &as, F f) {
+    std::vector<decltype(f(as.front()))> result;
+    std::transform(begin(as), end(as), std::back_inserter(result), f);
+    return result;
+}
+
 auto operator-(const IngredientList &a, const IngredientList &b) {
     IngredientList result;
-    std::set_difference(begin(a), end(a), begin(b), end(b), std::back_inserter(result));
-    return a;
+    const auto keys = transform(a, [](const auto &ingredient) { return ingredient.name; });
+    for (const auto &key: keys) {
+        auto va = std::find_if(begin(a), end(a), [=](auto x){ return x.name == key; });
+        auto vb = std::find_if(begin(b), end(b), [=](auto x){ return x.name == key; });
+        result.push_back(*va);
+        if (vb != end(b))
+            result.back().amount.n -= vb->amount.n;
+    }
+    return result;
 }
 
 const Unit gram{"g"};
