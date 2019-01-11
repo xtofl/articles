@@ -48,12 +48,6 @@ auto ingredients(const Menu & menu) {
     return IngredientList{};
 }
 
-auto operator+(const IngredientList& a, const IngredientList &b) {
-    IngredientList result;
-    result.insert(end(result), begin(b), end(b));
-    return result;
-}
-
 template<typename T, typename F>
 auto transform(const std::vector<T> &as, F f) {
     std::vector<decltype(f(as.front()))> result;
@@ -61,7 +55,11 @@ auto transform(const std::vector<T> &as, F f) {
     return result;
 }
 
-auto operator-(const IngredientList &a, const IngredientList &b) {
+auto operator-(const IngredientList &a) {
+    return transform(a, [](auto x) { x.amount.n *= -1; return x; });
+}
+
+auto operator+(const IngredientList &a, const IngredientList &b) {
     IngredientList result = a;
     const auto bkeys = transform(a, [](const auto &ingredient) { return ingredient.name; });
     for (const auto &bx: b) {
@@ -69,7 +67,7 @@ auto operator-(const IngredientList &a, const IngredientList &b) {
             begin(result), end(result),
             [=](auto x){ return x.name == bx.name; });
         if (it != end(result)) {
-            it->amount.n -= bx.amount.n;
+            it->amount.n += bx.amount.n;
         } else {
             const auto where = std::lower_bound(
                     begin(result), end(result),
@@ -78,11 +76,14 @@ auto operator-(const IngredientList &a, const IngredientList &b) {
                 );
             result.insert(
                 where,
-                {bx.name, {-bx.amount.n, bx.amount.unit}}
-            );
+                bx);
         }
     }
     return result;
+}
+
+auto operator-(const IngredientList& a, const IngredientList &b) {
+    return a + (-b);
 }
 
 const Unit gram{"g"};
