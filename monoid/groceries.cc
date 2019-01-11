@@ -1,15 +1,23 @@
 #include <cstdio>
+#include <iostream>
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <tuple>
 
 struct Unit {
     std::string label;
 };
+auto tie(const Unit &a) { return std::tie(a.label); }
+bool operator < (const Unit &a, const Unit &b) { return tie(a) < tie(b); }
+bool operator == (const Unit &a, const Unit &b) { return tie(a) == tie(b); }
 struct Amount {
     int n;
     Unit unit;
 };
+auto tie(const Amount &a) { return std::tie(a.n, a.unit); }
+bool operator < (const Amount &a, const Amount &b) { return tie(a) < tie(b); }
+bool operator == (const Amount &a, const Amount &b) { return tie(a) == tie(b); }
 auto to_string(const Amount &a) {
     return std::to_string(a.n) + a.unit.label;
 }
@@ -17,12 +25,17 @@ struct Ingredient {
     std::string name;
     Amount amount;
 };
+auto tie(const Ingredient &a) { return std::tie(a.name, a.amount); }
+bool operator < (const Ingredient &a, const Ingredient &b) { return tie(a) < tie(b); }
+bool operator == (const Ingredient &a, const Ingredient &b) { return tie(a) == tie(b); }
 auto to_string(const Ingredient &i) {
     return i.name + " " + to_string(i.amount);
 }
+using IngredientList = std::vector<Ingredient>;
 struct Dish {
-    std::vector<Ingredient> ingredients;
+    IngredientList ingredients;
 };
+
 struct Menu {
     std::vector<Dish> dishes;
 };
@@ -31,19 +44,18 @@ auto menu() {
 }
 
 auto ingredients(const Menu & menu) {
-    return std::vector<Ingredient>{};
+    return IngredientList{};
 }
 
-template<typename T>
-std::vector<T> operator+(const std::vector<T>& a, const std::vector<T> &b) {
-    auto result = a;
+auto operator+(const IngredientList& a, const IngredientList &b) {
+    IngredientList result;
     result.insert(end(result), begin(b), end(b));
     return result;
 }
 
-template<typename T>
-std::vector<T> operator-(const std::vector<T>& a, const std::vector<T> &b) {
-    auto result = a;
+auto operator-(const IngredientList &a, const IngredientList &b) {
+    IngredientList result;
+    std::set_difference(begin(a), end(a), begin(b), end(b), std::back_inserter(result));
     return a;
 }
 
@@ -51,20 +63,36 @@ const Unit gram{"g"};
 const Unit pak{"pak"};
  
 auto extras() {
-    return std::vector<Ingredient>{{
+    return IngredientList{{
         {"kaas", {100, gram}},
         {"chipolata", {400, gram}},
         {"spaghetti", {2, pak}},
     }};
 }
 auto pantry() {
-    return std::vector<Ingredient>{{
+    return IngredientList{{
         {"chipolata", {200, gram}},
         {"spaghetti", {4, pak}},
     }};
 }
 
-int main() {
+std::ostream &operator<< (std::ostream &out, const Ingredient &ingredient) {
+    out << "[" << to_string(ingredient) << "]";
+    return out;
+}
+
+#include <gtest/gtest.h>
+TEST(ingredient_lists, can_be_subtracted) {
+    const IngredientList
+        list1 = {{ {"kaas"}, {100, gram}}},
+        list2 = {{ {"kaas"}, {100, gram}}}
+        ;
+    EXPECT_EQ((IngredientList{{{"kaas", {0, gram}} }}), list1 - list2);
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
     auto list =
           ingredients(menu())
         + extras()
