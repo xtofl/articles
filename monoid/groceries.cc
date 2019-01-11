@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <tuple>
+#include <cassert>
 
 struct Unit {
     std::string label;
@@ -61,14 +62,25 @@ auto transform(const std::vector<T> &as, F f) {
 }
 
 auto operator-(const IngredientList &a, const IngredientList &b) {
-    IngredientList result;
-    const auto keys = transform(a, [](const auto &ingredient) { return ingredient.name; });
-    for (const auto &key: keys) {
-        auto va = std::find_if(begin(a), end(a), [=](auto x){ return x.name == key; });
-        auto vb = std::find_if(begin(b), end(b), [=](auto x){ return x.name == key; });
-        result.push_back(*va);
-        if (vb != end(b))
-            result.back().amount.n -= vb->amount.n;
+    IngredientList result = a;
+    const auto bkeys = transform(a, [](const auto &ingredient) { return ingredient.name; });
+    for (const auto &bx: b) {
+        const auto it = std::find_if(
+            begin(result), end(result),
+            [=](auto x){ return x.name == bx.name; });
+        if (it != end(result)) {
+            it->amount.n -= bx.amount.n;
+        } else {
+            const auto where = std::lower_bound(
+                    begin(result), end(result),
+                    bx,
+                    [](auto a, auto b) { return a.name < b.name; }
+                );
+            result.insert(
+                where,
+                {bx.name, {-bx.amount.n, bx.amount.unit}}
+            );
+        }
     }
     return result;
 }
@@ -96,12 +108,17 @@ std::ostream &operator<< (std::ostream &out, const Ingredient &ingredient) {
 }
 
 #include <gtest/gtest.h>
-TEST(ingredient_lists, can_be_subtracted) {
+TEST(ingredient_lists_subtract, per_ingredient) {
     const IngredientList
-        list1 = {{ {"kaas"}, {100, gram}}},
-        list2 = {{ {"kaas"}, {100, gram}}}
+        list1 = {{ {"kaas"}, {300, gram}}, {"pasta", {1, pak}}},
+        list2 = {{ {"kaas"}, {100, gram}}, {"zakdoekjes", {2, pak}}}
         ;
-    EXPECT_EQ((IngredientList{{{"kaas", {0, gram}} }}), list1 - list2);
+    EXPECT_EQ((IngredientList{{
+            {"kaas", {200, gram}},
+            {"pasta", {1, pak}},
+            {"zakdoekjes", {-2, pak}}
+        }}),
+        list1 - list2);
 }
 
 int main(int argc, char **argv) {
