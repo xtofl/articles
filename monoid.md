@@ -28,6 +28,7 @@ Kristoffel Pirard is a consultant with Sioux Embedded Systems.  Has been coding 
 
 ---
 
+Note:
 # Using Monoids in C++
 
 Topics:
@@ -76,8 +77,7 @@ Topics:
 
 ---
 
-## Intro
-
+## Intro: epiphany
 
 
 Imagine this:
@@ -174,9 +174,136 @@ shopping_list = join_ingredients(shopping_list_menu, extras)
 print_ingredients(shopping_list, shop=the_shop)
 ```
 
+--
+
+
+## Intro: rationale
+
+Reading about Category Theory, bumping into
+
+* Functor
+* Monad
+* Applicative
+* ...
+
+wooow.... scary! <!-- .element: class="fragment" -->
+
+--
+
+## Intro: rationale
+
+* discussions about `str.join` ([needless branching](https://en.cppreference.com/w/cpp/algorithm/accumulate))
+```C++
+bool sep = false;
+for(auto x: elements) {
+    if (sep) cout << ", ";
+    cout << x;
+    sep = true;
+}
+```
+
+--
+
+## Intro: rationale
+
+Discussions about 'vacuous truth/falsity'
+
+```
+* all({true, false, true}) == false
+* all({true}) == true
+* all({}) == ????
+```
+
+--
+
+## Intro: rationale
+
+* I was scared, first
+  * Wikipedia... alien lingo <!-- .element: class="fragment" -->
+  * Colleagues think I'm a freak <!-- .element: class="fragment" -->
+* This is a stupid hurdle <!-- .element: class="fragment" -->
+  * Fear leads to anger <!-- .element: class="fragment" -->
+  * Anger leads to ... <!-- .element: class="fragment" -->
+* Common vocabulary => more collaboration <!-- .element: class="fragment" -->
+  * with math people
+  * with other devs
+
+--
+
+An attempt to take away
+
+* some fear
+* some dismay
+
+=> small steps!
+
+=> real-life!
+
+--
+
+## Intro: rationale
+
+So... in order of 'difficulty'
+
+* Monoid
+* Functor
+* Applicative
+* Monad
+
 ---
 
+* Examples (10'):
+  * A glimpse of my complicated grocery list app
+    * how complicated it looked (2')
+    * the epiphany (5'): changing hand-rolled into `sum`
+  * ? A 2d masking problem (3')
+    * rolling density, 1D (2')
+    * rolling density, 2D (1')
 
+---
+
+* Generalizing the pattern (10')
+  * Briefly back to school (algebra?)
+    * Integer under +, *
+  * The "Modern" view
+    * Booleans under &&, ||
+    * Lists under 'concat'
+  * Semigroup (2')
+  * Monoid (2')
+
+---
+
+* Adapting Semigroup to Monoid
+  * `sum(map(mon, elements))`
+  * Maybe
+
+---
+
+* Applying it in C++ (20')
+  * Adapting to boost accumulators (3')
+  * Adapting to `std::accumulate` (3')
+  * Building a `sum<Ts...>` template (5')
+  * Functions under composition (5') [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
+  * How can Concepts help?
+
+---
+
+* What's next (10')
+  * Category Theory references
+  * Functor
+  * Monad
+
+---
+
+* Conclusion (2')
+  * I'm afraid, too :(.  And excited.
+  * boost readability through 'common voc + abstraction'
+
+---
+
+Questions (5')
+
+---
 
 ## 
 
