@@ -54,7 +54,9 @@ Topics:
   * Semigroup (2')
   * Monoid (2')
 
-* Adapting Semigroup to Monoid
+* What good is it (5')
+
+* Adapting Semigroup to Monoid (5')
   * `sum(map(mon, elements))`
   * Maybe
 
@@ -77,15 +79,19 @@ Topics:
 
 ---
 
+![pig throwing flares at itself](/milewski_monoid.jpg) <!-- .element: width="400" -->
+
+---
+
 ## Intro: epiphany
 
 
 Imagine this:
 
-* You have to take care of the groceries from now on
+* You have to take care of the family groceries from now on
 * You're a man <!-- .element: class="fragment shrink" -->
   * finding your way around a store??? <!-- .element: class="fragment" -->
-  * always too much in your basket <!-- .element: class="fragment" -->
+  * always too much in your cart <!-- .element: class="fragment" -->
   * always important stuff missing <!-- .element: class="fragment" -->
 
 Note: < 3 minutes
@@ -221,6 +227,7 @@ Discussions about 'vacuous truth/falsity'
 * I was scared, first
   * Wikipedia... alien lingo <!-- .element: class="fragment" -->
   * Colleagues think I'm a freak <!-- .element: class="fragment" -->
+* I guess I'm not alone <!-- .element: class="fragment" -->
 * This is a stupid hurdle <!-- .element: class="fragment" -->
   * Fear leads to anger <!-- .element: class="fragment" -->
   * Anger leads to ... <!-- .element: class="fragment" -->
@@ -273,9 +280,16 @@ So... in order of 'difficulty'
 
 ---
 
-* Adapting Semigroup to Monoid
+* What good is it (5')
+  * Closure (1')
+  * The Identity element (1')
+  * Associativity (3')
+
+---
+
+* Adapting Semigroup to Monoid (5')
   * `sum(map(mon, elements))`
-  * Maybe
+  * using Maybe<S>
 
 ---
 
