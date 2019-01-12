@@ -270,12 +270,69 @@ So... in order of 'difficulty'
 ---
 
 * Generalizing the pattern (10')
-  * Briefly back to school (algebra?)
-    * Integer under +, *
-  * The "Modern" view
+
+--
+
+## Monoid: back to school
+
+* Back to school: addition
+  * 1 + 2 == 3 <!-- .element: class="fragment" -->
+  * 234225 + 123415115 = 123649340  <!-- .element: class="fragment" -->
+  * 1 + (2 + 3) == (1 + 2) + 3 <!-- .element: class="fragment" -->
+  * 0 + x = x <!-- .element: class="fragment" -->
+  * x + 0 = x <!-- .element: class="fragment" -->
+
+--
+
+* Back to school: multiplication
+  * 3 * 2 == 6 <!-- .element: class="fragment" -->
+  * 165 * 23 == 3795  <!-- .element: class="fragment" -->
+  * 4 * (2 * 3) == (4 * 2) * 3 <!-- .element: class="fragment" -->
+  * 1 * x = x <!-- .element: class="fragment" -->
+  * x * 1 = x <!-- .element: class="fragment" -->
+
+--
+
+### Generalizing
+
+* + and * are binary operations on ℕ
+  * closed
+  * associative
+  * with an identity element (resp. 0 and 1)
+
+--
+
+### Generalizing
+
+Monoid: a tuple <S, op, id> so that
+
+* op(s1, s2) element of S
+* op(s1, op(s2, s3)) == op(op(s1, s2), s3)
+* op(id, s) == op(s, id) == s
+
+
+--
+
+### Generalizing
+
+Also note: closure + associativity => Semigroup
+
+So Monoid is a Semigroup with an identity element
+
+--
+
     * Booleans under &&, ||
+
+--
+
     * Lists under 'concat'
+
+--
+
   * Semigroup (2')
+
+--
+
   * Monoid (2')
 
 ---
