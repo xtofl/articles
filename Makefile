@@ -27,6 +27,7 @@ reveal_slides: $(subst .md,.html,$(MARKDOWN_SLIDES))
 pdf_slides: $(subst .md,.pdf,$(MARKDOWN_SLIDES))
 
 %.reveal: reveal.js %.html
+	cp $*/resources/* reveal.js/
 	cp $*.html reveal.js/index.html
 
 %.pdf: $(DECKTAPE) %.reveal reveal_running
