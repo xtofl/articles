@@ -83,6 +83,28 @@ Topics:
 
 ---
 
+## Why am I doing this?
+
+* we, developers need
+  * proven methodologies (scaling, )
+  * reuse, over language boundaries
+* mathematicians have been forming theories for ages
+* we don't understand mathematese
+* mathematicians don't speak developese
+
+--
+
+## Why am I doing this
+
+* I'm enthousiastic (a bit nerdy)
+  * c'mon... "(lenses and bananas)[https://maartenfokkinga.github.io/utwente/mmf91m.pdf]" in one sentence!
+* I think we _will_ benefit
+* Can you help me?
+  * I want to help _you_ taking the first hurdle
+  * Let's take the rest together!
+
+---
+
 ## Intro: epiphany
 
 
