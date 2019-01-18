@@ -4,12 +4,11 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build slide",
+            "label": "compile monoid",
             "type": "shell",
-            "command": "make $(basename -s .md ${file}).reveal",
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "command": "g++ -std=c++17 -lgtest -lpthread  groceries.cc",
+            "options": {
+                "cwd": "monoid"
             },
             "presentation": {
                 "echo": true,
@@ -18,31 +17,18 @@
                 "panel": "shared",
                 "showReuseMessage": true,
                 "clear": true
-            }
-        },
-        {
-            "label": "compile concepts",
-            "type": "shell",
-            "command": "make concepts.cxx20",
-            "group": "build",
-            "options": {
-                "cwd": "src/meetingcpp-2018-report"
             },
             "problemMatcher": {
-                "owner": "cpptools",
-                "fileLocation": [
-                    "relative",
-                    "src/meetingcpp-2018-report"
-                ],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
+                "base": "$gcc",
+                "fileLocation": ["relative", "monoid"]
             },
+            "group": "build"
+        },
+        {
+            "label": "build slide",
+            "type": "shell",
+            "command": "make $(basename -s .md ${file}).reveal",
+            "group": "build",
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -52,5 +38,5 @@
                 "clear": true
             }
         }
-    }
+    ]
 }

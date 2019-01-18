@@ -382,6 +382,49 @@ Monoid: a tuple &lt;S, &oplus;, id&gt; so that
 
 ---
 
+## So... what good is it?
+
+--
+
+### So... what good is it?
+
+Generic functions, of course!
+
+* Runtime
+* Compile time
+
+--
+
+### So... what good is it?
+
+#### Closure
+
+Operation can be chained.
+
+Indefinitely.
+
+--
+
+#### Associativity
+
+Divide and Conquer
+
+--
+
+####
+
+* An identity element
+
+
+--
+
+### What good is Closure?
+
+* Closure
+* Associativity
+* An identity element
+
+Note: 
 * What good is it (5')
   * Closure (1')
   * The Identity element (1')
@@ -447,4 +490,5 @@ https://wiki.haskell.org/Monoid
 * https://fsharpforfunandprofit.com/posts/monoids-without-tears/
 * https://bartoszmilewski.com/2017/02/09/monoids-on-steroids/
 * https://wiki.haskell.org/Monoid
+* https://youtu.be/J9UwWo2qifg?t=720 Cyrille Martraire on patterns
 * https://soundcloud.com/lambda-cast/12-monoids
