@@ -90,7 +90,8 @@ Topics:
   * reuse, over language boundaries
 * mathematicians have been forming theories for ages
 * we don't understand mathematese
-* mathematicians don't speak developese
+  * cf. the `iota` discussions lately
+* mathematicians don't speak developese (nobody does)
 
 --
 
@@ -102,6 +103,12 @@ Topics:
 * Can you help me?
   * I want to help _you_ taking the first hurdle
   * Let's take the rest together!
+
+--
+
+## What I want to achieve
+
+* h
 
 ---
 
@@ -274,7 +281,7 @@ An attempt to take away
 
 So... in order of 'difficulty'
 
-* Monoid
+* Monoid <-- you are here
 * Functor
 * Applicative
 * Monad
@@ -295,29 +302,31 @@ So... in order of 'difficulty'
 
 --
 
-## Monoid: back to school
+### Monoid: back to school
 
 * Back to school: addition
-  * 1 + 2 == 3 <!-- .element: class="fragment" -->
+  * 1 + 2 == 3  <!-- .element: class="fragment" -->
   * 234225 + 123415115 = 123649340  <!-- .element: class="fragment" -->
-  * 1 + (2 + 3) == (1 + 2) + 3 <!-- .element: class="fragment" -->
-  * 0 + x = x <!-- .element: class="fragment" -->
-  * x + 0 = x <!-- .element: class="fragment" -->
+  * 1 + (2 + 3) == (1 + 2) + 3  <!-- .element: class="fragment" -->
+  * 0 + x = x  <!-- .element: class="fragment" -->
+  * x + 0 = x  <!-- .element: class="fragment" -->
 
 --
 
+### Monoid: back to school
+
 * Back to school: multiplication
-  * 3 * 2 == 6 <!-- .element: class="fragment" -->
-  * 165 * 23 == 3795  <!-- .element: class="fragment" -->
-  * 4 * (2 * 3) == (4 * 2) * 3 <!-- .element: class="fragment" -->
-  * 1 * x = x <!-- .element: class="fragment" -->
-  * x * 1 = x <!-- .element: class="fragment" -->
+  - 3 &middot; 2 == 6
+  - 165 &middot; 23 == 3795
+  - 4 &middot; ( 2 &middot; 3 ) == ( 4 &middot; 2 ) &middot; 3
+  - 1 &middot; x = x
+  - x &middot; 1 = x
 
 --
 
 ### Generalizing
 
-* + and * are binary operations on ℕ
+* + and &middot; are binary operations on ℕ
   * closed
   * associative
   * with an identity element (resp. 0 and 1)
@@ -326,13 +335,11 @@ So... in order of 'difficulty'
 
 ### Generalizing
 
-Monoid: a tuple <S, op, id> so that
+Monoid: a tuple `<S, op, id>` so that
 
 * op(s1, s2) element of S
 * op(s1, op(s2, s3)) == op(op(s1, s2), s3)
 * op(id, s) == op(s, id) == s
-
-
 --
 
 ### Generalizing
@@ -343,19 +350,35 @@ So Monoid is a Semigroup with an identity element
 
 --
 
-    * Booleans under &&, ||
+
+### Generalizing: nerd notation
+
+Monoid: a tuple &lt;S, &oplus;, id&gt; so that
+
+* &forall; s1, s2 &isin; S
+* s1 &oplus; (s2 &oplus; s3) = (s1 &oplus; s2) &oplus; s3
+* id &oplus; s = s = s &oplus; id
+
 
 --
 
-    * Lists under 'concat'
+### Examples: &lt;bool, &amp;&amp;, true&gt;
+
+```C++
+* a && b is a boolean
+* a && (b && c) == (a && b) && c
+* a && true == a and true && a == a
+```
 
 --
 
-  * Semigroup (2')
+### Examples: &lt;string, +, ""&gt;
 
---
-
-  * Monoid (2')
+```C++
+* string operator+(string)
+* "ab"s + ("cd"s + "ef"s) == ("ab"s + "cd"s) + "ef"s
+* "ab"s + ""s == "ab"s == ""s + "ab"s
+```
 
 ---
 
