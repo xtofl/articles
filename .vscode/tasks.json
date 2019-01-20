@@ -25,6 +25,24 @@
             "group": "build"
         },
         {
+            "label": "monoid_test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "type": "shell",
+            "command": "make -C monoid test",
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
             "label": "build slide",
             "type": "shell",
             "command": "make $(basename -s .md ${file}).reveal",
