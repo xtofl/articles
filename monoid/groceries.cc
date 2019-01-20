@@ -34,6 +34,26 @@ auto to_string(const Amount<U> &a) {
     return std::to_string(a.n) + label<Amount>;
 }
 
+
+template<typename Unit>
+struct AmountList {
+    std::vector<Amount<Unit>> amounts;
+
+    AmountList operator+(const AmountList &other) const {
+        auto result = other;
+        result.amounts.insert(
+            end(result.amounts),
+            begin(amounts), end(amounts));
+        return result;
+    }
+    bool operator==(const AmountList &other) const {
+        return amounts == other.amounts;
+    }
+};
+
+template<typename U>
+AmountList<U> zero(AmountList<U> i) { return {{}};}
+
 // just a helper function
 template<typename T, typename F>
 auto transform(const std::vector<T> &as, F f) {
