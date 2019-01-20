@@ -46,6 +46,29 @@ TEST(AmountList, has_neutral_element) {
     ASSERT_EQ(           a, a + zero(a) );
 }
 
+////////////////////////////////////////////////
+// A generic view on Monoids
+
+template<typename U>
+std::ostream &operator<<(std::ostream &out, const Amount<U> &a) {
+    return out << a.n << label<U>;
+}
+
+#include <numeric>
+TEST(Monoid, can_sum_any_monoid) {
+    std::vector<Sum<int>> ints;
+    ASSERT_EQ(0, mconcat(begin(ints), end(ints)).value);
+    ints.push_back(Sum<int>{10});
+    ints.push_back(Sum<int>{20});
+    ASSERT_EQ(30, mconcat(begin(ints), end(ints)).value);
+
+    std::vector<Sum<Amount<Gram>>> weights;
+    ASSERT_EQ(0_g, mconcat(begin(weights), end(weights)).value);
+    weights.push_back(Sum<Amount<Gram>>{10_g});
+    weights.push_back(Sum<Amount<Gram>>{20_g});
+    ASSERT_EQ(30_g, mconcat(begin(weights), end(weights)).value);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

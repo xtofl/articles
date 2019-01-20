@@ -54,6 +54,25 @@ struct AmountList {
 template<typename U>
 AmountList<U> zero(AmountList<U> i) { return {{}};}
 
+
+template<typename T> struct Monoid {};
+
+template<typename It, typename Monoid = typename It::value_type>
+Monoid mconcat(It b, It e) {
+    Monoid acc{};
+    while(b != e) { acc = Monoid::mappend(acc, *b); ++b; }
+    return acc;
+}
+
+
+template<typename T> struct Sum {
+    T value;
+    static constexpr T mempty{};
+    static Sum mappend(Sum a, Sum b) {
+        return {a.value+b.value};
+    }
+};
+
 // just a helper function
 template<typename T, typename F>
 auto transform(const std::vector<T> &as, F f) {
