@@ -111,7 +111,9 @@ Topics:
 
 ## What I want to achieve
 
-* h
+TODO
+
+* not feeling 'alone' anymore
 
 ---
 
@@ -347,21 +349,19 @@ Monoid: a tuple `<S, op, id>` so that
 
 ### Generalizing
 
-Also note: closure + associativity => Semigroup
+Also: closure + associativity => Semigroup
 
 So Monoid is a Semigroup with an identity element
 
 --
 
+### Generalizing: math notation
 
-### Generalizing: nerd notation
-
-Monoid: a tuple &lt;S, &oplus;, id&gt; so that
+Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 
 * &forall; s1, s2 &isin; S
-* s1 &oplus; (s2 &oplus; s3) = (s1 &oplus; s2) &oplus; s3
-* id &oplus; s = s = s &oplus; id
-
+* s1 &diamond; (s2 &diamond; s3) = (s1 &diamond; s2) &diamond; s3
+* id &diamond; s = s = s &diamond; id
 
 --
 
