@@ -5,12 +5,6 @@ reveal.js:
 	git clone https://github.com/hakimel/reveal.js.git
 	cd reveal.js && npm install
 
-DECKTAPE = $(shell npm bin)/decktape
-$(message decktape: $(DECKTAPE))
-
-$(DECKTAPE):
-	npm install -u decktape
-
 reveal_start: reveal.js
 	cd reveal.js && npm start &
 	touch reveal_running
@@ -30,8 +24,8 @@ pdf_slides: $(subst .md,.pdf,$(MARKDOWN_SLIDES))
 	cp $*/resources/* reveal.js/
 	cp $*.html reveal.js/index.html
 
-%.pdf: $(DECKTAPE) %.reveal reveal_running
-	$(DECKTAPE) http://localhost:8000 $@
+%.pdf: %.reveal reveal_running
+	chromium-browser http://localhost:8000/?print-pdf&pdfSeparateFragments=false
 
 %.html: %.md to_reveal.py
 	python3 to_reveal.py $< >$@

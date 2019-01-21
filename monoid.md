@@ -4,6 +4,9 @@ title: Using Monoids in C++
 author: Kristoffel Pirard
 url: http://github.com/xtofl/articles/monoid.md
 
+
+[pdf](?print-pdf&pdfSeparateFragments=false)
+
 ---
 
 <!-- .slide: style="text-align: left; font-size: .5em;"> -->  
