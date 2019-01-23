@@ -127,6 +127,7 @@ Imagine this:
   * finding your way around a store??? <!-- .element: class="fragment" -->
   * always too much in your cart <!-- .element: class="fragment" -->
   * always important stuff missing <!-- .element: class="fragment" -->
+  * stores are _crowded_ from 10am.  <!-- .element: class="fragment" -->
 
 Note: < 3 minutes
 
@@ -134,36 +135,19 @@ Note: < 3 minutes
 
 ### Intro
 
-It's Saturday, 9am.  Stores are crowded from 10am.  No idea what we need for next week.
-
-Make a week menu!
-
---
-
-### Intro
-
-* Monday: saucage, potatoes, compote
-* Tuesday: spaghetti bolognese
-* Wednesday: chicken, rice, curry sauce
-* ...
-
---
-
-### Intro
-
 But... what groceries do I need?
 
-... Recipes?
+* Week menu
+* Recipes
+* Pantry
 
 --
 
 ### Intro
 
-5 chipolata's, 2kg potatoes, 5 apples, 2 packs of pasta, 400g of minced meat, grated cheese, chicken breast, basmati rice, curry sauce ...
-
---
-
-O - we still _got_ potatoes.
+* 5 chipolata's, 2kg potatoes, 5 apples, 2 packs of pasta, 400g of minced meat, grated cheese, chicken breast, basmati rice, curry sauce ...
+* O - we still got potatoes.  <!-- .element: class="fragment" -->
+* ... and 5 packs of curry sauce  <!-- .element: class="fragment" -->
 
 --
 
@@ -173,25 +157,9 @@ after week
 
 after week
 
---
-
 _can't a computer do that_?
 
 --
-
-Saturday, 9am.
-
-Start coding.
-
---
-
-Saturday, 11am.
-
-... coding
-
---
-
-Saturday, 12am.
 
 ```bash
 > python3 growser.py
@@ -212,6 +180,20 @@ o basmati <1 kg>
 shopping_list_menu = resulting_list(all_dishes, pantry)
 shopping_list = join_ingredients(shopping_list_menu, extras)
 print_ingredients(shopping_list, shop=the_shop)
+```
+
+--
+
+But look at that code... :(
+
+```python
+cart = {}
+for dish in menu:
+    for i in dish.ingredients:
+    assert
+        not i.name in cart or \
+        cart[i.name].amount.unit == i.amount.unit
+    cart[i.name].amount.n += i.amount.n
 ```
 
 --
