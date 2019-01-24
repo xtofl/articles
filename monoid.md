@@ -411,42 +411,59 @@ Generic functions, of course!
 
 #### Closure
 
-Operation can be chained.
-
-Indefinitely.
+* Operation can be chained
+  * "define pairwise => get range operation for free"
+* Only 1 type needed
+  * less mental burden
 
 --
+
+#### Closure
+
+```C++
+// explicit knowledge
+template<typename InputIt, typename T,
+         typename BinaryOperation>
+T accumulate(InputIt first, InputIt last, T init,
+              BinaryOperation op );
+// requires BinaryOperation satisfies
+// T t = op(t, i)
+```
+
+vs
+
+```C++
+// implicit knowledge
+template<typename Monoid, typename InputIt>
+Monoid accumulate(InputIt first, InputIt last);
+```
+
+Note: conservation of complexity: it is moved into the Monoid type 
+
+--
+
+### So... what good is it?
 
 #### Associativity
 
-Divide and Conquer
+* Divide and Conquer
+```
+acc({as, bs, cs, ds}) ==
+acc(
+    acc({as, bs}),
+    acc({cs, ds}))
+```
+  * => parallelization
+  * Incrementalism
 
 --
 
-####
+### So... what good is it?
 
-* An identity element
+#### An identity element
 
-
---
-
-### What good is Closure?
-
-* Closure
-* Associativity
-* An identity element
-
-Note: 
-* What good is it (5')
-  * Closure (1')
-  * The Identity element (1')
-  * Associativity (3')
-
----
-
-* Adapting Semigroup to Monoid (5')
-  * `sum(map(mon, elements))`
-  * using Maybe<S>
+* operation with 'empty' lists (vacuus truth?)
+* allow 'restarting' computation in divide and conquer algo's
 
 ---
 
@@ -456,6 +473,12 @@ Note:
   * Building a `sum<Ts...>` template (5')
   * Functions under composition (5') [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
   * How can Concepts help?
+
+---
+
+* Adapting Semigroup to Monoid (5')
+  * `sum(map(mon, elements))`
+  * using Maybe<S>
 
 ---
 
