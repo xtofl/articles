@@ -504,3 +504,14 @@ https://wiki.haskell.org/Monoid
 * https://wiki.haskell.org/Monoid
 * https://youtu.be/J9UwWo2qifg?t=720 Cyrille Martraire on patterns
 * https://soundcloud.com/lambda-cast/12-monoids
+
+---
+
+## Credits
+
+* My son [Jona for the artwork](https://www.instagram.com/jonap_art/)
+* [Bartosz Milewski](https://bartoszmilewski.com/) who's [pigs](https://bartoszmilewski.files.wordpress.com/2014/12/monoid.jpg) I borrowed ([cc license](https://creativecommons.org/licenses/by/4.0/))
+
+---
+
+## Questions
