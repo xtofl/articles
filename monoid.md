@@ -190,16 +190,19 @@ But look at that code... :(
 cart = {}
 for dish in menu:
     for i in dish.ingredients:
-    assert
-        not i.name in cart or \
-        cart[i.name].amount.unit == i.amount.unit
-    cart[i.name].amount.n += i.amount.n
+    if not i.name in cart:
+        cart[i.name] = i.amount
+    else:
+        assert
+           cart[i.name].amount.unit == i.amount.unit
+        cart[i.name].amount.n += i.amount.n
 ```
+
+(cliffhanger here)
 
 --
 
-
-## Intro: rationale
+## Intro: diversion
 
 Reading about Category Theory, bumping into
 
@@ -238,20 +241,40 @@ Discussions about 'vacuous truth/falsity'
 
 --
 
+
 ## Intro: rationale
 
-* I was scared, first
-  * Wikipedia... alien lingo <!-- .element: class="fragment" -->
-  * Colleagues think I'm a freak <!-- .element: class="fragment" -->
-* I guess I'm not alone <!-- .element: class="fragment" -->
-* This is a stupid hurdle <!-- .element: class="fragment" -->
-  * Fear leads to anger <!-- .element: class="fragment" -->
-  * Anger leads to ... <!-- .element: class="fragment" -->
-* Common vocabulary => more collaboration <!-- .element: class="fragment" -->
-  * with math people
-  * with other devs
+[![math lingo](Lax_monoidal_functor_associative.svg)](https://en.wikipedia.org/wiki/Monoidal_functor#Definition)
 
 --
+
+## Intro: rationale
+
+### misunderstanding
+
+![prof and dev misunderstanding](/01.misunderstanding.jpg)  <!-- .element: height="400" -->
+
+--
+
+## Intro: rationale
+
+
+### anger
+
+![prof and dev angry](/02.anger.jpg)  <!-- .element: height="400" -->
+
+--
+
+## Knowledge for the win
+
+* Scientists tend to be clever
+* Common vocabulary => more collaboration <!-- .element: class="fragment" -->
+  * with scientists
+  * amongst developers
+
+--
+
+## This presentation is
 
 An attempt to take away
 
@@ -264,14 +287,18 @@ An attempt to take away
 
 --
 
-## Intro: rationale
-
 So... in order of 'difficulty'
 
 * Monoid <-- you are here
 * Functor
 * Applicative
 * Monad
+
+--
+
+![dev at math course](/03.investment_education.jpg)  <!-- .element: height="400" -->
+
+(but I'm not a professor)  <!-- .element: class="fragment" -->
 
 ---
 
