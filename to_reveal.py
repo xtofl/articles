@@ -46,6 +46,7 @@ postamble = """
 			Reveal.initialize({
 				slideNumber: true,
 				history: true,
+				margin: 0.05,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },

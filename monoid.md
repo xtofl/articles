@@ -88,13 +88,13 @@ Topics:
 
 ## Why am I doing this?
 
-* we, developers need
-  * proven methodologies (scaling, )
+* we, developers, need
+  * proven methodologies (scaling the dev process)
   * reuse, over language boundaries
-* mathematicians have been forming theories for ages
-* we don't understand mathematese
+* mathematicians: building theorems for ages
+* we don't understand Mathematese and FP-ish
   * cf. the `iota` discussions lately
-* mathematicians don't speak developese (nobody does)
+* mathematicians don't speak Developese (nobody does)
 
 --
 
@@ -102,7 +102,7 @@ Topics:
 
 * I'm enthousiastic (a bit nerdy)
   * c'mon... "(lenses and bananas)[https://maartenfokkinga.github.io/utwente/mmf91m.pdf]" in one sentence!
-* I think we _will_ benefit
+* I think we _will_ benefit (FP matters)
 * Can you help me?
   * I want to help _you_ taking the first hurdle
   * Let's take the rest together!
@@ -113,11 +113,12 @@ Topics:
 
 TODO
 
+* wetting some appetite
 * not feeling 'alone' anymore
 
 ---
 
-## Intro: epiphany
+## Intro
 
 
 Imagine this:
@@ -202,7 +203,7 @@ for dish in menu:
 
 --
 
-## Intro: diversion
+## Intro: digression
 
 Reading about Category Theory, bumping into
 
@@ -248,15 +249,11 @@ Discussions about 'vacuous truth/falsity'
 
 --
 
-## Intro: rationale
-
 ### misunderstanding
 
 ![prof and dev misunderstanding](/01.misunderstanding.jpg)  <!-- .element: height="400" -->
 
 --
-
-## Intro: rationale
 
 
 ### anger
@@ -309,10 +306,6 @@ So... in order of 'difficulty'
   * ? A 2d masking problem (3')
     * rolling density, 1D (2')
     * rolling density, 2D (1')
-
----
-
-* Generalizing the pattern (10')
 
 --
 
@@ -407,8 +400,6 @@ Generic functions, of course!
 
 --
 
-### So... what good is it?
-
 #### Closure
 
 * Operation can be chained
@@ -442,23 +433,17 @@ Note: conservation of complexity: it is moved into the Monoid type
 
 --
 
-### So... what good is it?
-
 #### Associativity
 
 * Divide and Conquer
 ```
-acc({as, bs, cs, ds}) ==
-acc(
-    acc({as, bs}),
-    acc({cs, ds}))
+acc(a, b, c, d) ==
+acc(acc(a, b), acc(c, d))
 ```
   * => parallelization
   * Incrementalism
 
 --
-
-### So... what good is it?
 
 #### An identity element
 
@@ -468,8 +453,8 @@ acc(
 ---
 
 * Applying it in C++ (20')
-  * Adapting to boost accumulators (3')
   * Adapting to `std::accumulate` (3')
+  * Adapting to boost accumulators (3')
   * Building a `sum<Ts...>` template (5')
   * Functions under composition (5') [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
   * How can Concepts help?
@@ -482,7 +467,7 @@ acc(
 
 ---
 
-* What's next (10')
+* What's next (5')
   * Category Theory references
   * Functor
   * Monad
