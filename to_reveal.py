@@ -8,7 +8,7 @@ preamble_format = """<!doctype html>
 		<title>{}</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/sioux.css">
 		<style>
 			.reveal h1 {{
 				color: yellow;
