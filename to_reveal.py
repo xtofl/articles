@@ -72,7 +72,7 @@ with open(filename, 'r', encoding='utf-8') as f:
 print(preamble_format.format(slide_title))
 
 print("""
-	<section data-markdown={}
+	<section data-markdown="{}"
 		data-separator="^---"
 		data-separator-vertical="^--"
 	>
