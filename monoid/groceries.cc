@@ -7,23 +7,7 @@
 #include <optional>
 #include <cassert>
 
-struct Unit {
-};
-template<typename U> const char * label;
 
-template<typename U>
-struct Amount {
-    int n;
-    using unit_t = U;
-    bool operator==(const Amount &other) const {
-        return n == other.n;
-    }
-};
-
-template<typename U>
-auto operator+(Amount<U> a, Amount<U> b) {
-    return Amount<U>{a.n + b.n};
-}
 template<typename U>
 Amount<U> zero() { return {0};}
 template<typename U>

@@ -459,6 +459,28 @@ acc(acc(a, b), acc(c, d))
   * Functions under composition (5') [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
   * How can Concepts help?
 
+--
+
+## Applying it in C++
+
+Let's define `mconcat`.
+
+* Different approaches
+  * overload `operator +` and add a `0` constructor
+  * use `accumulate` with single type
+  * template specialization
+  * use type trait (concepts may help!)
+
+--
+
+Our example: ingredient list
+
+* int-based (forms a monoid over +)
+* structured: `map<name, int>`
+  * closed
+  * associative?
+  * mempty: 'default' 0
+
 ---
 
 * Adapting Semigroup to Monoid (5')
