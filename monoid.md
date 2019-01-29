@@ -400,8 +400,10 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 ### Examples: floating point
 
 ```C++
-* .5e-20 + (1.e-20 + 2.) == (.5e-20 + 1.e-20) + 2.
+* .1 + (.2 + .3) == (.1 + .2) + .3
 ```
+
+**NOT** associative!
 
 ---
 
