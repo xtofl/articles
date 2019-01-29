@@ -36,6 +36,26 @@ namespace overloading {
     }
 }
 
+using Name = std::string;
+using Quantity = int;
+struct GroceryList {
+    std::map<Name, Quantity> items;
+};
+bool operator==(const GroceryList& a, const GroceryList& b) {
+    return a.items == b.items;
+}
+
+template<>
+GroceryList overloading::mempty<GroceryList>() { return {}; }
+template<>
+GroceryList overloading::mappend<GroceryList>(
+    GroceryList a, GroceryList b)
+{
+    for (const auto &ib: b.items) {
+        a.items[ib.first] += ib.second;
+    }
+    return a;
+}
 
 template<typename T> struct Sum {
     T value;
