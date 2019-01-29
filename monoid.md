@@ -385,6 +385,24 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 * "ab"s + ""s == "ab"s == ""s + "ab"s
 ```
 
+--
+
+### Examples: floating point
+
+```C++
+* double operator+(double)
+* .5 + (1. + 2.) == (.5 + 1.) + 2.
+* .5 + 0. == 0. + .5 == .5
+```
+
+--
+
+### Examples: floating point
+
+```C++
+* .5e-20 + (1.e-20 + 2.) == (.5e-20 + 1.e-20) + 2.
+```
+
 ---
 
 ## So... what good is it?
@@ -406,6 +424,7 @@ Generic functions, of course!
   * "define pairwise => get range operation for free"
 * Only 1 type needed
   * less mental burden
+  * less template arguments
 
 --
 
@@ -449,6 +468,7 @@ acc(acc(a, b), acc(c, d))
 
 * operation with 'empty' lists (vacuus truth?)
 * allow 'restarting' computation in divide and conquer algo's
+* less function arguments
 
 ---
 

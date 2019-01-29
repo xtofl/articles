@@ -7,45 +7,33 @@
 #include <optional>
 #include <cassert>
 
+namespace overloading {
+    // Based on convention:
+    // operation 'mappend' is overloaded for T
+    //
+    template<typename T> T mempty();
+    template<typename T> T mappend(T, T);
 
-template<typename U>
-Amount<U> zero() { return {0};}
-template<typename U>
-Amount<U> zero(Amount<U>) { return {0};}
+    template<>
+    int mempty<int>() { return 0; }
+    template<>
+    int mappend<int>(int a, int b) { return a + b; }
 
-template<typename U>
-auto to_string(const Amount<U> &a) {
-    return std::to_string(a.n) + label<Amount>;
-}
+    template<>
+    std::string mempty<std::string>() { return ""; }
+    template<>
+    std::string mappend<std::string>(std::string a, std::string b) { return a + b; }
 
 
-template<typename Unit>
-struct AmountList {
-    std::vector<Amount<Unit>> amounts;
-
-    AmountList operator+(const AmountList &other) const {
-        auto result = other;
-        result.amounts.insert(
-            end(result.amounts),
-            begin(amounts), end(amounts));
-        return result;
+    template<typename It, typename Monoid = typename It::value_type>
+    Monoid mconcat(It b, It e) {
+        Monoid acc = mempty<Monoid>();
+        while(b != e) {
+            acc = mappend(acc, *b);
+            ++b;
+        }
+        return acc;
     }
-    bool operator==(const AmountList &other) const {
-        return amounts == other.amounts;
-    }
-};
-
-template<typename U>
-AmountList<U> zero(AmountList<U> i) { return {{}};}
-
-
-template<typename T> struct Monoid {};
-
-template<typename It, typename Monoid = typename It::value_type>
-Monoid mconcat(It b, It e) {
-    Monoid acc{};
-    while(b != e) { acc = Monoid::mappend(acc, *b); ++b; }
-    return acc;
 }
 
 
