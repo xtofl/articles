@@ -36,6 +36,18 @@ namespace overloading {
     }
 }
 
+namespace traits {
+    template<typename Monoid, typename It>
+    Monoid mconcat(It b, It e) {
+        Monoid acc = Monoid::mempty();
+        while(b != e) {
+            acc = Monoid::mappend(acc, {*b});
+            ++b;
+        }
+        return acc;
+    }
+}
+
 using Name = std::string;
 using Quantity = int;
 struct GroceryList {
