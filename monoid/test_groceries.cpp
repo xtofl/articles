@@ -125,6 +125,18 @@ namespace test_traits {
             {"potatoes <kg>", 2}}
         }), traits::mconcat<Sum<GroceryList>>(begin(lists), end(lists)).t);
     }
+    template<typename Value> struct Product {
+        using T = Value;
+        T t;
+        static Product mempty() { return {1}; }
+        static Product mappend(Product a, Product b) {
+            return {a.t * b.t};
+        }
+    };
+    TEST(traits, monoidalproperties_multiplication) {
+        std::vector<int> ints{{1, 2, 3, 4}};
+        EXPECT_EQ(24, traits::mconcat<Product<int>>(begin(ints), end(ints)).t);
+    }
 }
 
 int main(int argc, char **argv) {
