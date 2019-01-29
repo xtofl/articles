@@ -62,6 +62,11 @@ namespace test_overloading {
             {"potatoes <kg>", 2}}
         }), overloading::mconcat(begin(lists), end(lists)));
     }
+
+    // TEST(overloaded, monoidalproperties_multiplication) {
+    //     std::vector<int> ints{{1, 2, 3, 4}};
+    //     EXPECT_EQ(24, overloading::mconcat(begin(ints), end(ints)));
+    // }
 }
 
 int main(int argc, char **argv) {
