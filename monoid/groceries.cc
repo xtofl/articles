@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
+#include <numeric>
 #include <string>
 #include <vector>
 #include <tuple>
@@ -27,12 +28,7 @@ namespace overloading {
 
     template<typename It, typename Monoid = typename It::value_type>
     Monoid mconcat(It b, It e) {
-        Monoid acc = mempty<Monoid>();
-        while(b != e) {
-            acc = mappend(acc, *b);
-            ++b;
-        }
-        return acc;
+        return std::accumulate(b, e, mempty<Monoid>(), mappend<Monoid>);
     }
 }
 

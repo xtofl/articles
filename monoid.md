@@ -415,8 +415,12 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 
 Generic functions, of course!
 
+Functions on Ranges can often be generalized
+to any monoid.
+
 * Runtime
 * Compile time
+
 
 --
 
@@ -470,9 +474,120 @@ acc(acc(a, b), acc(c, d))
 
 * operation with 'empty' lists (vacuus truth?)
 * allow 'restarting' computation in divide and conquer algo's
-* less function arguments
 
 ---
+
+## Applying it in C++
+
+Different approaches
+
+* overload `operator +` and add a `0` constructor
+* template specialization
+* use type trait (concepts may help!)
+
+--
+
+## Creating a Monoid in C++
+
+Goal:
+
+Define and use `mconcat(begin, end) -> M`
+
+```
+auto result = mconcat(begin(xs), end(xs));
+```
+
+--
+
+Generic `mappend` and `mempty`
+
+```
+template<typename T> T mempty();
+template<typename T> T mappend(T, T);
+
+template<typename M>
+auto mconcat(It b, It e) {
+    return accumulate(
+        b, e,
+        mempty<Monoid>(),
+        mappend<Monoid>);
+}
+```
+
+--
+
+Specialization for e.g. `int`
+
+```
+template<>
+int mempty<int>() { return 0; }
+
+template<>
+int mappend<int>(int a, int b) { return a + b; }
+```
+
+```
+std::vector<int> ints{{1, 2, 3, 4}};
+EXPECT_EQ(10, mconcat(begin(ints), end(ints)));
+```
+
+--
+
+And for a custom type
+
+```
+struct Custom {
+    std::string s;
+    int n;
+};
+```
+```
+template<>
+Custom mempty<Custom>() { return {}; }
+template<>
+Custom mappend<Custom>(Custom c, Custom d) {
+    return {
+        c.s + d.s,
+        c.n + d.n
+    };
+}
+```
+
+--
+
+### Let's break it
+
+For int product:
+```
+template<>
+int mempty<int>() { return 1; }
+template<>
+int mappend<int>(int a, int b) { return a * b; }
+```
+
+Can we have 2 specializations for `int`?
+
+Didn't think so <!-- .element class="fragment" -->
+
+--
+
+So some extra info is needed
+
+```
+template<typename T> struct Product {
+    T value;
+    static constexpr T mempty{};
+    static Product mappend(Product a, Product b) {
+        return {a.value * b.value};
+    }
+};
+```
+
+```
+auto r = mconcat<Product<int>>(b, e).value;
+```
+
+--
 
 * Applying it in C++ (20')
   * Adapting to `std::accumulate` (3')
@@ -480,28 +595,6 @@ acc(acc(a, b), acc(c, d))
   * Building a `sum<Ts...>` template (5')
   * Functions under composition (5') [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
   * How can Concepts help?
-
---
-
-## Applying it in C++
-
-Let's define `mconcat`.
-
-* Different approaches
-  * overload `operator +` and add a `0` constructor
-  * use `accumulate` with single type
-  * template specialization
-  * use type trait (concepts may help!)
-
---
-
-Our example: ingredient list
-
-* int-based (forms a monoid over +)
-* structured: `map<name, int>`
-  * closed
-  * associative?
-  * mempty: 'default' 0
 
 ---
 
