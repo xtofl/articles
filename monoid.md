@@ -484,26 +484,6 @@ Questions (5')
 
 ---
 
-## 
-
-Magic: Monoid a => all possible Accumulation functions just work,
-and so does function composition (on a Monoid).  Cf "So What?" in
-https://wiki.haskell.org/Monoid
-
-    sortStrings = sortBy (comparing length <> compare)
-
----
-
-## Why all the Hard Stuff
-
-* Generalizing => "Concepts" => can be reused/Synthesized
-* Cf. popularity of point-free style
-  * Addition of lambda's (C++11)
-  * Ranges
-  * Boost.HOF
-
----
-
 ## References
 
 * Monoid. Encyclopedia of Mathematics. URL: http://www.encyclopediaofmath.org/index.php?title=Monoid&oldid=29746
