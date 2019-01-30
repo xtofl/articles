@@ -19,6 +19,10 @@
 $backgroundColor: #fff;
 @mixin bodyBackground() {
 	background: $backgroundColor;
+	background-image: url("source/main-background.svg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: bottom left;
 }
 
 $mainColor: #222;
