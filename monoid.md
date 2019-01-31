@@ -615,9 +615,38 @@ mconcat<Sum<int>>(begin(ints), end(ints));
 
 ---
 
-* Adapting Semigroup to Monoid (5')
-  * `sum(map(mon, elements))`
-  * using Maybe<S>
+## Adapting Semigroups
+
+Some times you have no Unit
+
+* Non-empty lists
+* Counting from 1
+
+--
+
+## Add a Unit
+
+You can create a 'Sum' type:
+
+* N = {1, 2, 3, 4, ...}
+* M<sub>N</sub> = {None} &cup; N
+
+--
+
+## Add a Unit
+
+In C++... use an `optional<T>`
+
+```
+auto mempty<optional<T>>() {
+    return {};
+}
+auto mappend(O<T> a, O<T> b) {
+    return (a && b)
+        ? mappend(*a, *b);
+        : mempty<O<T>>();
+}
+```
 
 ---
 
