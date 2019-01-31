@@ -589,6 +589,23 @@ auto r = mconcat<Product<int>>(b, e).value;
 
 --
 
+## But isn't it slow?
+
+[thanks, quick-bench!](http://quick-bench.com/mEJDA6p6zEdR_Wg-Yo_PkXXYwto)
+
+
+```
+accumulate(begin(ints), end(ints), 0);
+mconcat<Sum<int>>(begin(ints), end(ints));
+```
+![benchmark_result.png](benchmark_result.png)  <!-- .element: height="300" -->
+
+<span style="font-size: .5em">
+(-O3 and -O2; for -O1, there's a 10% penalty)
+</span>
+
+--
+
 * Applying it in C++ (20')
   * Adapting to `std::accumulate` (3')
   * Adapting to boost accumulators (3')

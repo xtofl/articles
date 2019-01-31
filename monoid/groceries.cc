@@ -35,6 +35,7 @@ namespace overloading {
 namespace traits {
     template<typename Monoid, typename It>
     Monoid mconcat(It b, It e) {
+        // TODO: return std::accumulate(b, e, Monoid::mempty(), Monoid::mappend);
         Monoid acc = Monoid::mempty();
         while(b != e) {
             acc = Monoid::mappend(acc, {*b});
