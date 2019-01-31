@@ -650,10 +650,13 @@ auto mappend(O<T> a, O<T> b) {
 
 ---
 
-* What's next (5')
-  * Category Theory references
-  * Functor
-  * Monad
+# What's Next
+
+* Functor
+* Monad
+* Category Theory for the Working Programmer
+    * Milewski (a C++ programmer!)
+    * Philippe Wadler (&lambda;)
 
 ---
 
