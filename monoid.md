@@ -113,7 +113,7 @@ Topics:
 
 TODO
 
-* wetting some appetite
+* whetting some appetite
 * not feeling 'alone' anymore
 
 ---
