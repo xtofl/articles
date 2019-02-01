@@ -385,6 +385,26 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 * "ab"s + ""s == "ab"s == ""s + "ab"s
 ```
 
+--
+
+### Examples: floating point
+
+```C++
+* double operator+(double)
+* .5 + (1. + 2.) == (.5 + 1.) + 2.
+* .5 + 0. == 0. + .5 == .5
+```
+
+--
+
+### Examples: floating point
+
+```C++
+* .1 + (.2 + .3) == (.1 + .2) + .3
+```
+
+**NOT** associative!
+
 ---
 
 ## So... what good is it?
@@ -395,8 +415,12 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 
 Generic functions, of course!
 
+Functions on Ranges can often be generalized
+to any monoid.
+
 * Runtime
 * Compile time
+
 
 --
 
@@ -406,6 +430,7 @@ Generic functions, of course!
   * "define pairwise => get range operation for free"
 * Only 1 type needed
   * less mental burden
+  * less template arguments
 
 --
 
@@ -450,48 +475,262 @@ acc(acc(a, b), acc(c, d))
 * operation with 'empty' lists (vacuus truth?)
 * allow 'restarting' computation in divide and conquer algo's
 
+--
+
+## Treasure Trove
+
+Theorems for Free!
+
+* m, n are monoid => algebraic types of m, n, too
+* foo(Monoid), bar(Monoid) => foo &compfn; bar(Monoid)
+* ...
+
+But we need translators
+
+<p class="fragment" style="font-size:.4em;">
+Let (S,∘) and (T,∗) be monoids.
+Let ϕ:S→T be a mapping such that ∘ has the morphism property under ϕ<br/>
+
+That is, ∀a,b∈S<br/>
+    ϕ(a∘b)=ϕ(a)∗ϕ(b)<br/>
+
+Suppose further that ϕ preserves identities, i.e.:
+    ϕ(eS)=eT<br/>
+
+Then ϕ:(S,∘)→(T,∗)
+is a monoid homomorphism.
+</p>
+
+<ul style="font-size:.3em">
+<li>http://comonad.com/reader/wp-content/uploads/2009/08/IntroductionToMonoids.pdf</li>
+</ul>
+
 ---
 
-* Applying it in C++ (20')
-  * Adapting to `std::accumulate` (3')
-  * Adapting to boost accumulators (3')
-  * Building a `sum<Ts...>` template (5')
-  * Functions under composition (5') [so question](https://math.stackexchange.com/questions/92787/how-does-a-set-of-functions-form-a-monoid)
-  * How can Concepts help?
+## Applying it in C++
+
+Different approaches
+
+* overload `operator +` and add a `0` constructor
+* template specialization
+* use type trait (concepts may help!)
+
+--
+
+## Creating a Monoid in C++
+
+Goal:
+
+Define and use `mconcat(begin, end) -> M`
+
+```
+auto result = mconcat(begin(xs), end(xs));
+```
+
+--
+
+Generic `mappend` and `mempty`
+
+```
+template<typename T> T mempty();
+template<typename T> T mappend(T, T);
+
+template<typename M>
+auto mconcat(It b, It e) {
+    return accumulate(
+        b, e,
+        mempty<Monoid>(),
+        mappend<Monoid>);
+}
+```
+
+--
+
+Specialization for e.g. `int`
+
+```
+template<>
+int mempty<int>() { return 0; }
+
+template<>
+int mappend<int>(int a, int b) { return a + b; }
+```
+
+```
+std::vector<int> ints{{1, 2, 3, 4}};
+EXPECT_EQ(10, mconcat(begin(ints), end(ints)));
+```
+
+--
+
+And for a custom type
+
+```
+struct Custom {
+    std::string s;
+    int n;
+};
+```
+```
+template<>
+Custom mempty<Custom>() { return {}; }
+template<>
+Custom mappend<Custom>(Custom c, Custom d) {
+    return {
+        c.s + d.s,
+        c.n + d.n
+    };
+}
+```
+
+--
+
+### Let's break it
+
+For int product:
+```
+template<>
+int mempty<int>() { return 1; }
+template<>
+int mappend<int>(int a, int b) { return a * b; }
+```
+
+Can we have 2 specializations for `int`?
+
+Didn't think so <!-- .element class="fragment" -->
+
+--
+
+So some extra info is needed
+
+```
+template<typename T> struct Product {
+    T value;
+    static constexpr T mempty{};
+    static Product mappend(Product a, Product b) {
+        return {a.value * b.value};
+    }
+};
+```
+
+```
+auto r = mconcat<Product<int>>(b, e).value;
+```
+
+--
+
+## But isn't it slow?
+
+[thanks, quick-bench!](http://quick-bench.com/mEJDA6p6zEdR_Wg-Yo_PkXXYwto)
+
+
+```
+accumulate(begin(ints), end(ints), 0);
+mconcat<Sum<int>>(begin(ints), end(ints));
+```
+![benchmark_result.png](benchmark_result.png)  <!-- .element: height="300" -->
+
+<span style="font-size: .5em">
+(-O3 and -O2; for -O1, there's a 10% penalty)
+Cf. also [Linear Types](https://meetingcpp.com/mcpp/slides/2018/lin.pdf)/[ligthning talk](https://www.youtube.com/watch?v=sN8tI-zleFI)
+</span>
+
+
+--
+
+### C++20: Concepts
+
+```
+// remark: not yet compiled
+template<typename T>
+concept Monoid =
+    requires Associative(T::mconcat) &&
+    requires(T) { T::mempty() -> T; }
+
+template<typename It, typename T>
+    requires Monoid<T>
+auto mconcat(It b, It e) {...}
+```
 
 ---
 
-* Adapting Semigroup to Monoid (5')
-  * `sum(map(mon, elements))`
-  * using Maybe<S>
+## Adapting Semigroups
+
+Some times you have no Unit
+
+* Non-empty lists
+* Counting from 1
+
+--
+
+## Add a Unit
+
+You can create a 'Sum' type:
+
+* N = {1, 2, 3, 4, ...}
+* M<sub>N</sub> = {None} &cup; N
+
+--
+
+## Add a Unit
+
+In C++... use an `optional<T>`
+
+```
+auto mempty<optional<T>>() {
+    return {};
+}
+auto mappend(O<T> a, O<T> b) {
+    return (a && b)
+        ? mappend(*a, *b);
+        : mempty<O<T>>();
+}
+```
 
 ---
 
-* What's next (5')
-  * Category Theory references
-  * Functor
-  * Monad
+## What's After Monoid...
+
+* Functor ('mappable': `vector`, `struct`, ...)
+* Monad ('programmable semicolon')
+* Category Theory for the Working Programmer
+    * Milewski (a C++ programmer!)
+    * Philippe Wadler (&lambda;)
+
+--
+
+Translators needed!
+
+* slack: Cpplang fp channel
+* Nice tutorial
+
+"We're hiring" <!-- .element: class="fragment" -->
+
 
 ---
 
-* Conclusion (2')
-  * I'm afraid, too :(.  And excited.
-  * boost readability through 'common voc + abstraction'
+# Conclusion
 
----
-
-Questions (5')
+* Math and Category theory: treasure island
+    * Can be used in C++
+    * Establish common vocabulary
+    * Reduce complexity through _known abstractions_
+* I'm afraid of the math lingo
+    * But I'm not on my own
+    * Baby steps (note [lambda cast](https://soundcloud.com/lambda-cast))
 
 ---
 
 ## References
 
-* Monoid. Encyclopedia of Mathematics. URL: http://www.encyclopediaofmath.org/index.php?title=Monoid&oldid=29746
-* https://fsharpforfunandprofit.com/posts/monoids-without-tears/
-* https://bartoszmilewski.com/2017/02/09/monoids-on-steroids/
-* https://wiki.haskell.org/Monoid
-* https://youtu.be/J9UwWo2qifg?t=720 Cyrille Martraire on patterns
-* https://soundcloud.com/lambda-cast/12-monoids
+* [lambda cast](https://soundcloud.com/lambda-cast/12-monoids)
+* [Cyrille Martraire on patterns](https://youtu.be/J9UwWo2qifg)
+
+* [F# for Fun and Profit](https://fsharpforfunandprofit.com/posts/monoids-without-tears/)
+* [Monoid. Encyclopedia of Mathematics](http://www.encyclopediaofmath.org/index.php?title=Monoid&oldid=29746)
+* [Monoids on Steroids](https://bartoszmilewski.com/2017/02/09/monoids-on-steroids/)
+* [Haskell Wiki: Monoid](https://wiki.haskell.org/Monoid)
+* [Some theorems](https://philipnilsson.github.io/Badness10k/algebraic-patterns-monoid/)
 
 ---
 
