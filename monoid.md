@@ -641,6 +641,12 @@ Cf. also [Linear Types](https://meetingcpp.com/mcpp/slides/2018/lin.pdf)/[ligthn
 ### C++20: Concepts
 
 ```
+// remark: not yet compiled
+template<typename T>
+concept Monoid =
+    requires Associative(T::mconcat) &&
+    requires(T) { T::mempty() -> T; }
+
 template<typename It, typename T>
     requires Monoid<T>
 auto mconcat(It b, It e) {...}
