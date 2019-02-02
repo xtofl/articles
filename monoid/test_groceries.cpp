@@ -14,8 +14,8 @@ Custom overloading::mempty<Custom>() { return {}; }
 template<>
 Custom overloading::mappend<Custom>(Custom c, Custom d) {
     return {
-        c.s + d.s,
-        c.n + d.n
+        mappend(c.s, d.s),
+        mappend(c.n, d.n)
     };
 }
 
@@ -73,18 +73,33 @@ namespace test_overloading {
 
 namespace traits {
 
-    template<typename Value> struct Sum {
-        using T = Value;
+    template<typename T> struct Sum {
         T t;
-        static Sum mempty() { return {}; }
+        static Sum mempty() { return {T{0}}; }
         static Sum mappend(Sum a, Sum b) {
             return Sum{a.t + b.t};
         }
     };
-    Custom operator+(Custom c, Custom d) {
-        return {
-            c.s + d.s,
-            c.n + d.n};
+    template<>
+    Sum<std::string> Sum<std::string>::mempty() {
+        return {std::string{}};
+    }
+    template<>
+    Sum<std::string> Sum<std::string>::mappend(Sum<std::string> a, Sum<std::string> b) {
+        return {{a.t + b.t}};
+    }
+
+    template<> Sum<Custom> Sum<Custom>::mempty(){
+        return {{}};
+    }
+
+    template<> Sum<Custom> Sum<Custom>::mappend(
+            Sum<Custom> c,
+            Sum<Custom> d) {
+        return {Custom{
+            Sum<std::string>::mappend({c.t.s}, {d.t.s}).t,
+            Sum<int>::mappend({c.t.n}, {d.t.n}).t
+        }};
     }
     TEST(typetraits, monoidalproperties) {
         std::vector<int> ints{{1, 2, 3, 4}};
