@@ -377,6 +377,22 @@ to any monoid.
 * Runtime
 * Compile time
 
+--
+
+### What else?
+
+* When this is part of your vocabulary:
+    * CppCoreGuideline: [P.3 express intent](https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#p3-express-intent)
+* ... when it is not, you'll bump into:
+    * CppCoreGuideline: [P.13 Use ... as appropriate](https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#p13-use-support-libraries-as-appropriate)
+
+--
+
+## What's good about the Laws
+
+* Closure
+* Associativity
+* An identity element
 
 --
 
@@ -398,8 +414,8 @@ template<typename InputIt, typename T,
          typename BinaryOperation>
 T accumulate(InputIt first, InputIt last, T init,
               BinaryOperation op );
-// requires BinaryOperation satisfies
-// T t = op(t, i)
+// requires BinaryOperation to satisfy
+// T t = op(t, *first)
 ```
 
 vs
@@ -416,11 +432,16 @@ Note: conservation of complexity: it is moved into the Monoid type
 
 #### Associativity
 
-* Divide and Conquer
-```
+Divide and Conquer
+
+```C++
 acc(a, b, c, d) ==
-acc(acc(a, b), acc(c, d))
+    acc(
+        acc(a, b),
+        acc(c, d)
+    )
 ```
+
   * => parallelization
   * Incrementalism
 
@@ -429,7 +450,10 @@ acc(acc(a, b), acc(c, d))
 #### An identity element
 
 * operation with 'empty' lists (vacuus truth?)
-* allow 'restarting' computation in divide and conquer algo's
+* allow 'restarting' computation
+    * each part can start from "zero"
+* less mental burden
+
 
 --
 
