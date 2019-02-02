@@ -66,6 +66,18 @@ GroceryList overloading::mappend<GroceryList>(
     return a;
 }
 
+template<typename It>
+GroceryList join_grocerylists(It b, It e) {
+    static_assert(std::is_same_v<typename It::value_type, GroceryList>);
+    GroceryList result{};
+    for( ; b!=e ; ++b) {
+        for(const auto &ingredient: b->items) {
+            result.items[ingredient.first] += ingredient.second;
+        }
+    }
+    return result;
+}
+
 template<typename T> struct Sum {
     T value;
     static constexpr T mempty{};

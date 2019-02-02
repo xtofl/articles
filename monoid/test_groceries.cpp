@@ -136,12 +136,14 @@ namespace traits {
         GroceryList sunnysideup{{{"eggs", 5}}};
         GroceryList mashed_potatoes{{{"potatoes <kg>", 2}, {"milk <l>", 1}, {"eggs", 1}}};
         std::vector<GroceryList> lists{bacon_eggs, sunnysideup, mashed_potatoes};
-        EXPECT_EQ((GroceryList{{
+        const auto expected = (GroceryList{{
             {"bacon <g>", 100},
             {"eggs", 11},
             {"milk <l>", 1},
             {"potatoes <kg>", 2}}
-        }), mconcat<Sum<GroceryList>>(begin(lists), end(lists)).t);
+        });
+        EXPECT_EQ(expected, mconcat<Sum<GroceryList>>(begin(lists), end(lists)).t);
+        EXPECT_EQ(expected, join_grocerylists(begin(lists), end(lists)));
     }
     template<typename Value> struct Product {
         using T = Value;

@@ -658,15 +658,14 @@ using GroceryList = std::map<Name, Amount>
 
 ### Before
 
-TODO: make compiled code
 ```
 template<typename It>
-auto join_grocerylists(It b, It e) {
+GroceryList join_grocerylists(It b, It e) {
+    static_assert(std::is_same_v<typename It::value_type, GroceryList>);
     GroceryList result{};
-    for(; b != e; ++b) {
-        // add ingredients
-        for(const auto &ingredient: *b) {
-            result[ingredient.name] += ingredient.amount;
+    for( ; b!=e ; ++b) {
+        for(const auto &ingredient: b->items) {
+            result.items[ingredient.first] += ingredient.second;
         }
     }
     return result;
