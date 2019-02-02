@@ -582,6 +582,72 @@ Cf. also [Linear Types](https://meetingcpp.com/mcpp/slides/2018/lin.pdf)/[ligthn
 
 --
 
+### The Grocery List.
+
+Simplified data types:
+
+```
+using Name = std::string;
+using Quantity = int;
+using GroceryList = std::map<Name, Amount>
+```
+
+--
+
+### Before
+
+TODO: make compiled code
+```
+template<typename It>
+auto join_grocerylists(It b, It e) {
+    GroceryList result{};
+    for(; b != e; ++b) {
+        // add ingredients
+        for(const auto &ingredient: *b) {
+            result[ingredient.name] += ingredient.amount;
+        }
+    }
+    return result;
+}
+```
+
+--
+
+### The Sum<GroceryList> monoid
+
+```
+template<> struct Sum<GroceryList> {
+    using T = GroceryList;
+    T t;
+
+    static Sum mempty() { return {}; }
+
+    static Sum mappend(Sum a, Sum b) {
+        for (const auto &ib: b.t.items) {
+            a.t.items[ib.first] += ib.second;
+        }
+        return {a};
+    }
+};
+```
+
+<div style="font-size:.5em;">
+TODO: generalize the inner loop for any `map<K, Monoid>`!
+</div>
+
+--
+
+### After
+
+```
+template<typename It>
+auto join_grocerylists(It b, It e) {
+    return mconcat<Sum<GroceryList>>(b, e);
+}
+```
+
+--
+
 ### C++20: Concepts
 
 ```
