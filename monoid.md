@@ -531,7 +531,13 @@ int mappend<int>(int a, int b) { return a * b; }
 
 Can we have 2 specializations for `int`?
 
-Didn't think so <!-- .element class="fragment" -->
+<div class="fragment">Didn't think so
+
+<pre>
+// error: redefinition of
+// ‘T overloading::mempty() [with T = int]’
+</pre>
+</div>
 
 --
 
