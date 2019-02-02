@@ -8,3 +8,9 @@ test_groceries.exe: groceries.cc test_groceries.cpp
 
 test: test_groceries.exe
 	./test_groceries.exe
+
+float_monoid: float_monoid.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+test_float: float_monoid
+	./float_monoid
