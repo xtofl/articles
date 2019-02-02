@@ -31,24 +31,26 @@ std::ostream &operator<<(std::ostream &o, const GroceryList& g) {
 }
 
 namespace test_overloading {
+    using namespace overloading;
+
     TEST(overloaded, monoidalproperties) {
         std::vector<int> ints{{1, 2, 3, 4}};
-        EXPECT_EQ(10, overloading::mconcat(begin(ints), end(ints)));
+        EXPECT_EQ(10, mconcat(begin(ints), end(ints)));
 
         std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
-        EXPECT_EQ((Custom{"abcd", 10}), overloading::mconcat(begin(cs), end(cs)));
+        EXPECT_EQ((Custom{"abcd", 10}), mconcat(begin(cs), end(cs)));
     }
 
     TEST(grocerylist, has_mempty) {
-        const auto empty = overloading::mempty<GroceryList>();
+        const auto empty = mempty<GroceryList>();
         GroceryList x{{{"x", 1}, {"y", 1}}};
         GroceryList y{{{"y", 2}, {"z", 3}}};
-        EXPECT_EQ(x, overloading::mappend(x, empty));
-        EXPECT_EQ(y, overloading::mappend(empty, y));
+        EXPECT_EQ(x, mappend(x, empty));
+        EXPECT_EQ(y, mappend(empty, y));
     }
     TEST(grocerylist, has_mappend) {
         GroceryList a, b;
-        auto c = overloading::mappend(a, b);
+        auto c = mappend(a, b);
     }
     TEST(grocerylist, can_mappend) {
         GroceryList bacon_eggs{{{"bacon <g>", 100}, {"eggs", 5}}};
@@ -60,16 +62,17 @@ namespace test_overloading {
             {"eggs", 11},
             {"milk <l>", 1},
             {"potatoes <kg>", 2}}
-        }), overloading::mconcat(begin(lists), end(lists)));
+        }), mconcat(begin(lists), end(lists)));
     }
 
     // TEST(overloaded, monoidalproperties_multiplication) {
     //     std::vector<int> ints{{1, 2, 3, 4}};
-    //     EXPECT_EQ(24, overloading::mconcat(begin(ints), end(ints)));
+    //     EXPECT_EQ(24, mconcat(begin(ints), end(ints)));
     // }
 }
 
-namespace test_traits {
+namespace traits {
+
     template<typename Value> struct Sum {
         using T = Value;
         T t;
@@ -85,10 +88,10 @@ namespace test_traits {
     }
     TEST(typetraits, monoidalproperties) {
         std::vector<int> ints{{1, 2, 3, 4}};
-        EXPECT_EQ(10, traits::mconcat<Sum<int>>(begin(ints), end(ints)).t);
+        EXPECT_EQ(10, mconcat<Sum<int>>(begin(ints), end(ints)).t);
 
         std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
-        EXPECT_EQ((Custom{"abcd", 10}), traits::mconcat<Sum<Custom>>(begin(cs), end(cs)).t);
+        EXPECT_EQ((Custom{"abcd", 10}), mconcat<Sum<Custom>>(begin(cs), end(cs)).t);
     }
 
     template<> struct Sum<GroceryList> {
@@ -123,7 +126,7 @@ namespace test_traits {
             {"eggs", 11},
             {"milk <l>", 1},
             {"potatoes <kg>", 2}}
-        }), traits::mconcat<Sum<GroceryList>>(begin(lists), end(lists)).t);
+        }), mconcat<Sum<GroceryList>>(begin(lists), end(lists)).t);
     }
     template<typename Value> struct Product {
         using T = Value;
@@ -135,7 +138,7 @@ namespace test_traits {
     };
     TEST(traits, monoidalproperties_multiplication) {
         std::vector<int> ints{{1, 2, 3, 4}};
-        EXPECT_EQ(24, traits::mconcat<Product<int>>(begin(ints), end(ints)).t);
+        EXPECT_EQ(24, mconcat<Product<int>>(begin(ints), end(ints)).t);
     }
 }
 
