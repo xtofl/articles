@@ -286,7 +286,17 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 ```C++
 * a && b is a boolean
 * a && (b && c) == (a && b) && c
-* a && true == a and true && a == a
+* a && true == a, true && a == a
+```
+
+--
+
+### Examples: &lt;bool, ||, false&gt;
+
+```C++
+* a || b is a boolean
+* a || (b || c) == (a || b) || c
+* a || false == a, false || a == a
 ```
 
 --
@@ -534,9 +544,21 @@ template<typename T> struct Product {
     }
 };
 ```
+```
+template<typename T> struct Sum {
+    T t;
+    static Sum mempty() { return T{0}; }
+    static Sum mappend(Sum a, Sum b) {
+        return Sum{a.t + b.t};
+    }
+};
+```
+
+--
 
 ```
-auto r = mconcat<Product<int>>(b, e).value;
+auto s = mconcat<Sum<int>>(b, e).value;
+auto p = mconcat<Product<int>>(b, e).value;
 ```
 
 --
