@@ -223,16 +223,6 @@ So... in order of 'difficulty'
 
 ---
 
-* Examples (10'):
-  * A glimpse of my complicated grocery list app
-    * how complicated it looked (2')
-    * the epiphany (5'): changing hand-rolled into `sum`
-  * ? A 2d masking problem (3')
-    * rolling density, 1D (2')
-    * rolling density, 2D (1')
-
---
-
 ### Monoid: back to school
 
 * Back to school: addition
@@ -428,6 +418,14 @@ is a monoid homomorphism.
 <ul style="font-size:.3em">
 <li>http://comonad.com/reader/wp-content/uploads/2009/08/IntroductionToMonoids.pdf</li>
 </ul>
+
+--
+
+
+  * A glimpse of my complicated grocery list app
+    * how complicated it looked (2')
+    * the epiphany (5'): changing hand-rolled into `sum`
+
 
 ---
 
