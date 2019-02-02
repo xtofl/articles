@@ -86,6 +86,24 @@ template<typename T> struct Sum {
     }
 };
 
+template<typename Map, typename Monoid>
+struct FSum {
+    using K = typename Map::key_type;
+    using V = typename Map::value_type;
+    Map t;
+    static FSum mempty() {
+        return {};
+    }
+    static FSum mappend(FSum a, FSum b) {
+        for(const auto& kv: b.t) {
+            auto &xa = a.t[kv.first];
+            auto xb = kv.second;
+            xa = Monoid::mappend(Monoid{xa}, Monoid{xb}).t;
+        }
+        return a;
+    }
+};
+
 // just a helper function
 template<typename T, typename F>
 auto transform(const std::vector<T> &as, F f) {

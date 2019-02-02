@@ -671,6 +671,44 @@ GroceryList join_grocerylists(It b, It e) {
     return result;
 }
 ```
+--
+
+## But Wait - There's More
+
+Imagine we can 'declare' the monoid _within_ a `map`
+
+```
+        const IntMap a{{ {1, 1}, {2, 4}, {3, 9} }};
+        const IntMap b{{ {1, 2}, {2, 3}, {3, 4} }};
+        std::vector<IntMap> intmaps{a, b};
+
+        const IntMap expected{{{1, 3}, {2, 7}, {3, 13}}};
+        EXPECT_EQ(expected,
+            (mconcat<FSum<IntMap, Sum<int>>>(
+                begin(intmaps),
+                end(intmaps)).t));
+```
+
+--
+
+## There's more
+
+We Can!
+
+```
+template<typename Map, typename Monoid>
+struct FSum {...};
+```
+```
+    static FSum mappend(FSum a, FSum b) {
+        for(const auto& kv: b.t) {
+            auto &xa = a.t[kv.first]; //(use mempty!)
+            auto xb = kv.second;
+            xa = Monoid::mappend(Monoid{xa}, Monoid{xb}).t;
+        }
+        return a;
+    }
+```
 
 --
 
