@@ -50,11 +50,10 @@ TODO
 
 
 * I have to take care of the family groceries for some weeks
-* I'm a man <!-- .element: class="fragment shrink" -->
-  * finding my way around a store??? <!-- .element: class="fragment" -->
-  * always too much in my cart <!-- .element: class="fragment" -->
-  * always important stuff missing <!-- .element: class="fragment" -->
-  * stores are _crowded_ from 10am.  <!-- .element: class="fragment" -->
+* finding my way around a store??? <!-- .element: class="fragment" -->
+* always too much in my cart <!-- .element: class="fragment" -->
+* always important stuff missing <!-- .element: class="fragment" -->
+* stores are crowded from 10am.  <!-- .element: class="fragment" -->
 
 Note: < 3 minutes
 
@@ -84,6 +83,7 @@ _can't a computer do that_?
 
 --
 
+I wish I could do...
 ```bash
 > python3 growser.py
 o currysaus <1 pak>
@@ -116,14 +116,13 @@ for dish in menu:
         cart[i.name].amount.n += i.amount.n
 ```
 
-(cliffhanger here)
-
 --
 
 ## Meanwhile
 
-Reading about Category Theory, bumping into
+Reading about Category Theory, bumping into terms like
 
+* Monoid
 * Functor (+ the great - debate)
 * Monad
 * Applicative
@@ -132,19 +131,6 @@ Reading about Category Theory, bumping into
 wooow.... scary! <!-- .element: class="fragment" -->
 
 --
-
-* discussions about `str.join` ([needless branching](https://en.cppreference.com/w/cpp/algorithm/accumulate))
-```C++
-bool sep = false;
-for(auto x: elements) {
-    if (sep) cout << ", ";
-    cout << x;
-    sep = true;
-}
-```
-
---
-
 
 Discussions about 'vacuous truth/falsity'
 
