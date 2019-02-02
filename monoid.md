@@ -274,37 +274,30 @@ So... in order of 'difficulty'
 ### Monoid: back to school
 
 * Back to school: multiplication
-  - 3 &middot; 2 == 6
-  - 165 &middot; 23 == 3795
-  - 4 &middot; ( 2 &middot; 3 ) == ( 4 &middot; 2 ) &middot; 3
-  - 1 &middot; x == x
-  - x &middot; 1 == x
+  - 3 &middot; 2 == 6  <!-- .element: class="fragment" -->
+  - 165 &middot; 23 == 3795  <!-- .element: class="fragment" -->
+  - 4 &middot; ( 2 &middot; 3 ) == ( 4 &middot; 2 ) &middot; 3  <!-- .element: class="fragment" -->
+  - 1 &middot; x == x  <!-- .element: class="fragment" -->
+  - x &middot; 1 == x  <!-- .element: class="fragment" -->
 
 --
 
 ### Generalizing
 
-* + and &middot; are binary operations on ℕ
+* &plus; and &middot; are binary operations on ℕ
   * closed
   * associative
   * with an identity element (resp. 0 and 1)
 
 --
 
-### Generalizing
+### Monoid Definition
 
-Monoid: a tuple `<S, op, id>` so that
+A Monoid is a tuple `<S, op, id>` so that
 
 * op(s1, s2) element of S
 * op(s1, op(s2, s3)) == op(op(s1, s2), s3)
 * op(id, s) == op(s, id) == s
---
-
-### Generalizing
-
-Also: closure + associativity => Semigroup
-
-So Monoid is a Semigroup with an identity element
 
 --
 
@@ -709,7 +702,7 @@ auto mconcat(It b, It e) {...}
 
 ---
 
-## Adapting Semigroups
+## What if: no Unit
 
 Some times you have no Unit
 
