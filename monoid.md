@@ -1,4 +1,4 @@
-<!-- .slide: style="text-align: left;"> -->  
+<!-- .slide: style="text-align: left;"> -->
 
 title: Using Monoids in C++
 author: Kristoffel Pirard
@@ -146,7 +146,59 @@ Discussions about 'vacuous truth/falsity'
 
 --
 
-## Rationale
+And then something 'clicked'.
+
+```python
+cart = {}
+for dish in menu:
+    for i in dish.ingredients:
+    if not i.name in cart:
+        cart[i.name] = i.amount
+    else:
+        assert
+           cart[i.name].amount.unit == i.amount.unit
+        cart[i.name].amount.n += i.amount.n
+```
+
+Imagine using a default-dict here.
+
+And a way to 'add' dicts, key-wise...
+
+--
+
+```python
+cart = sum(dish.ingredients for dish in menu)
+```
+
+How come I didn't think of that sooner?
+
+--
+
+## Why the Detour
+
+* my imperative background
+* lack of concepts to express this
+
+--
+
+## Why no Concepts
+
+<p class="fragment">
+... dreaming during math class?
+</p>
+
+
+<p class="fragment">
+The 'math' lingo does not map onto 'programming'.
+</p>
+
+<p class="fragment">
+Lack of _application_
+</p>
+
+--
+
+### Math Lingo
 
 [![math lingo](Lax_monoidal_functor_associative.svg)](https://en.wikipedia.org/wiki/Monoidal_functor#Definition)
 <div style="font-size:.4em">credit: wikipedia</div>
@@ -154,6 +206,8 @@ Discussions about 'vacuous truth/falsity'
 --
 
 ### Misunderstanding
+
+= lingo mismatch
 
 ![prof and dev misunderstanding](/01.misunderstanding.jpg)  <!-- .element: height="400" -->
 <div style="font-size:.4em">credit: Jona</div>
@@ -172,7 +226,7 @@ Note: yoda may fit in here.
 
 ## Knowledge for the win
 
-* Scientists tend to be clever
+* Scientists tend to be clever  <!-- .element: class="fragment" -->
 * Common vocabulary => more collaboration <!-- .element: class="fragment" -->
   * with scientists
   * amongst developers
@@ -181,14 +235,11 @@ Note: yoda may fit in here.
 
 ## This presentation is
 
-An attempt to take away
+An attempt to take away some fear and some dismay
 
-* some fear
-* some dismay
+=> small steps!, real-life <sup>*</sup>!
 
-=> small steps!
-
-=> real-life!
+<p style="font-size:.4em;">adapted from -</p>
 
 --
 
@@ -366,7 +417,7 @@ template<typename Monoid, typename InputIt>
 Monoid accumulate(InputIt first, InputIt last);
 ```
 
-Note: conservation of complexity: it is moved into the Monoid type 
+Note: conservation of complexity: it is moved into the Monoid type
 
 --
 
