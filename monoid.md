@@ -10,6 +10,7 @@ url: http://github.com/xtofl/articles/monoid.md
 ---
 
 ![pig throwing flares at itself](/milewski_monoid.jpg) <!-- .element: width="400" -->
+<div style="font-size:.4em">credit: Bartosz Milewski</div>
 
 ---
 
@@ -174,6 +175,7 @@ Discussions about 'vacuous truth/falsity'
 ### misunderstanding
 
 ![prof and dev misunderstanding](/01.misunderstanding.jpg)  <!-- .element: height="400" -->
+<div style="font-size:.4em">credit: Jona</div>
 
 --
 
@@ -181,6 +183,7 @@ Discussions about 'vacuous truth/falsity'
 ### anger
 
 ![prof and dev angry](/02.anger.jpg)  <!-- .element: height="400" -->
+<div style="font-size:.4em">credit: Jona</div>
 
 --
 
@@ -216,6 +219,8 @@ So... in order of 'difficulty'
 --
 
 ![dev at math course](/03.investment_education.jpg)  <!-- .element: height="400" -->
+<div style="font-size:.4em">credit: Jona</div>
+
 
 (but I'm not a professor)  <!-- .element: class="fragment" -->
 
