@@ -227,10 +227,10 @@ So... in order of 'difficulty'
 
 * Back to school: addition
   * 1 + 2 == 3  <!-- .element: class="fragment" -->
-  * 234225 + 123415115 = 123649340  <!-- .element: class="fragment" -->
+  * 234225 + 123415115 == 123649340  <!-- .element: class="fragment" -->
   * 1 + (2 + 3) == (1 + 2) + 3  <!-- .element: class="fragment" -->
-  * 0 + x = x  <!-- .element: class="fragment" -->
-  * x + 0 = x  <!-- .element: class="fragment" -->
+  * 0 + x == x  <!-- .element: class="fragment" -->
+  * x + 0 == x  <!-- .element: class="fragment" -->
 
 --
 
@@ -240,8 +240,8 @@ So... in order of 'difficulty'
   - 3 &middot; 2 == 6
   - 165 &middot; 23 == 3795
   - 4 &middot; ( 2 &middot; 3 ) == ( 4 &middot; 2 ) &middot; 3
-  - 1 &middot; x = x
-  - x &middot; 1 = x
+  - 1 &middot; x == x
+  - x &middot; 1 == x
 
 --
 
@@ -276,8 +276,8 @@ So Monoid is a Semigroup with an identity element
 Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 
 * &forall; s1, s2 &isin; S
-* s1 &diamond; (s2 &diamond; s3) = (s1 &diamond; s2) &diamond; s3
-* id &diamond; s = s = s &diamond; id
+* s1 &diamond; (s2 &diamond; s3) == (s1 &diamond; s2) &diamond; s3
+* id &diamond; s == s == s &diamond; id
 
 --
 
@@ -304,9 +304,9 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 ### Examples: &lt;string, +, ""&gt;
 
 ```C++
-* string operator+(string)
-* "ab"s + ("cd"s + "ef"s) == ("ab"s + "cd"s) + "ef"s
-* "ab"s + ""s == "ab"s == ""s + "ab"s
+string operator+(string)
+"ab"s + ("cd"s + "ef"s) == ("ab"s + "cd"s) + "ef"s
+"ab"s + ""s == "ab"s == ""s + "ab"s
 ```
 
 --
@@ -314,9 +314,9 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 ### Examples: floating point
 
 ```C++
-* double operator+(double)
-* .5 + (1. + 2.) == (.5 + 1.) + 2.
-* .5 + 0. == 0. + .5 == .5
+double operator+(double)
+.5 + (1. + 2.) == (.5 + 1.) + 2.
+.5 + 0. == 0. + .5 == .5
 ```
 
 --
@@ -324,10 +324,12 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 ### Examples: floating point
 
 ```C++
-* .1 + (.2 + .3) == (.1 + .2) + .3
+.1 + (.2 + .3) == (.1 + .2) + .3
 ```
 
 **NOT** associative!
+
+<div style="font-size:.5em">(unless you can live with a small error)</div>
 
 ---
 
