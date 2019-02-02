@@ -46,23 +46,19 @@ TODO
 
 ---
 
-## Intro
+## Situation
 
 
-Imagine this:
-
-* You have to take care of the family groceries from now on
-* You're a man <!-- .element: class="fragment shrink" -->
-  * finding your way around a store??? <!-- .element: class="fragment" -->
-  * always too much in your cart <!-- .element: class="fragment" -->
+* I have to take care of the family groceries for some weeks
+* I'm a man <!-- .element: class="fragment shrink" -->
+  * finding my way around a store??? <!-- .element: class="fragment" -->
+  * always too much in my cart <!-- .element: class="fragment" -->
   * always important stuff missing <!-- .element: class="fragment" -->
   * stores are _crowded_ from 10am.  <!-- .element: class="fragment" -->
 
 Note: < 3 minutes
 
 --
-
-### Intro
 
 But... what groceries do I need?
 
@@ -71,8 +67,6 @@ But... what groceries do I need?
 * Pantry
 
 --
-
-### Intro
 
 * 5 chipolata's, 2kg potatoes, 5 apples, 2 packs of pasta, 400g of minced meat, grated cheese, chicken breast, basmati rice, curry sauce ...
 * O - we still got potatoes.  <!-- .element: class="fragment" -->
@@ -126,11 +120,11 @@ for dish in menu:
 
 --
 
-## Intro: digression
+## Meanwhile
 
 Reading about Category Theory, bumping into
 
-* Functor
+* Functor (+ the great - debate)
 * Monad
 * Applicative
 * ...
@@ -138,8 +132,6 @@ Reading about Category Theory, bumping into
 wooow.... scary! <!-- .element: class="fragment" -->
 
 --
-
-## Intro: rationale
 
 * discussions about `str.join` ([needless branching](https://en.cppreference.com/w/cpp/algorithm/accumulate))
 ```C++
@@ -153,7 +145,6 @@ for(auto x: elements) {
 
 --
 
-## Intro: rationale
 
 Discussions about 'vacuous truth/falsity'
 
@@ -165,14 +156,18 @@ Discussions about 'vacuous truth/falsity'
 
 --
 
-
-## Intro: rationale
-
-[![math lingo](Lax_monoidal_functor_associative.svg)](https://en.wikipedia.org/wiki/Monoidal_functor#Definition)
+## `</Situation>`
 
 --
 
-### misunderstanding
+## Rationale
+
+[![math lingo](Lax_monoidal_functor_associative.svg)](https://en.wikipedia.org/wiki/Monoidal_functor#Definition)
+<div style="font-size:.4em">credit: wikipedia</div>
+
+--
+
+### Misunderstanding
 
 ![prof and dev misunderstanding](/01.misunderstanding.jpg)  <!-- .element: height="400" -->
 <div style="font-size:.4em">credit: Jona</div>
@@ -180,10 +175,12 @@ Discussions about 'vacuous truth/falsity'
 --
 
 
-### anger
+### Anger
 
 ![prof and dev angry](/02.anger.jpg)  <!-- .element: height="400" -->
 <div style="font-size:.4em">credit: Jona</div>
+
+Note: yoda may fit in here.
 
 --
 
