@@ -66,13 +66,14 @@ with open(filename, 'r', encoding='utf-8') as f:
 
 print(preamble_format.format(slide_title))
 
+import pathlib
 print("""
 	<section data-markdown="{}"
 		data-separator="^---"
 		data-separator-vertical="^--"
 	>
 	</section>
-	""".format(filename)
+	""".format(pathlib.Path(filename).parts[-1])
 )
 
 print(postamble)
