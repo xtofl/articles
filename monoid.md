@@ -669,6 +669,7 @@ Example dishes
 | rice | 200g | 200g | |
 | spaghetti | | | 400g |
 
+
 --
 
 ### Before
@@ -725,22 +726,25 @@ auto join_grocerylists(It b, It e) {
 
 ## But Wait - There's More
 
-Imagine we can 'declare' the monoid _within_ a `map`
+Remember: Algebraic Data Types composed of Monoids are also Monoids.
 
-```C++
-const IntMap a{{ {1, 1}, {2, 4}, {3, 9} }};
-const IntMap b{{ {1, 2}, {2, 3}, {3, 4} }};
-std::vector<IntMap> intmaps{a, b};
+A `map<K, V>` resembles an 'infinite struct' of values.
 
-const IntMap expected{{{1, 3}, {2, 7}, {3, 13}}};
-EXPECT_EQ(expected,
-    (mconcat<FSum<IntMap, Sum<int>>>(
-        begin(intmaps), end(intmaps)).t));
-```
+So...
+
+Would `map<K, Monoid>` also form a Monoid?
+
 
 --
 
-## There's more
+Imagine we can 'declare' the monoid _within_ a `map`
+```C++
+mconcat<FSum<IntMap, Sum<int>>>(
+        begin(intmaps), end(intmaps)).t)
+```
+
+
+--
 
 We Can!
 
@@ -757,6 +761,19 @@ struct FSum {...};
         }
         return a;
     }
+```
+--
+
+```C++
+std::vector<IntMap> intmaps{
+    { {1, 1}, {2, 4}, {3, 9} },
+    { {1, 2}, {2, 3}, {3, 4} }};
+const IntMap expected{
+    { {1, 3}, {2, 7}, {3, 13} }};
+
+EXPECT_EQ(expected,
+    (mconcat<FSum<IntMap, Sum<int>>>(
+        begin(intmaps), end(intmaps)).t));
 ```
 
 --
