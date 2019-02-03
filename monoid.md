@@ -266,6 +266,10 @@ But we may _need_ such courses
 
 ---
 
+## What are Monoids
+
+--
+
 ### Monoid: back to school
 
 * Back to school: addition
@@ -369,7 +373,7 @@ double operator+(double)
 
 ---
 
-## So... what good is it?
+## What are Monoids Good for?
 
 --
 
@@ -500,12 +504,6 @@ is a monoid homomorphism.
 
 ## Applying it in C++
 
-Different approaches
-
-* overload `operator +` and add a `0` constructor
-* template specialization
-* use type trait (concepts may help!)
-
 --
 
 ## Creating a Monoid in C++
@@ -517,6 +515,17 @@ Define and use `mconcat(begin, end) -> M`
 ```
 auto result = mconcat(begin(xs), end(xs));
 ```
+
+--
+
+### Different approaches
+
+* overload `operator +` and add a `0` constructor
+  * very very implicit.  monkey-patching, almost
+* template specialization
+* use semantic types (concepts may help!)
+
+Let's take the wrong turn first.
 
 --
 
@@ -821,7 +830,7 @@ auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
 <div style="font-size:.4em">credit: Jona</div>
 
 
----
+--
 
 ## References
 
@@ -834,7 +843,7 @@ auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
 * [Haskell Wiki: Monoid](https://wiki.haskell.org/Monoid)
 * [Some theorems](https://philipnilsson.github.io/Badness10k/algebraic-patterns-monoid/)
 
----
+--
 
 ## Credits
 
