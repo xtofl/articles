@@ -178,14 +178,14 @@ How come I didn't think of that sooner?
 
 --
 
-## Why the Detour
+## Why the Detour?
 
 * my imperative background
 * lack of concepts to express this
 
 --
 
-## Why no Concepts
+## Why lack of Concepts?
 
 <p class="fragment">
 ... dreaming during math class?
