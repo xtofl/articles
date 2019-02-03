@@ -801,6 +801,7 @@ auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
     * But I'm not alone
     * Baby steps (note [lambda cast](https://soundcloud.com/lambda-cast))
 
+
 --
 
 ## Translators needed!
@@ -812,7 +813,13 @@ auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
         * [web](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/) (there's a book, too)
     * (&lambda; &lambda;) Philippe Wadler does [great talks](https://www.youtube.com/watch?v=jm_TObUiTHM) (be sure to watch the end)
 
-"We're hiring" <!-- .element: class="fragment" -->
+--
+
+### We need you!
+
+![collaboration between math guy and dev](/05.collaboration.jpg)  <!-- .element: height="400" -->
+<div style="font-size:.4em">credit: Jona</div>
+
 
 ---
 
