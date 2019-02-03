@@ -654,7 +654,7 @@ Define some simple data types:
 
 ```
 using Name = std::string;
-using Quantity = int;
+using Amount = int;
 using GroceryList = std::map<Name, Amount>
 ```
 
