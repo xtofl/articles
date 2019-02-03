@@ -749,12 +749,6 @@ struct FSum {...};
 ### C++20: Concepts
 
 ```
-// remark: not yet compiled
-template<typename T>
-concept Monoid =
-    requires Associative(T, T::mconcat) &&
-    requires(T) { T::mempty() -> T; }
-
 template<typename It, typename T>
     requires Monoid<T>
 auto mconcat(It b, It e) {...}
