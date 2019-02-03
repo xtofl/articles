@@ -601,20 +601,21 @@ Can we have 2 specializations for `int`?
 So some extra info is needed
 
 ```
-template<typename T> struct Product {
+template<typename T> struct Sum {
     T t;
-    static constexpr T mempty{};
-    static Product mappend(Product a, Product b) {
-        return {a.t * b.t};
+    static Sum mempty() { return {}; }
+    static Sum mappend(Sum a, Sum b) {
+        return {a.t + b.t};
     }
 };
 ```
+
 ```
-template<typename T> struct Sum {
+template<typename T> struct Product {
     T t;
-    static Sum mempty() { return T{0}; }
-    static Sum mappend(Sum a, Sum b) {
-        return Sum{a.t + b.t};
+    static Product mempty() { return {1}; };
+    static Product mappend(Product a, Product b) {
+        return {a.t * b.t};
     }
 };
 ```
