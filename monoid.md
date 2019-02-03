@@ -9,8 +9,13 @@ url: http://github.com/xtofl/articles/monoid.md
 
 ---
 
-![pig throwing flares at itself](/milewski_monoid.jpg) <!-- .element: width="400" -->
-<div style="font-size:.4em">credit: Bartosz Milewski</div>
+## Using Monoids in C++
+
+
+
+<div style="font-size:.4em">![pig throwing flares at itself](/milewski_monoid.jpg) <!-- .element: width="300" -->
+
+credit: Bartosz Milewski</div>
 
 ---
 
@@ -39,10 +44,9 @@ url: http://github.com/xtofl/articles/monoid.md
 
 ## What I want to achieve
 
-TODO
+whetting some appetite for FP
 
-* whetting some appetite
-* not feeling 'alone' anymore
+<div class="fragment" style="font-size:.5em;">no - fp's not going to solve all your problems</div>
 
 ---
 
@@ -243,20 +247,22 @@ An attempt to take away some fear and some dismay
 
 --
 
-So... in order of 'difficulty'
+This may be part of a Category Theory course
 
-* Monoid <-- you are here
+* Monoid <-- we are here
 * Functor
 * Applicative
 * Monad
 
+but it's not.
+
 --
+
+But we may _need_ such courses
 
 ![dev at math course](/03.investment_education.jpg)  <!-- .element: height="400" -->
 <div style="font-size:.4em">credit: Jona</div>
 
-
-(but I'm not a professor)  <!-- .element: class="fragment" -->
 
 ---
 
@@ -487,11 +493,8 @@ is a monoid homomorphism.
 
 --
 
-
-  * A glimpse of my complicated grocery list app
-    * how complicated it looked (2')
-    * the epiphany (5'): changing hand-rolled into `sum`
-
+![dev at math course](/04.understanding.jpg)  <!-- .element: height="400" -->
+<div style="font-size:.4em">credit: Jona</div>
 
 ---
 
@@ -691,10 +694,6 @@ template<> struct Sum<GroceryList> {
 };
 ```
 
-<div style="font-size:.5em;">
-TODO: generalize the inner loop for any `map<K, Monoid>`!
-</div>
-
 --
 
 ### After
@@ -753,7 +752,7 @@ struct FSum {...};
 // remark: not yet compiled
 template<typename T>
 concept Monoid =
-    requires Associative(T::mconcat) &&
+    requires Associative(T, T::mconcat) &&
     requires(T) { T::mempty() -> T; }
 
 template<typename It, typename T>
