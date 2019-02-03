@@ -50,7 +50,7 @@ whetting some appetite for FP
 
 ---
 
-## Situation
+## How I got here
 
 
 * I have to take care of the family groceries for some weeks
@@ -146,7 +146,7 @@ Discussions about 'vacuous truth/falsity'
 
 --
 
-## `</Situation>`
+## `</How I got here>`
 
 --
 
@@ -247,7 +247,7 @@ An attempt to take away some fear and some dismay
 
 --
 
-This may be part of a Category Theory course
+This may look like part of a Category Theory course
 
 * Monoid <-- we are here
 * Functor
@@ -351,7 +351,8 @@ Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 ### Examples: &lt;string, +, ""&gt;
 
 ```C++
-string operator+(string)
+string string::append(string)
+string operator+(string, string)
 "ab"s + ("cd"s + "ef"s) == ("ab"s + "cd"s) + "ef"s
 "ab"s + ""s == "ab"s == ""s + "ab"s
 ```
@@ -361,7 +362,7 @@ string operator+(string)
 ### Examples: floating point
 
 ```C++
-double operator+(double)
+double operator+(double, double)
 .5 + (1. + 2.) == (.5 + 1.) + 2.
 .5 + 0. == 0. + .5 == .5
 ```
@@ -388,11 +389,11 @@ double operator+(double)
 
 Generic functions, of course!
 
-Functions on Ranges can often be generalized
-to any monoid.
+Functions first defined on Ranges can often be generalized to any monoid.
 
 * Runtime
 * Compile time
+* Shopping time <!-- .element: class="fragment">
 
 --
 
@@ -429,7 +430,7 @@ to any monoid.
 // explicit knowledge
 template<typename InputIt, typename T,
          typename BinaryOperation>
-T accumulate(InputIt first, InputIt last, T init,
+T accumulate(InputIt b, InputIt e, T init,
               BinaryOperation op );
 // requires BinaryOperation to satisfy
 // T t = op(t, *first)
@@ -439,8 +440,8 @@ vs
 
 ```C++
 // implicit knowledge
-template<typename Monoid, typename InputIt>
-Monoid accumulate(InputIt first, InputIt last);
+template<typename InputIt, typename Monoid>
+Monoid accumulate(InputIt b, InputIt e);
 ```
 
 Note: conservation of complexity: it is moved into the Monoid type
@@ -479,11 +480,14 @@ acc(a, b, c, d) ==
 Theorems for Free!
 
 * m, n are monoid => algebraic types of m, n, too
+    * <span style="font-size:.7em">`tuple<int, bool>` under `(+, ||)` with `id=(0, false)`</span>
 * function composition is a monoid
     * great for pipes and filters pattern!
-    * `M foo(bar(M)) == mconcat([foo, bar])
+    * <span style="font-size:.7em">`foo(bar(baz(m))) == mconcat({foo, bar, baz})(m)`</span>
 * [O(log(N)) parser](http://www.dcc.fc.up.pt/~acm/semigr.pdf)
 * ...
+
+--
 
 But we need translators
 
@@ -533,7 +537,7 @@ auto mconcat(It b, It e) {
 
 --
 
-Specialization for e.g. `int`
+Specialization for `int` addition
 
 ```
 template<>
