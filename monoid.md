@@ -767,7 +767,7 @@ Some times you have no Unit
 
 ## Add a Unit
 
-You can create a 'Sum' type:
+You can create a 'Sum' type using `std::variant` or `std::optional`:
 
 * N = {1, 2, 3, 4, ...}
 * M<sub>N</sub> = {None} &cup; N
@@ -779,13 +779,13 @@ You can create a 'Sum' type:
 In C++... use an `optional<T>`
 
 ```
-auto mempty<optional<T>>() {
-    return {};
+auto Sum<optional<T>>::mempty() {
+    return {{}};
 }
-auto mappend(O<T> a, O<T> b) {
-    return (a && b)
-        ? mappend(*a, *b);
-        : mempty<O<T>>();
+auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
+    return {(a.t && b.t)
+        ? mappend(*a.t, *b.t);
+        : mempty<O<T>>()};
 }
 ```
 
