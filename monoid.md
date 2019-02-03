@@ -791,35 +791,28 @@ auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
 
 ---
 
-## What's After Monoid...
-
-* Functor ('mappable': `vector`, `struct`, ...)
-* Monad ('programmable semicolon')
-* Category Theory for the Working Programmer
-    * Milewski (a C++ programmer!)
-    * Philippe Wadler (&lambda;)
-
---
-
-Translators needed!
-
-* slack: Cpplang fp channel
-* Nice tutorial
-
-"We're hiring" <!-- .element: class="fragment" -->
-
-
----
-
-# Conclusion
+## Conclusion
 
 * Math and Category theory: treasure island
     * Can be used in C++
     * Establish common vocabulary
     * Reduce complexity through _known abstractions_
 * I'm afraid of the math lingo
-    * But I'm not on my own
+    * But I'm not alone
     * Baby steps (note [lambda cast](https://soundcloud.com/lambda-cast))
+
+--
+
+## Translators needed!
+
+* (&lambda;) slack Cpplang [#fp channel](https://cpplang.slack.com/messages/C2SRA568G/)
+* (&lambda;) [lambda cast](https://soundcloud.com/lambda-cast/12-monoids): host explains FP to 2 non-FP guests
+* Category Theory for the Working Programmer
+    * (&lambda; &lambda;)Bartosz Milewski (a C++ programmer!)
+        * [web](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/) (there's a book, too)
+    * (&lambda; &lambda;) Philippe Wadler does [great talks](https://www.youtube.com/watch?v=jm_TObUiTHM) (be sure to watch the end)
+
+"We're hiring" <!-- .element: class="fragment" -->
 
 ---
 
@@ -840,6 +833,7 @@ Translators needed!
 
 * My son [Jona for the artwork](https://www.instagram.com/jonap_art/)
 * [Bartosz Milewski](https://bartoszmilewski.com/) who's [pigs](https://bartoszmilewski.files.wordpress.com/2014/12/monoid.jpg) I borrowed ([cc license](https://creativecommons.org/licenses/by/4.0/))
+* Cpplang/#fp channel
 
 ---
 
