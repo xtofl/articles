@@ -315,9 +315,16 @@ A Monoid is a tuple `<S, op, id>` so that
 
 Monoid: a tuple &lt;S, &diamond;, id&gt; so that
 
-* &forall; s1, s2 &isin; S
-* s1 &diamond; (s2 &diamond; s3) == (s1 &diamond; s2) &diamond; s3
-* id &diamond; s == s == s &diamond; id
+* &forall; s1, s2, s3 &isin; S
+    * (s1 &diamond; s2) &isin; S
+    * s1 &diamond; (s2 &diamond; s3) == (s1 &diamond; s2) &diamond; s3
+    * id &diamond; s == s == s &diamond; id
+
+
+--
+
+![dev and math guy talking same lingo](/04.understanding.jpg)  <!-- .element: height="400" -->
+<div style="font-size:.4em">credit: Jona</div>
 
 --
 
@@ -494,11 +501,6 @@ is a monoid homomorphism.
 <ul style="font-size:.3em">
 <li>http://comonad.com/reader/wp-content/uploads/2009/08/IntroductionToMonoids.pdf</li>
 </ul>
-
---
-
-![dev at math course](/04.understanding.jpg)  <!-- .element: height="400" -->
-<div style="font-size:.4em">credit: Jona</div>
 
 ---
 
