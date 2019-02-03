@@ -112,12 +112,12 @@ But look at that code... :(
 cart = {}
 for dish in menu:
     for i in dish.ingredients:
-    if not i.name in cart:
-        cart[i.name] = i.amount
-    else:
-        assert
-           cart[i.name].amount.unit == i.amount.unit
-        cart[i.name].amount.n += i.amount.n
+        if not i.name in cart:
+            cart[i.name] = i.amount
+        else:
+            assert
+            cart[i.name].amount.unit == i.amount.unit
+            cart[i.name].amount.n += i.amount.n
 ```
 
 --
@@ -156,12 +156,12 @@ And then something 'clicked'.
 cart = {}
 for dish in menu:
     for i in dish.ingredients:
-    if not i.name in cart:
-        cart[i.name] = i.amount
-    else:
-        assert
-           cart[i.name].amount.unit == i.amount.unit
-        cart[i.name].amount.n += i.amount.n
+        if not i.name in cart:
+            cart[i.name] = i.amount
+        else:
+            assert
+            cart[i.name].amount.unit == i.amount.unit
+            cart[i.name].amount.n += i.amount.n
 ```
 
 Imagine using a default-dict here.
