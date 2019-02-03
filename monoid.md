@@ -479,28 +479,13 @@ acc(a, b, c, d) ==
 Theorems for Free!
 
 * m, n are monoid => algebraic types of m, n, too
-* foo(Monoid), bar(Monoid) => foo &compfn; bar(Monoid)
+* function composition is a monoid
+    * great for pipes and filters pattern!
+    * `M foo(bar(M)) == mconcat([foo, bar])
+* [O(log(N)) parser](http://www.dcc.fc.up.pt/~acm/semigr.pdf)
 * ...
 
 But we need translators
-
-<p class="fragment" style="font-size:.4em;">
-Let (S,∘) and (T,∗) be monoids.
-Let ϕ:S→T be a mapping such that ∘ has the morphism property under ϕ<br/>
-
-That is, ∀a,b∈S<br/>
-    ϕ(a∘b)=ϕ(a)∗ϕ(b)<br/>
-
-Suppose further that ϕ preserves identities, i.e.:
-    ϕ(eS)=eT<br/>
-
-Then ϕ:(S,∘)→(T,∗)
-is a monoid homomorphism.
-</p>
-
-<ul style="font-size:.3em">
-<li>http://comonad.com/reader/wp-content/uploads/2009/08/IntroductionToMonoids.pdf</li>
-</ul>
 
 ---
 
@@ -819,9 +804,9 @@ auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
 
 * (&lambda;) slack Cpplang [#fp channel](https://cpplang.slack.com/messages/C2SRA568G/)
 * (&lambda;) [lambda cast](https://soundcloud.com/lambda-cast/12-monoids): host explains FP to 2 non-FP guests
+* (&lambda; &lambda; &lambda;)[introduction to monoids](http://comonad.com/reader/wp-content/uploads/2009/08/IntroductionToMonoids.pdf)
 * Category Theory for the Working Programmer
-    * (&lambda; &lambda;)Bartosz Milewski (a C++ programmer!)
-        * [web](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/) (there's a book, too)
+    * (&lambda; &lambda;)Bartosz Milewski's [CT for programmers](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/)
     * (&lambda; &lambda;) Philippe Wadler does [great talks](https://www.youtube.com/watch?v=jm_TObUiTHM) (be sure to watch the end)
 
 --
