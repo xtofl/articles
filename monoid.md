@@ -650,7 +650,7 @@ Cf. also [Linear Types](https://meetingcpp.com/mcpp/slides/2018/lin.pdf)/[ligthn
 
 ### The Grocery List.
 
-Simplified data types:
+Define some simple data types:
 
 ```
 using Name = std::string;
@@ -660,21 +660,35 @@ using GroceryList = std::map<Name, Amount>
 
 --
 
+Example dishes
+
+| name | dish1 | dish2 | dish3 |
+| -- | -- | -- | -- |
+| carrots | 5 |  | 10 |
+| minced meat | 300g | 300g | |
+| rice | 200g | 200g | |
+| spaghetti | | | 400g |
+
+--
+
 ### Before
 
 ```
 template<typename It>
 GroceryList join_grocerylists(It b, It e) {
-    static_assert(std::is_same_v<typename It::value_type, GroceryList>);
+    static_assert(std::is_same_v<typename It::value_type,
+                                 GroceryList>);
     GroceryList result{};
     for( ; b!=e ; ++b) {
         for(const auto &ingredient: b->items) {
-            result.items[ingredient.first] += ingredient.second;
+            result.items[ingredient.first] += 
+                ingredient.second;
         }
     }
     return result;
 }
 ```
+
 --
 
 ### The Sum<GroceryList> monoid
