@@ -568,7 +568,7 @@ Custom mempty<Custom>() { return {}; }
 template<>
 Custom mappend<Custom>(Custom c, Custom d) {
     return {
-        c.s + d.s,
+        c.s.append(d.s),
         c.n + d.n
     };
 }
@@ -602,10 +602,10 @@ So some extra info is needed
 
 ```
 template<typename T> struct Product {
-    T value;
+    T t;
     static constexpr T mempty{};
     static Product mappend(Product a, Product b) {
-        return {a.value * b.value};
+        return {a.t * b.t};
     }
 };
 ```
@@ -622,8 +622,8 @@ template<typename T> struct Sum {
 --
 
 ```
-auto s = mconcat<Sum<int>>(b, e).value;
-auto p = mconcat<Product<int>>(b, e).value;
+auto s = mconcat<Sum<int>>(b, e).t;
+auto p = mconcat<Product<int>>(b, e).t;
 ```
 
 --
