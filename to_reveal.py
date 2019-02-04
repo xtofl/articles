@@ -9,11 +9,6 @@ preamble_format = """<!doctype html>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/sioux.css">
-		<style>
-			.reveal h1 {{
-				color: yellow;
-				font-size: 1.4em; }}
-		</style>
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">

@@ -9,9 +9,7 @@ url: http://github.com/xtofl/articles/monoid.md
 
 ---
 
-## Using Monoids in C++
-
-
+# Using Monoids in C++
 
 <div style="font-size:.4em">![pig throwing flares at itself](/milewski_monoid.jpg) <!-- .element: width="300" -->
 
