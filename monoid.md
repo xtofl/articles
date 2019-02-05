@@ -34,7 +34,7 @@ credit: Bartosz Milewski</div>
 ## Why am I doing this
 
 * I'm enthousiastic (a bit nerdy)
-  * c'mon... "(lenses and bananas)[https://maartenfokkinga.github.io/utwente/mmf91m.pdf]" in one sentence!
+  * c'mon... ["lenses, bananas, barbed wire"](https://maartenfokkinga.github.io/utwente/mmf91m.pdf) in one sentence!
 * I think we _will_ benefit (FP matters)
 * Can you help me?
   * I want to help _you_ taking the first hurdle
@@ -599,6 +599,8 @@ Can we have 2 specializations for `int`?
 --
 
 So some extra info is needed
+
+Look mom!  Semantic types!  <!-- .element: class="fragment" -->
 
 ```
 template<typename T> struct Sum {
