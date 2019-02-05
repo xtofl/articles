@@ -538,7 +538,7 @@ Generic `mappend` and `mempty`
 template<typename T> T mempty();
 template<typename T> T mappend(T, T);
 
-template<typename M>
+template<typename Monoid>
 auto mconcat(It b, It e) {
     return accumulate(
         b, e,
