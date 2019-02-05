@@ -1,7 +1,7 @@
 <!-- .slide: style="text-align: left;"> -->
 
 title: Using Monoids in C++
-<span style="font-size:.4em; margin-right:0">v1.2beta</span>
+<span style="font-size:.4em; margin-right:0">v1.2</span>
 
 author: Kristoffel Pirard
 
