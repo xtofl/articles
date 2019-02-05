@@ -1,21 +1,33 @@
 <!-- .slide: style="text-align: left;"> -->
 
 title: Using Monoids in C++
+<span style="font-size:.4em; margin-right:0">v1.2beta</span>
+
 author: Kristoffel Pirard
-url: http://github.com/xtofl/articles/monoid.md
+
+url: http://github.com/xtofl/articles/monoid/monoid.md
 
 
-[pdf](?print-pdf&pdfSeparateFragments=false)
+<div style="font-size:.4em">
+[(single-page version)](?print-pdf&pdfSeparateFragments=false)
+</div>
+
+<div style="font-size:.4em">
+This slide deck is intended for use with reveal.js;
+</div>
+<div style="font-size:.4em">
+```
+articles> make monoid/monoid.reveal
+```
+</div>
 
 ---
 
-## Using Monoids in C++
+# Using Monoids in C++
 
 
-
-<div style="font-size:.4em">![pig throwing flares at itself](/milewski_monoid.jpg) <!-- .element: width="300" -->
-
-credit: Bartosz Milewski</div>
+![pig throwing flares at itself](milewski_monoid.jpg) <!-- .element: width="300" style="display: block; margin-left: auto; margin-right: auto;" -->
+<div style="font-size:.4em">credit: Bartosz Milewski</div>
 
 ---
 
@@ -213,7 +225,7 @@ Lack of _application_
 
 = lingo mismatch
 
-![prof and dev misunderstanding](/01.misunderstanding.jpg)  <!-- .element: height="400" -->
+![prof and dev misunderstanding](01.misunderstanding.jpg)  <!-- .element: height="400" -->
 <div style="font-size:.4em">credit: Jona</div>
 
 --
@@ -221,7 +233,7 @@ Lack of _application_
 
 ### Anger
 
-![prof and dev angry](/02.anger.jpg)  <!-- .element: height="400" -->
+![prof and dev angry](02.anger.jpg)  <!-- .element: height="400" -->
 <div style="font-size:.4em">credit: Jona</div>
 
 Note: yoda may fit in here.
@@ -260,7 +272,7 @@ but it's not.
 
 But we may _need_ such courses
 
-![dev at math course](/03.investment_education.jpg)  <!-- .element: height="400" -->
+![dev at math course](03.investment_education.jpg)  <!-- .element: height="400" -->
 <div style="font-size:.4em">credit: Jona</div>
 
 

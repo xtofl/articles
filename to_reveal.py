@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-preamble_format = """<!doctype html>
+
+import sys
+filename = sys.argv[1]
+
+slide_title = None
+with open(filename, 'r', encoding='utf-8') as f:
+	title_lines = [line for line in f.read().splitlines(keepends=False) if line.startswith("title: ")]
+	assert len(title_lines) == 1
+	slide_title = title_lines[0].partition(":")[2]
+
+print("""<!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -9,11 +19,6 @@ preamble_format = """<!doctype html>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/sioux.css">
-		<style>
-			.reveal h1 {{
-				color: yellow;
-				font-size: 1.4em; }}
-		</style>
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -30,9 +35,19 @@ preamble_format = """<!doctype html>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-"""
+""".format(slide_title))
 
-postamble = """
+import pathlib
+print("""
+	<section data-markdown="{}"
+		data-separator="^---"
+		data-separator-vertical="^--"
+	>
+	</section>
+	""".format(pathlib.Path(filename).parts[-1])
+)
+
+print("""
 			</div>
 		</div>
 
@@ -57,27 +72,4 @@ postamble = """
 		</script>
 	</body>
 </html>
-"""
-
-
-import sys
-filename = sys.argv[1]
-
-slide_title = None
-with open(filename, 'r', encoding='utf-8') as f:
-	title_lines = [line for line in f.read().splitlines(keepends=False) if line.startswith("title: ")]
-	assert len(title_lines) == 1
-	slide_title = title_lines[0].partition(":")[2]
-
-print(preamble_format.format(slide_title))
-
-print("""
-	<section data-markdown="{}"
-		data-separator="^---"
-		data-separator-vertical="^--"
-	>
-	</section>
-	""".format(filename)
-)
-
-print(postamble)
+""")
