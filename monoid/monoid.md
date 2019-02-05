@@ -1,9 +1,16 @@
 <!-- .slide: style="text-align: left;"> -->
 
 title: Using Monoids in C++
-author: Kristoffel Pirard
-url: http://github.com/xtofl/articles/monoid.md
+<span style="font-size:.4em; margin-right:0">v1.2beta</span>
 
+author: Kristoffel Pirard
+
+url: http://github.com/xtofl/articles/monoid/monoid.md
+
+
+<div style="font-size:.4em">
+[(single-page version)](?print-pdf&pdfSeparateFragments=false)
+</div>
 
 <div style="font-size:.4em">
 This slide deck is intended for use with reveal.js;
