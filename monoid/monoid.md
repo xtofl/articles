@@ -830,8 +830,10 @@ auto Sum<optional<T>>::mempty() {
 }
 auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
     return {(a.t && b.t)
-        ? mappend(*a.t, *b.t);
-        : mempty<O<T>>()};
+        ? optional<T>{mappend(*a.t, *b.t)}
+        : a.t
+            ? a.t 
+            : b.t ? b.t : Sum<optional<T>>::mempty() };
 }
 ```
 
