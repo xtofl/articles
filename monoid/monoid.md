@@ -26,7 +26,7 @@ articles> make monoid/monoid.reveal
 # Using Monoids in C++
 
 
-![pig throwing flares at itself](milewski_monoid.jpg) <!-- .element: width="300" -->
+![pig throwing flares at itself](milewski_monoid.jpg) <!-- .element: width="300" style="display: block; margin-left: auto; margin-right: auto;" -->
 <div style="font-size:.4em">credit: Bartosz Milewski</div>
 
 ---
