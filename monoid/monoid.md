@@ -5,7 +5,14 @@ author: Kristoffel Pirard
 url: http://github.com/xtofl/articles/monoid.md
 
 
-[pdf](?print-pdf&pdfSeparateFragments=false)
+<div style="font-size:.4em">
+This slide deck is intended for use with reveal.js;
+</div>
+<div style="font-size:.4em">
+```
+articles> make monoid/monoid.reveal
+```
+</div>
 
 ---
 
