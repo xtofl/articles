@@ -538,7 +538,7 @@ Generic `mappend` and `mempty`
 template<typename T> T mempty();
 template<typename T> T mappend(T, T);
 
-template<typename M>
+template<typename Monoid>
 auto mconcat(It b, It e) {
     return accumulate(
         b, e,
@@ -830,8 +830,10 @@ auto Sum<optional<T>>::mempty() {
 }
 auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
     return {(a.t && b.t)
-        ? mappend(*a.t, *b.t);
-        : mempty<O<T>>()};
+        ? optional<T>{mappend(*a.t, *b.t)}
+        : a.t
+            ? a.t 
+            : b.t ? b.t : Sum<optional<T>>::mempty() };
 }
 ```
 
