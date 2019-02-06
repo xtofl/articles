@@ -12,17 +12,9 @@ blocks:
         - name: APP_ENV
           value: prod
       jobs:
-      - name: Docker build
+      - name: Create pdf slides
         commands:
           - checkout
           - make pdf_slides
           - echo "Docker build..."
           - echo "done"
-
-  - name: "Push Image"
-    task:
-      jobs:
-      - name: Push
-        commands:
-          - checkout
-          - echo "make docker.push"
