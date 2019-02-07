@@ -1,7 +1,6 @@
 
 CXXFLAGS=-std=c++17
 LDFLAGS=-lgtest -lpthread
-CXX=clang++-6.0
 HEADERS=monoid.hpp groceries.h groceries_monoid.hpp
 OBJECTS=groceries.o test_groceries.o
 
