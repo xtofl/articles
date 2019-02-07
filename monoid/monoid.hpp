@@ -1,12 +1,6 @@
-#include <cstdio>
-#include <iostream>
-#include <algorithm>
+#pragma once
+
 #include <numeric>
-#include <string>
-#include <vector>
-#include <tuple>
-#include <optional>
-#include <cassert>
 
 namespace overloading {
     // Based on convention:
@@ -45,39 +39,6 @@ namespace traits {
     }
 }
 
-using Name = std::string;
-using Quantity = int;
-struct GroceryList {
-    std::map<Name, Quantity> items;
-};
-bool operator==(const GroceryList& a, const GroceryList& b) {
-    return a.items == b.items;
-}
-
-template<>
-GroceryList overloading::mempty<GroceryList>() { return {}; }
-template<>
-GroceryList overloading::mappend<GroceryList>(
-    GroceryList a, GroceryList b)
-{
-    for (const auto &ib: b.items) {
-        a.items[ib.first] += ib.second;
-    }
-    return a;
-}
-
-template<typename It>
-GroceryList join_grocerylists(It b, It e) {
-    static_assert(std::is_same_v<typename It::value_type, GroceryList>);
-    GroceryList result{};
-    for( ; b!=e ; ++b) {
-        for(const auto &ingredient: b->items) {
-            result.items[ingredient.first] += ingredient.second;
-        }
-    }
-    return result;
-}
-
 template<typename T> struct Sum {
     T value;
     static constexpr T mempty{};
@@ -105,6 +66,8 @@ struct FSum {
 };
 
 // just a helper function
+#include <vector>
+
 template<typename T, typename F>
 auto transform(const std::vector<T> &as, F f) {
     std::vector<decltype(f(as.front()))> result;

@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "groceries.cc"
+#include "groceries.h"
+#include "groceries_monoid.hpp"
 
 struct Custom {
     std::string s;
