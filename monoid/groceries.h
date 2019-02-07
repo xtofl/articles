@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <type_traits>
 
 using Name = std::string;
 using Quantity = int;
