@@ -1,9 +1,13 @@
-language: python
-python:
-  - '3.6'
-script:
-  - make pdf_slides
+language: cpp
+compiler:
+  - gcc
 addons:
+  apt:
+    packages:
+      - g++-7
   artifacts:
     paths:
     - "*.pdf"
+script:
+  - make -C monoid test
+  - make pdf_slides
