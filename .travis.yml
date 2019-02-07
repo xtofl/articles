@@ -1,8 +1,13 @@
+dist: trusty
+# sources  list: https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json,
+# packages list: https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-trusty
+
 language: cpp
 compiler:
   - gcc
 addons:
   apt:
+    sources: [ 'ubuntu-toolchain-r-test' ]
     packages:
       - g++-7
   artifacts:
