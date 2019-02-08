@@ -40,6 +40,9 @@ namespace traits {
 }
 
 namespace lean {
+    template<typename Monoid, typename It>
+    auto mconcat(Monoid m, It b, It e);
+
     template<typename T, typename FMappend>//typename MAppend, MAppend _mappend = MAppend{}>
     struct Monoid {
         T mempty;
@@ -47,6 +50,11 @@ namespace lean {
 
         // needed for deduction guides
         Monoid(T e, FMappend f): mempty(e), mappend(f){}
+
+        template<typename Range>
+        auto mconcat(Range r) const {
+            return lean::mconcat(*this, begin(r), end(r));
+        }
     };
 
     auto monoid = [](auto e, auto f) {
