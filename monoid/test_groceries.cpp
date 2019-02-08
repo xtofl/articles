@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <functional>
 #include "groceries.h"
 #include "groceries_monoid.hpp"
 
@@ -170,6 +171,17 @@ namespace traits {
             (mconcat<FSum<IntMap, Sum<int>>>(
                 begin(intmaps),
                 end(intmaps)).t));
+    }
+}
+
+namespace lean {
+    TEST(typetraits, monoidalproperties) {
+        std::vector<int> ints{{1, 2, 3, 4}};
+        auto intsum = monoid<int, 0>(std::plus<int>{});
+        EXPECT_EQ(10, mconcat(intsum, begin(ints), end(ints)));
+
+        // std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
+        // EXPECT_EQ((Custom{"abcd", 10}), mconcat<Sum<Custom>>(begin(cs), end(cs)).t);
     }
 }
 
