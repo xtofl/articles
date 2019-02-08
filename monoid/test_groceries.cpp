@@ -178,16 +178,16 @@ namespace lean {
     TEST(typetraits, monoidalproperties) {
         std::vector<int> ints{{1, 2, 3, 4}};
         auto intsum = monoid(0, std::plus<int>{});
-        EXPECT_EQ(10, mconcat(intsum, begin(ints), end(ints)));
+        EXPECT_EQ(10, intsum.mconcat(ints));
 
         std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
-        EXPECT_EQ((Custom{"abcd", 10}), mconcat(
-            monoid(
+        auto customsum = monoid(
                 Custom{},
                 [](auto a, auto b){
                     return Custom{a.s + b.s, a.n + b.n};
-                }),
-            begin(cs), end(cs)));
+                });
+
+        EXPECT_EQ((Custom{"abcd", 10}), customsum.mconcat(cs));
     }
 }
 
