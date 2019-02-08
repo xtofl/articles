@@ -180,8 +180,14 @@ namespace lean {
         auto intsum = monoid(0, std::plus<int>{});
         EXPECT_EQ(10, mconcat(intsum, begin(ints), end(ints)));
 
-        // std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
-        // EXPECT_EQ((Custom{"abcd", 10}), mconcat<Sum<Custom>>(begin(cs), end(cs)).t);
+        std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
+        EXPECT_EQ((Custom{"abcd", 10}), mconcat(
+            monoid(
+                Custom{},
+                [](auto a, auto b){
+                    return Custom{a.s + b.s, a.n + b.n};
+                }),
+            begin(cs), end(cs)));
     }
 }
 
