@@ -39,6 +39,23 @@ namespace traits {
     }
 }
 
+namespace lean {
+    template<typename T, T Mempty, typename FMappend>//typename MAppend, MAppend _mappend = MAppend{}>
+    struct Monoid {
+        static constexpr T mempty = Mempty;
+        FMappend mappend;
+    };
+    template<typename T, T mempty, typename FMappend>//typename MAppend, MAppend _mappend = MAppend{}>
+    constexpr auto monoid(FMappend mappend) {
+        return Monoid<T, mempty, FMappend>{mappend};
+    }
+
+    template<typename Monoid, typename It>
+    auto mconcat(Monoid m, It b, It e) {
+        return std::accumulate(b, e, Monoid::mempty, m.mappend);
+    }
+}
+
 template<typename T> struct Sum {
     T value;
     static constexpr T mempty{};
