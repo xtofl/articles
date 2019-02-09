@@ -178,7 +178,9 @@ namespace lean {
     TEST(typetraits, monoidalproperties) {
         std::vector<int> ints{{1, 2, 3, 4}};
         auto intsum = monoid(0, std::plus<int>{});
+        auto intproduct = monoid(1, std::multiplies<int>{});
         EXPECT_EQ(10, intsum.mconcat(ints));
+        EXPECT_EQ(24, intproduct.mconcat(ints));
 
         std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
         auto customsum = monoid(
