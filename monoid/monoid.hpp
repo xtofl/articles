@@ -43,13 +43,11 @@ namespace lean {
     template<typename Monoid, typename It>
     auto mconcat(Monoid m, It b, It e);
 
-    template<typename T, typename FMappend>//typename MAppend, MAppend _mappend = MAppend{}>
+    template<typename T_, typename Mappend_t>
     struct Monoid {
+        using T = T_;
         T mempty;
-        FMappend mappend;
-
-        // needed for deduction guides
-        Monoid(T e, FMappend f): mempty(e), mappend(f){}
+        Mappend_t mappend;
 
         template<typename Range>
         auto mconcat(Range r) const {
@@ -58,7 +56,7 @@ namespace lean {
     };
 
     auto monoid = [](auto e, auto f) {
-        return Monoid{e, f};
+        return Monoid<decltype(e), decltype(f)>{e, f};
     };
 
     template<typename Monoid, typename It>
