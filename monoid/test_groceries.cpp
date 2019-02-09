@@ -179,8 +179,8 @@ namespace lean {
         std::vector<int> ints{{1, 2, 3, 4}};
         auto intsum = monoid(0, std::plus<int>{});
         auto intproduct = monoid(1, std::multiplies<int>{});
-        EXPECT_EQ(10, intsum.mconcat(ints));
-        EXPECT_EQ(24, intproduct.mconcat(ints));
+        EXPECT_EQ(10, mconcat(intsum, ints));
+        EXPECT_EQ(24, mconcat(intproduct, ints));
 
         std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
         auto customsum = monoid(
@@ -189,7 +189,7 @@ namespace lean {
                     return Custom{a.s + b.s, a.n + b.n};
                 });
 
-        EXPECT_EQ((Custom{"abcd", 10}), customsum.mconcat(cs));
+        EXPECT_EQ((Custom{"abcd", 10}), mconcat(customsum, cs));
     }
 }
 
