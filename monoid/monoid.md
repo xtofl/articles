@@ -666,7 +666,8 @@ EXPECT_EQ(24, intproduct.mconcat(ints));
 
 ## But isn't it slow?
 
-[thanks, quick-bench!](http://quick-bench.com/mEJDA6p6zEdR_Wg-Yo_PkXXYwto)
+YES!  Goddammit!  Need to investigate.  TODO TODO TODO
+[thanks, quick-bench!](http://quick-bench.com/FzLisnC5zH9bYM2hhqkoozqSXnc)
 
 
 ```
@@ -676,7 +677,7 @@ mconcat<Sum<int>>(begin(ints), end(ints));
 ![benchmark_result.png](benchmark_result.png)  <!-- .element: height="300" -->
 
 <span style="font-size: .5em">
-(-O3 and -O2; for -O1, there's a 10% penalty)
+(-O3 and -O2; [for -O1](http://quick-bench.com/L_gYVdtJjGAfrRebAI3o-Z3oFbE), there's a 30% penalty)
 Cf. also [Linear Types](https://meetingcpp.com/mcpp/slides/2018/lin.pdf)/[ligthning talk](https://www.youtube.com/watch?v=sN8tI-zleFI)
 </span>
 
