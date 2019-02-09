@@ -612,33 +612,54 @@ Can we have 2 specializations for `int`?
 
 So some extra info is needed
 
-Look mom!  Semantic types!  <!-- .element: class="fragment" -->
+Specify the monoid set, operator and identity.
 
 ```
-template<typename T> struct Sum {
-    T t;
-    static Sum mempty() { return {}; }
-    static Sum mappend(Sum a, Sum b) {
-        return {a.t + b.t};
-    }
-};
+auto intsum = monoid(0, std::plus<int>{});
 ```
 
-```
-template<typename T> struct Product {
-    T t;
-    static Product mempty() { return {1}; };
-    static Product mappend(Product a, Product b) {
-        return {a.t * b.t};
-    }
-};
-```
+All the info is there!
+
+* `0` is an `int`
+* `plus<int>`
+
 
 --
 
 ```
-auto s = mconcat<Sum<int>>(b, e).t;
-auto p = mconcat<Product<int>>(b, e).t;
+    template<typename T_, typename Mappend_t>
+    struct Monoid {
+        using T = T_;
+        T mempty;
+        Mappend_t mappend;
+    };
+```
+
+Usage:
+
+```
+Monoid<int, std::plus<int>> intsum{0, std::plus<int>{}};
+```
+
+... what a mess :( <!-- .element: class="fragment" -->
+
+--
+
+Generic lambda's to the rescue!
+
+```
+    auto monoid = [](auto e, auto f) {
+        return Monoid<decltype(e), decltype(f)>{e, f};
+    };
+```
+
+Usage:
+
+```
+auto intsum = monoid(0, std::plus<int>);
+auto intproduct = monoid(1, std::multiplies<int>);
+EXPECT_EQ(10, intsum.mconcat(ints));
+EXPECT_EQ(24, intproduct.mconcat(ints));
 ```
 
 --
