@@ -1,4 +1,3 @@
-// http://quick-bench.com/mEJDA6p6zEdR_Wg-Yo_PkXXYwto
 #include <vector>
 #include <numeric>
 #include <algorithm>
@@ -7,34 +6,44 @@
 std::random_device rd;
 std::mt19937 g(rd());
 
-template<typename Value> struct Sum {
-    using T = Value;
-    T t;
-    static Sum mempty() { return {}; }
-    static Sum mappend(Sum a, Sum b) {
-        return Sum{a.t + b.t};
-    }
-};
 
+    template<typename T_, typename Mappend_t>
+    struct Monoid {
+        using T = T_;
+        T mempty;
+        Mappend_t mappend;
+    };
 
-template<typename Monoid, typename It>
-Monoid mconcat(It b, It e) {
-    Monoid acc = Monoid::mempty();
-    while(b != e) {
-        acc = Monoid::mappend(acc, {*b});
-        ++b;
+    auto monoid = [](auto e, auto f) {
+        return Monoid<decltype(e), decltype(f)>{e, f};
+    };
+
+    template<typename Monoid, typename It>
+    auto mconcat(Monoid m, It b, It e) {
+        return std::accumulate(b, e, m.mempty, m.mappend);
     }
-    return acc;
-}
+
+    template<typename Monoid, typename Range>
+    auto mconcat(Monoid m, Range &&r) {
+        return mconcat(m, begin(r), end(r));
+    }
+
 constexpr auto N = 1000;
-
-static void main_bare(benchmark::State& state) {
+auto input_data() {
   std::vector<int> ints(N);
   std::iota(begin(ints), end(ints), 1);
   std::shuffle(begin(ints), end(ints), g);
+  return ints;
+};
+
+const auto ints = input_data();
+
+int add(int a, int b) { return a+b; }
+static void main_bare(benchmark::State& state) {
+
   // Code inside this loop is measured repeatedly
   for (auto _ : state) {
-        auto a = std::accumulate(begin(ints), end(ints), 0);
+        auto a = std::accumulate(begin(ints), end(ints), 0, add);
         // Make sure the variable is not optimized away by compiler
         benchmark::DoNotOptimize(a);
   }
@@ -43,13 +52,11 @@ static void main_bare(benchmark::State& state) {
 BENCHMARK(main_bare);
 
 static void main_monoid(benchmark::State& state) {
-  std::vector<int> ints(N);
-  std::iota(begin(ints), end(ints), 1);
-  std::shuffle(begin(ints), end(ints), g);
   // Code inside this loop is measured repeatedly
   for (auto _ : state) {
+        auto intsum = monoid(0, add);//Monoid<int, add, 0>{};
 
-        auto a = mconcat<Sum<int>>(begin(ints), end(ints)).t;
+        auto a = mconcat(intsum, ints);
         // Make sure the variable is not optimized away by compiler
         benchmark::DoNotOptimize(a);
   }

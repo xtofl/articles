@@ -58,7 +58,7 @@ namespace lean {
     }
 
     template<typename Monoid, typename Range>
-    auto mconcat(Monoid m, Range r) {
+    auto mconcat(Monoid m, Range &&r) {
         return mconcat(m, begin(r), end(r));
     }
 }

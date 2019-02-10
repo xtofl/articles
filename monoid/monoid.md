@@ -666,18 +666,19 @@ EXPECT_EQ(24, intproduct.mconcat(ints));
 
 ## But isn't it slow?
 
-YES!  Goddammit!  Need to investigate.  TODO TODO TODO
-[thanks, quick-bench!](http://quick-bench.com/FzLisnC5zH9bYM2hhqkoozqSXnc)
+[thanks, quick-bench!](http://quick-bench.com/qNgJsojrnILwGPoQWvcG4OdhAR0)
 
 
 ```
-accumulate(begin(ints), end(ints), 0);
-mconcat<Sum<int>>(begin(ints), end(ints));
+auto add(int a, int b){ return a+b; };
+accumulate(begin(ints), end(ints), 0, add);
+auto intsum = monoid(0, add);
+mconcat(intsum, ints);
 ```
 ![benchmark_result.png](benchmark_result.png)  <!-- .element: height="300" -->
 
 <span style="font-size: .5em">
-(-O3 and -O2; [for -O1](http://quick-bench.com/L_gYVdtJjGAfrRebAI3o-Z3oFbE), there's a 30% penalty)
+(-O3, -O2; [even for -O1](http://quick-bench.com/qswzcBTT5htVPrO0peJVt2raFr0), there's a 2% penalty)
 Cf. also [Linear Types](https://meetingcpp.com/mcpp/slides/2018/lin.pdf)/[ligthning talk](https://www.youtube.com/watch?v=sN8tI-zleFI)
 </span>
 
