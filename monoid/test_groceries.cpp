@@ -159,19 +159,6 @@ namespace traits {
         std::vector<int> ints{{1, 2, 3, 4}};
         EXPECT_EQ(24, mconcat<Product<int>>(begin(ints), end(ints)).t);
     }
-
-    TEST(traits, map_to_monoids_is_a_monoid) {
-        using IntMap = std::map<int, int>;
-        const IntMap a{{ {1, 1}, {2, 4}, {3, 9} }};
-        const IntMap b{{ {1, 2}, {2, 3}, {3, 4} }};
-        std::vector<IntMap> intmaps{a, b};
-
-        const IntMap expected{{{1, 3}, {2, 7}, {3, 13}}};
-        EXPECT_EQ(expected,
-            (mconcat<FSum<IntMap, Sum<int>>>(
-                begin(intmaps),
-                end(intmaps)).t));
-    }
 }
 
 namespace lean {
@@ -211,6 +198,21 @@ namespace lean {
             {"potatoes <kg>", 2}}
         });
         EXPECT_EQ(expected, mconcat(grocery_monoid, lists));
+    }
+
+    TEST(lean, map_to_monoids_is_a_monoid) {
+        using IntMap = std::map<int, int>;
+        const IntMap a{{ {1, 1}, {2, 4}, {3, 9} }};
+        const IntMap b{{ {1, 2}, {2, 3}, {3, 4} }};
+        std::vector<IntMap> intmaps{a, b};
+
+        const IntMap expected{{{1, 3}, {2, 7}, {3, 13}}};
+        EXPECT_EQ(
+            expected,
+            mconcat(
+                fmonoid<IntMap>(monoid(0, std::plus<int>{})),
+                intmaps)
+        );
     }
 }
 

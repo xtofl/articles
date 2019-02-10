@@ -61,6 +61,33 @@ namespace lean {
     auto mconcat(Monoid m, Range &&r) {
         return mconcat(m, begin(r), end(r));
     }
+
+    template<typename Map, typename Key, typename Value>
+    auto &find_or_create(Map &m, const Key &k, Value v) {
+        auto it = m.find(k);
+        if (it == end(m)) {
+            return m.insert({k, v}).first->second;
+        } else {
+            return it->second;
+        }
+    }
+
+    template<typename Map, typename Monoid>
+    auto fmonoid(Monoid m) {
+        auto mappend = [=](Map a, Map b) {
+            for(const auto& kv: b) {
+                auto &xa = find_or_create(a, kv.first, m.mempty);
+                auto xb = kv.second;
+                xa = m.mappend(xa, xb);
+            }
+            return a;
+        };
+        return monoid(
+            Map{},
+            mappend
+        );
+    }
+
 }
 
 template<typename T> struct Sum {
@@ -68,24 +95,6 @@ template<typename T> struct Sum {
     static constexpr T mempty{};
     static Sum mappend(Sum a, Sum b) {
         return {a.value+b.value};
-    }
-};
-
-template<typename Map, typename Monoid>
-struct FSum {
-    using K = typename Map::key_type;
-    using V = typename Map::value_type;
-    Map t;
-    static FSum mempty() {
-        return {};
-    }
-    static FSum mappend(FSum a, FSum b) {
-        for(const auto& kv: b.t) {
-            auto &xa = a.t[kv.first];
-            auto xb = kv.second;
-            xa = Monoid::mappend(Monoid{xa}, Monoid{xb}).t;
-        }
-        return a;
     }
 };
 

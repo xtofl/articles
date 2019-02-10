@@ -750,7 +750,7 @@ auto join_grocerylists(It b, It e) {
 
 ## But Wait - There's More
 
-Remember: Algebraic Data Types composed of Monoids are also Monoids.
+From the treasure trove: Algebraic Data Types composed of Monoids are also Monoids.
 
 A `map<K, V>` resembles an 'infinite struct' of values.
 
@@ -762,30 +762,34 @@ Would `map<K, Monoid>` also form a Monoid?
 --
 
 Imagine we can 'declare' the monoid _within_ a `map`
-```C++
-mconcat<FSum<IntMap, Sum<int>>>(
-        begin(intmaps), end(intmaps)).t)
 ```
-
+template<typename Map, typename Monoid>
+auto fmonoid(Monoid m) {
+    auto mappend = ...;
+    return monoid(
+        Map{},
+        mappend
+    };
+}
+```
 
 --
 
 We Can!
 
-```
-template<typename Map, typename Monoid>
-struct FSum {...};
-```
-```
-    static FSum mappend(FSum a, FSum b) {
-        for(const auto& kv: b.t) {
-            auto &xa = a.t[kv.first]; //(use mempty!)
-            auto xb = kv.second;
-            xa = Monoid::mappend(Monoid{xa}, Monoid{xb}).t;
-        }
-        return a;
+```C++
+// remember, m is a monoid
+auto mappend = [=](Map a, Map b) {
+    for(const auto& kv: b) {
+        auto &xa = find_or_create(a, kv.first, m.mempty);
+        auto xb = kv.second;
+        xa = m.mappend(xa, xb);
     }
+    return a;
+}
 ```
+
+
 --
 
 ```C++
@@ -795,9 +799,12 @@ std::vector<IntMap> intmaps{
 const IntMap expected{
     { {1, 3}, {2, 7}, {3, 13} }};
 
-EXPECT_EQ(expected,
-    (mconcat<FSum<IntMap, Sum<int>>>(
-        begin(intmaps), end(intmaps)).t));
+EXPECT_EQ(
+    expected,
+    mconcat(
+        fmonoid<IntMap>(monoid(0, std::plus<int>{})),
+        intmaps)
+);
 ```
 
 --
