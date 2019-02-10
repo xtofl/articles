@@ -825,6 +825,7 @@ Some times you have no Unit
 
 * Non-empty lists
 * Counting from 1
+* `max`
 
 --
 
@@ -841,17 +842,18 @@ You can create a 'Sum' type using `std::variant` or `std::optional`:
 
 In C++... use an `optional<T>`
 
-```
-auto Sum<optional<T>>::mempty() {
-    return {{}};
-}
-auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
-    return {(a.t && b.t)
-        ? optional<T>{mappend(*a.t, *b.t)}
-        : a.t
-            ? a.t 
-            : b.t ? b.t : Sum<optional<T>>::mempty() };
-}
+```C++
+// let m be a monoid:
+auto tmonoid = monoid(
+    optional<T>{},
+    [](auto a, auto b) -> optional<T> {
+        return {
+            (a && b)
+            ? {append(*a, *b)}
+            : a
+                ? a
+                : b ? b : {} };
+);
 ```
 
 ---
