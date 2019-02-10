@@ -612,50 +612,65 @@ Can we have 2 specializations for `int`?
 
 So some extra info is needed
 
-Look mom!  Semantic types!  <!-- .element: class="fragment" -->
+Specify the monoid set, operator and identity.
 
 ```
-template<typename T> struct Sum {
-    T t;
-    static Sum mempty() { return {}; }
-    static Sum mappend(Sum a, Sum b) {
-        return {a.t + b.t};
-    }
-};
+auto intsum = monoid(0, std::plus<int>{});
 ```
 
-```
-template<typename T> struct Product {
-    T t;
-    static Product mempty() { return {1}; };
-    static Product mappend(Product a, Product b) {
-        return {a.t * b.t};
-    }
-};
-```
+All the info is there!
+
+* `0` is an `int`
+* `plus<int>`
+
 
 --
 
 ```
-auto s = mconcat<Sum<int>>(b, e).t;
-auto p = mconcat<Product<int>>(b, e).t;
+    template<typename T_, typename Mappend_t>
+    struct Monoid {
+        using T = T_;
+        T mempty;
+        Mappend_t mappend;
+    };
+```
+
+Usage:
+
+```
+Monoid<int, std::plus<int>> intsum{0, std::plus<int>{}};
+```
+
+... what a mess :( <!-- .element: class="fragment" -->
+
+--
+
+Generic lambda's to the rescue!
+
+```
+    auto monoid = [](auto e, auto f) {
+        return Monoid<decltype(e), decltype(f)>{e, f};
+    };
+```
+
+Usage:
+
+```
+auto intsum = monoid(0, std::plus<int>);
+auto intproduct = monoid(1, std::multiplies<int>);
+EXPECT_EQ(10, intsum.mconcat(ints));
+EXPECT_EQ(24, intproduct.mconcat(ints));
 ```
 
 --
 
 ## But isn't it slow?
 
-[thanks, quick-bench!](http://quick-bench.com/mEJDA6p6zEdR_Wg-Yo_PkXXYwto)
+[thanks, quick-bench!](http://quick-bench.com/qNgJsojrnILwGPoQWvcG4OdhAR0)
 
-
-```
-accumulate(begin(ints), end(ints), 0);
-mconcat<Sum<int>>(begin(ints), end(ints));
-```
-![benchmark_result.png](benchmark_result.png)  <!-- .element: height="300" -->
+![benchmark_result.png](benchmark_result.png)  <!-- .element: height="200" -->
 
 <span style="font-size: .5em">
-(-O3 and -O2; for -O1, there's a 10% penalty)
 Cf. also [Linear Types](https://meetingcpp.com/mcpp/slides/2018/lin.pdf)/[ligthning talk](https://www.youtube.com/watch?v=sN8tI-zleFI)
 </span>
 
@@ -678,10 +693,10 @@ Example dishes
 
 | name | dish1 | dish2 | dish3 |
 | -- | -- | -- | -- |
-| carrots | 5 |  | 10 |
-| minced meat | 300g | 300g | |
-| rice | 200g | 200g | |
-| spaghetti | | | 400g |
+| carrots | 5 | - | 10 |
+| minced meat | 300g | 300g | - |
+| rice | 200g | 200g | - |
+| spaghetti | - | - | 400g |
 
 
 --
@@ -709,19 +724,14 @@ GroceryList join_grocerylists(It b, It e) {
 ### The Sum<GroceryList> monoid
 
 ```
-template<> struct Sum<GroceryList> {
-    using T = GroceryList;
-    T t;
-
-    static Sum mempty() { return {}; }
-
-    static Sum mappend(Sum a, Sum b) {
-        for (const auto &ib: b.t.items) {
-            a.t.items[ib.first] += ib.second;
+const auto grocery_monoid = monoid(
+    GroceryList{},
+    [](auto a, auto b){
+        for (const auto &ib: b.items) {
+            a.items[ib.first] += ib.second;
         }
-        return {a};
-    }
-};
+        return a;
+    });
 ```
 
 --
@@ -731,7 +741,7 @@ template<> struct Sum<GroceryList> {
 ```
 template<typename It>
 auto join_grocerylists(It b, It e) {
-    return mconcat<Sum<GroceryList>>(b, e);
+    return mconcat(grocerylist_monoid, b, e);
 }
 ```
 
@@ -740,7 +750,7 @@ auto join_grocerylists(It b, It e) {
 
 ## But Wait - There's More
 
-Remember: Algebraic Data Types composed of Monoids are also Monoids.
+From the treasure trove: Algebraic Data Types composed of Monoids are also Monoids.
 
 A `map<K, V>` resembles an 'infinite struct' of values.
 
@@ -752,42 +762,49 @@ Would `map<K, Monoid>` also form a Monoid?
 --
 
 Imagine we can 'declare' the monoid _within_ a `map`
-```C++
-mconcat<FSum<IntMap, Sum<int>>>(
-        begin(intmaps), end(intmaps)).t)
 ```
-
+template<typename Map, typename Monoid>
+auto fmonoid(Monoid m) {
+    auto mappend = ...;
+    return monoid(
+        Map{},
+        mappend
+    };
+}
+```
 
 --
 
 We Can!
 
-```
-template<typename Map, typename Monoid>
-struct FSum {...};
-```
-```
-    static FSum mappend(FSum a, FSum b) {
-        for(const auto& kv: b.t) {
-            auto &xa = a.t[kv.first]; //(use mempty!)
-            auto xb = kv.second;
-            xa = Monoid::mappend(Monoid{xa}, Monoid{xb}).t;
-        }
-        return a;
+```C++
+// remember, m is a monoid
+auto mappend = [=](Map a, Map b) {
+    for(const auto& kv: b) {
+        auto &xa = find_or_create(a, kv.first, m.mempty);
+        auto xb = kv.second;
+        xa = m.mappend(xa, xb);
     }
+    return a;
+}
 ```
+
+
 --
 
-```C++
-std::vector<IntMap> intmaps{
-    { {1, 1}, {2, 4}, {3, 9} },
-    { {1, 2}, {2, 3}, {3, 4} }};
-const IntMap expected{
-    { {1, 3}, {2, 7}, {3, 13} }};
+Don't mind the braces...
 
-EXPECT_EQ(expected,
-    (mconcat<FSum<IntMap, Sum<int>>>(
-        begin(intmaps), end(intmaps)).t));
+```C++
+EXPECT_EQ(
+    (IntMap{{{"one", 3}, {"two", 7}, {"three", 13}}}),
+    mconcat(
+        fmonoid<IntMap>(monoid(0, std::plus<int>{})),
+        std::vector<IntMap>({
+            {{ {"one", 1}, {"two", 4}, {"three", 9} }},
+            {{ {"one", 2}, {"two", 3}, {"three", 4} }}
+        })
+    )
+);
 ```
 
 --
@@ -808,6 +825,7 @@ Some times you have no Unit
 
 * Non-empty lists
 * Counting from 1
+* `max`
 
 --
 
@@ -824,17 +842,18 @@ You can create a 'Sum' type using `std::variant` or `std::optional`:
 
 In C++... use an `optional<T>`
 
-```
-auto Sum<optional<T>>::mempty() {
-    return {{}};
-}
-auto Sum<optional<T>>::mappend(Sum<...> a, Sum<...> b) {
-    return {(a.t && b.t)
-        ? optional<T>{mappend(*a.t, *b.t)}
-        : a.t
-            ? a.t 
-            : b.t ? b.t : Sum<optional<T>>::mempty() };
-}
+```C++
+// let m be a monoid:
+auto tmonoid = monoid(
+    optional<T>{},
+    [](auto a, auto b) -> optional<T> {
+        return {
+            (a && b)
+            ? {append(*a, *b)}
+            : a
+                ? a
+                : b ? b : {} };
+);
 ```
 
 ---

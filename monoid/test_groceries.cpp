@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
-#include "groceries.cc"
+#include <functional>
+#include "groceries.h"
+#include "groceries_monoid.hpp"
 
 struct Custom {
     std::string s;
@@ -157,18 +159,60 @@ namespace traits {
         std::vector<int> ints{{1, 2, 3, 4}};
         EXPECT_EQ(24, mconcat<Product<int>>(begin(ints), end(ints)).t);
     }
+}
 
-    TEST(traits, map_to_monoids_is_a_monoid) {
-        using IntMap = std::map<int, int>;
-        const IntMap a{{ {1, 1}, {2, 4}, {3, 9} }};
-        const IntMap b{{ {1, 2}, {2, 3}, {3, 4} }};
-        std::vector<IntMap> intmaps{a, b};
+namespace lean {
+    TEST(typetraits, monoidalproperties) {
+        std::vector<int> ints{{1, 2, 3, 4}};
+        auto intsum = monoid(0, std::plus<int>{});
+        auto intproduct = monoid(1, std::multiplies<int>{});
+        EXPECT_EQ(10, mconcat(intsum, ints));
+        EXPECT_EQ(24, mconcat(intproduct, ints));
 
-        const IntMap expected{{{1, 3}, {2, 7}, {3, 13}}};
-        EXPECT_EQ(expected,
-            (mconcat<FSum<IntMap, Sum<int>>>(
-                begin(intmaps),
-                end(intmaps)).t));
+        std::vector<Custom> cs{{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
+        auto customsum = monoid(
+                Custom{},
+                [](auto a, auto b){
+                    return Custom{a.s + b.s, a.n + b.n};
+                });
+
+        EXPECT_EQ((Custom{"abcd", 10}), mconcat(customsum, cs));
+    }
+
+    TEST(lean_grocerylist, has_mempty) {
+        const auto empty = grocery_monoid.mempty;
+        GroceryList x{{{"x", 1}, {"y", 1}}};
+        GroceryList y{{{"y", 2}, {"z", 3}}};
+        EXPECT_EQ(x, grocery_monoid.mappend(x, empty));
+        EXPECT_EQ(y, grocery_monoid.mappend(empty, y));
+    }
+    TEST(traits_grocerylist, can_mappend) {
+        GroceryList bacon_eggs{{{"bacon <g>", 100}, {"eggs", 5}}};
+        GroceryList sunnysideup{{{"eggs", 5}}};
+        GroceryList mashed_potatoes{{{"potatoes <kg>", 2}, {"milk <l>", 1}, {"eggs", 1}}};
+        std::vector<GroceryList> lists{bacon_eggs, sunnysideup, mashed_potatoes};
+        const auto expected = (GroceryList{{
+            {"bacon <g>", 100},
+            {"eggs", 11},
+            {"milk <l>", 1},
+            {"potatoes <kg>", 2}}
+        });
+        EXPECT_EQ(expected, mconcat(grocery_monoid, lists));
+    }
+
+    TEST(lean, map_to_monoids_is_a_monoid) {
+        using IntMap = std::map<std::string, int>;
+
+        EXPECT_EQ(
+            (IntMap{{{"one", 3}, {"two", 7}, {"three", 13}}}),
+            mconcat(
+                fmonoid<IntMap>(monoid(0, std::plus<int>{})),
+                std::vector<IntMap>({
+                    {{ {"one", 1}, {"two", 4}, {"three", 9} }},
+                    {{ {"one", 2}, {"two", 3}, {"three", 4} }}
+                })
+            )
+        );
     }
 }
 

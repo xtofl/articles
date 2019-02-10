@@ -1,12 +1,6 @@
-#include <cstdio>
-#include <iostream>
-#include <algorithm>
+#pragma once
+
 #include <numeric>
-#include <string>
-#include <vector>
-#include <tuple>
-#include <optional>
-#include <cassert>
 
 namespace overloading {
     // Based on convention:
@@ -45,37 +39,55 @@ namespace traits {
     }
 }
 
-using Name = std::string;
-using Quantity = int;
-struct GroceryList {
-    std::map<Name, Quantity> items;
-};
-bool operator==(const GroceryList& a, const GroceryList& b) {
-    return a.items == b.items;
-}
+namespace lean {
 
-template<>
-GroceryList overloading::mempty<GroceryList>() { return {}; }
-template<>
-GroceryList overloading::mappend<GroceryList>(
-    GroceryList a, GroceryList b)
-{
-    for (const auto &ib: b.items) {
-        a.items[ib.first] += ib.second;
+    template<typename T_, typename Mappend_t>
+    struct Monoid {
+        using T = T_;
+        T mempty;
+        Mappend_t mappend;
+    };
+
+    auto monoid = [](auto e, auto f) {
+        return Monoid<decltype(e), decltype(f)>{e, f};
+    };
+
+    template<typename Monoid, typename It>
+    auto mconcat(Monoid m, It b, It e) {
+        return std::accumulate(b, e, m.mempty, m.mappend);
     }
-    return a;
-}
 
-template<typename It>
-GroceryList join_grocerylists(It b, It e) {
-    static_assert(std::is_same_v<typename It::value_type, GroceryList>);
-    GroceryList result{};
-    for( ; b!=e ; ++b) {
-        for(const auto &ingredient: b->items) {
-            result.items[ingredient.first] += ingredient.second;
+    template<typename Monoid, typename Range>
+    auto mconcat(Monoid m, Range &&r) {
+        return mconcat(m, begin(r), end(r));
+    }
+
+    template<typename Map, typename Key, typename Value>
+    auto &find_or_create(Map &m, const Key &k, Value v) {
+        auto it = m.find(k);
+        if (it == end(m)) {
+            return m.insert({k, v}).first->second;
+        } else {
+            return it->second;
         }
     }
-    return result;
+
+    template<typename Map, typename Monoid>
+    auto fmonoid(Monoid m) {
+        auto mappend = [=](Map a, Map b) {
+            for(const auto& kv: b) {
+                auto &xa = find_or_create(a, kv.first, m.mempty);
+                auto xb = kv.second;
+                xa = m.mappend(xa, xb);
+            }
+            return a;
+        };
+        return monoid(
+            Map{},
+            mappend
+        );
+    }
+
 }
 
 template<typename T> struct Sum {
@@ -86,25 +98,9 @@ template<typename T> struct Sum {
     }
 };
 
-template<typename Map, typename Monoid>
-struct FSum {
-    using K = typename Map::key_type;
-    using V = typename Map::value_type;
-    Map t;
-    static FSum mempty() {
-        return {};
-    }
-    static FSum mappend(FSum a, FSum b) {
-        for(const auto& kv: b.t) {
-            auto &xa = a.t[kv.first];
-            auto xb = kv.second;
-            xa = Monoid::mappend(Monoid{xa}, Monoid{xb}).t;
-        }
-        return a;
-    }
-};
-
 // just a helper function
+#include <vector>
+
 template<typename T, typename F>
 auto transform(const std::vector<T> &as, F f) {
     std::vector<decltype(f(as.front()))> result;
