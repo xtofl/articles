@@ -792,18 +792,18 @@ auto mappend = [=](Map a, Map b) {
 
 --
 
-```C++
-std::vector<IntMap> intmaps{
-    { {1, 1}, {2, 4}, {3, 9} },
-    { {1, 2}, {2, 3}, {3, 4} }};
-const IntMap expected{
-    { {1, 3}, {2, 7}, {3, 13} }};
+Don't mind the braces...
 
+```C++
 EXPECT_EQ(
-    expected,
+    (IntMap{{{"one", 3}, {"two", 7}, {"three", 13}}}),
     mconcat(
         fmonoid<IntMap>(monoid(0, std::plus<int>{})),
-        intmaps)
+        std::vector<IntMap>({
+            {{ {"one", 1}, {"two", 4}, {"three", 9} }},
+            {{ {"one", 2}, {"two", 3}, {"three", 4} }}
+        })
+    )
 );
 ```
 
