@@ -668,17 +668,9 @@ EXPECT_EQ(24, intproduct.mconcat(ints));
 
 [thanks, quick-bench!](http://quick-bench.com/qNgJsojrnILwGPoQWvcG4OdhAR0)
 
-
-```
-auto add(int a, int b){ return a+b; };
-accumulate(begin(ints), end(ints), 0, add);
-auto intsum = monoid(0, add);
-mconcat(intsum, ints);
-```
-![benchmark_result.png](benchmark_result.png)  <!-- .element: height="300" -->
+![benchmark_result.png](benchmark_result.png)  <!-- .element: height="200" -->
 
 <span style="font-size: .5em">
-(-O3, -O2; [even for -O1](http://quick-bench.com/qswzcBTT5htVPrO0peJVt2raFr0), there's a 2% penalty)
 Cf. also [Linear Types](https://meetingcpp.com/mcpp/slides/2018/lin.pdf)/[ligthning talk](https://www.youtube.com/watch?v=sN8tI-zleFI)
 </span>
 
