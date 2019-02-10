@@ -693,10 +693,10 @@ Example dishes
 
 | name | dish1 | dish2 | dish3 |
 | -- | -- | -- | -- |
-| carrots | 5 |  | 10 |
-| minced meat | 300g | 300g | |
-| rice | 200g | 200g | |
-| spaghetti | | | 400g |
+| carrots | 5 | - | 10 |
+| minced meat | 300g | 300g | - |
+| rice | 200g | 200g | - |
+| spaghetti | - | - | 400g |
 
 
 --
@@ -724,19 +724,14 @@ GroceryList join_grocerylists(It b, It e) {
 ### The Sum<GroceryList> monoid
 
 ```
-template<> struct Sum<GroceryList> {
-    using T = GroceryList;
-    T t;
-
-    static Sum mempty() { return {}; }
-
-    static Sum mappend(Sum a, Sum b) {
-        for (const auto &ib: b.t.items) {
-            a.t.items[ib.first] += ib.second;
+const auto grocery_monoid = monoid(
+    GroceryList{},
+    [](auto a, auto b){
+        for (const auto &ib: b.items) {
+            a.items[ib.first] += ib.second;
         }
-        return {a};
-    }
-};
+        return a;
+    });
 ```
 
 --
@@ -746,7 +741,7 @@ template<> struct Sum<GroceryList> {
 ```
 template<typename It>
 auto join_grocerylists(It b, It e) {
-    return mconcat<Sum<GroceryList>>(b, e);
+    return mconcat(grocerylist_monoid, b, e);
 }
 ```
 

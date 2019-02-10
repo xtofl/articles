@@ -191,6 +191,27 @@ namespace lean {
 
         EXPECT_EQ((Custom{"abcd", 10}), mconcat(customsum, cs));
     }
+
+    TEST(lean_grocerylist, has_mempty) {
+        const auto empty = grocery_monoid.mempty;
+        GroceryList x{{{"x", 1}, {"y", 1}}};
+        GroceryList y{{{"y", 2}, {"z", 3}}};
+        EXPECT_EQ(x, grocery_monoid.mappend(x, empty));
+        EXPECT_EQ(y, grocery_monoid.mappend(empty, y));
+    }
+    TEST(traits_grocerylist, can_mappend) {
+        GroceryList bacon_eggs{{{"bacon <g>", 100}, {"eggs", 5}}};
+        GroceryList sunnysideup{{{"eggs", 5}}};
+        GroceryList mashed_potatoes{{{"potatoes <kg>", 2}, {"milk <l>", 1}, {"eggs", 1}}};
+        std::vector<GroceryList> lists{bacon_eggs, sunnysideup, mashed_potatoes};
+        const auto expected = (GroceryList{{
+            {"bacon <g>", 100},
+            {"eggs", 11},
+            {"milk <l>", 1},
+            {"potatoes <kg>", 2}}
+        });
+        EXPECT_EQ(expected, mconcat(grocery_monoid, lists));
+    }
 }
 
 int main(int argc, char **argv) {
