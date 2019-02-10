@@ -806,6 +806,25 @@ EXPECT_EQ(
     )
 );
 ```
+--
+
+## After
+
+```C++
+const auto intmapmonoid =
+    lean::fmonoid<std::map<std::string, int>>(
+        lean::monoid(0, std::plus<int>{})
+    );
+
+const auto grocery_monoid = lean::monoid(
+    GroceryList{intmapmonoid.mempty},
+    [](auto a, auto b) -> GroceryList {
+        return {intmapmonoid.mappend(a.items, b.items)};
+    }
+);
+```
+
+(We could dig deeper and also extract the `{ ... .items}`)
 
 --
 
