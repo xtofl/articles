@@ -65,27 +65,23 @@ whetting some appetite for FP
 ## How I got here
 
 
-* I have to take care of the family groceries for some weeks
+* Family groceries... a chore
 * finding my way around a store??? <!-- .element: class="fragment" -->
 * always too much in my cart <!-- .element: class="fragment" -->
 * always important stuff missing <!-- .element: class="fragment" -->
 * stores are crowded from 10am.  <!-- .element: class="fragment" -->
 
-Note: < 3 minutes
-
 --
 
 But... what groceries do I need?
 
-* Week menu
-* Recipes
-* Pantry
-
---
-
-* 5 chipolata's, 2kg potatoes, 5 apples, 2 packs of pasta, 400g of minced meat, grated cheese, chicken breast, basmati rice, curry sauce ...
-* O - we still got potatoes.  <!-- .element: class="fragment" -->
-* ... and 5 packs of curry sauce  <!-- .element: class="fragment" -->
+* Week menu  <!-- .element: class="fragment" -->
+  * Monday: mashed potatoes + saucages
+  * Tuesday: ...
+* Recipes  <!-- .element: class="fragment" -->
+  * mashed potatoes (for 4) = 15 potatoes, an egg, butter, 0.5l milk, ...
+* Pantry  <!-- .element: class="fragment" -->
+  * 5kg potatoes, 17 carrots, ...
 
 --
 
@@ -97,9 +93,6 @@ after week
 
 _can't a computer do that_?
 
---
-
-I wish I could do...
 ```bash
 > python3 growser.py
 o currysaus <1 pak>
@@ -107,12 +100,17 @@ o chipolata <1 pak>
 o basmati <1 kg>
 ...
 ```
+<!-- .element: class="fragment" -->
 
 --
 
 ```python
 shopping_list_menu = resulting_list(all_dishes, pantry)
-shopping_list = join_ingredients(shopping_list_menu, extras)
+
+shopping_list = join_ingredients(
+    shopping_list_menu,
+    extras)
+
 print_ingredients(shopping_list, shop=the_shop)
 ```
 
@@ -131,6 +129,8 @@ for dish in menu:
             cart[i.name].amount.unit == i.amount.unit
             cart[i.name].amount.n += i.amount.n
 ```
+
+and meanwhile...  <!-- .element: class="fragment" -->
 
 --
 
@@ -167,13 +167,12 @@ And then something 'clicked'.
 ```python
 cart = {}
 for dish in menu:
-    for i in dish.ingredients:
-        if not i.name in cart:
-            cart[i.name] = i.amount
-        else:
-            assert
-            cart[i.name].amount.unit == i.amount.unit
-            cart[i.name].amount.n += i.amount.n
+  for i in dish.ingredients:
+    if not i.name in cart:
+      cart[i.name] = i.amount
+    else:
+      assert cart[i.name].amount.unit == i.amount.unit
+      cart[i.name].amount.n += i.amount.n
 ```
 
 Imagine using a default-dict here.
