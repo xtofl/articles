@@ -6,7 +6,7 @@ title: Using Monoids in C++
 author: Kristoffel Pirard
 
 url: http://github.com/xtofl/articles/monoid/monoid.md
-
+style: night.css
 
 <div style="font-size:.4em">
 [(single-page version)](?print-pdf&pdfSeparateFragments=false)
