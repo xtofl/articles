@@ -1,0 +1,8 @@
+node_modules
+reveal.js/
+*.pdf
+.vscode/
+package-lock.json
+reveal_running
+README.html
+monoid.html

@@ -1,5 +1,24 @@
 #!/usr/bin/env python3
-preamble_format = """<!doctype html>
+
+import sys
+filename = sys.argv[1]
+
+slide_title = None
+style = None
+with open(filename, 'r', encoding='utf-8') as f:
+	lines = f.read().splitlines(keepends=False)
+	def line_with(start):
+		try:
+			line = next(
+				filter(lambda line: line.startswith(start), lines)
+			)
+			return line.partition(":")[2]
+		except StopIteration:
+			return None
+	slide_title = line_with("title: ")
+	style = line_with("style: ")
+
+print("""<!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -8,12 +27,7 @@ preamble_format = """<!doctype html>
 		<title>{}</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
-		<style>
-			.reveal h1 {{
-				color: yellow;
-				font-size: 1.4em; }}
-		</style>
+		<link rel="stylesheet" href="css/theme/{style}">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -30,9 +44,19 @@ preamble_format = """<!doctype html>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-"""
+""".format(slide_title, style=style or "night.css"))
 
-postamble = """
+import pathlib
+print("""
+	<section data-markdown="{}"
+		data-separator="^---"
+		data-separator-vertical="^--"
+	>
+	</section>
+	""".format(pathlib.Path(filename).parts[-1])
+)
+
+print("""
 			</div>
 		</div>
 
@@ -44,6 +68,9 @@ postamble = """
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				slideNumber: true,
+				history: true,
+				margin: 0.05,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
@@ -54,27 +81,4 @@ postamble = """
 		</script>
 	</body>
 </html>
-"""
-
-
-import sys
-filename = sys.argv[1]
-
-slide_title = None
-with open(filename) as f:
-	title_lines = [line for line in f.read().splitlines(keepends=False) if line.startswith("title: ")]
-	assert len(title_lines) == 1
-	slide_title = title_lines[0].partition(":")[2]
-
-print(preamble_format.format(slide_title))
-
-print("""
-	<section data-markdown={}
-		data-separator="^---"
-		data-separator-vertical="^--"
-	>
-	</section>
-	""".format(filename)
-)
-
-print(postamble)
+""")

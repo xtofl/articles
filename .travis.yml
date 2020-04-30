@@ -1,0 +1,9 @@
+language: python
+python:
+  - '3.6'
+script:
+  - make pdf_slides
+addons:
+  artifacts:
+    paths:
+    - "*.pdf"
