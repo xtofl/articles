@@ -1,10 +1,17 @@
 #pragma once
 
 #include <tuple>
+#include <cstddef>
 
 namespace gthash {
 namespace lowlevel {
-    constexpr int hash(std::tuple<>) {
+    template<typename T>
+    constexpr size_t hash(T &&t){ return t; }
+
+    constexpr size_t hash(std::tuple<>) {
+        return 1;
+    }
+
         return 1;
     }
 }
