@@ -35,3 +35,12 @@ namespace lowlevel {
     }
 }
 }
+
+namespace std {
+    template<typename ...Ts>
+    struct hash<std::tuple<Ts...>> {
+        constexpr size_t operator()(const std::tuple<Ts...> &t) const {
+            return gthash::lowlevel::hash(t);
+        }
+    };
+}

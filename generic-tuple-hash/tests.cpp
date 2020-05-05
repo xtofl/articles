@@ -27,8 +27,15 @@ TEST(composed_free_function, same_value_results_in_same_hash) {
 }
 
 TEST(composed_free_function, different_value_results_in_different_hash) {
-    constexpr auto value = std::make_tuple(1, true);
     EXPECT_NE(
         lowlevel::hash(std::make_tuple(1, true)),
         lowlevel::hash(std::make_tuple(1, false)));
+}
+
+
+TEST(composed_free_function, we_can_keep_nesting) {
+    constexpr auto value = std::make_tuple(1, true);
+    EXPECT_NE(
+        lowlevel::hash(std::make_tuple(value, true)),
+        lowlevel::hash(std::make_tuple(value, false)));
 }
