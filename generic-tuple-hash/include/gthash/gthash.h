@@ -12,6 +12,8 @@ namespace lowlevel {
         return 1;
     }
 
+    template<typename ...Ts>
+    constexpr size_t hash(std::tuple<Ts...> &&) {
         return 1;
     }
 }

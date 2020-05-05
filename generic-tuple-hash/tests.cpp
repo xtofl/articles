@@ -20,5 +20,7 @@ TEST(low_level, empty_tuple_hashes_to_same_value_everytime) {
 }
 
 TEST(low_level, singleton_tuple_hashes_to_element_hash) {
-    FAIL();
+    constexpr auto value = 1;
+    static_assert(lowlevel::hash(value) == lowlevel::hash(std::make_tuple(1)));
+    static_assert(lowlevel::hash(value + 1) != lowlevel::hash(std::make_tuple(1)));
 }
