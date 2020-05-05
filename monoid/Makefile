@@ -19,3 +19,5 @@ float_monoid: float_monoid.cpp
 
 test_float: float_monoid
 	./float_monoid
+
+include ../Makefile.inc
