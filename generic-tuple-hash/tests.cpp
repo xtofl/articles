@@ -26,3 +26,15 @@ TEST(low_level, singleton_tuple_hashes_to_element_hash) {
     EXPECT_EQ(lowlevel::hash(value), lowlevel::hash(std::make_tuple(1)));
     EXPECT_NE(lowlevel::hash(value + 1), lowlevel::hash(std::make_tuple(1)));
 }
+
+TEST(composed_free_function, same_value_results_in_same_hash) {
+    constexpr auto value = std::make_tuple(1, true);
+    EXPECT_EQ(lowlevel::hash(value), lowlevel::hash(value));
+}
+
+TEST(composed_free_function, different_value_results_in_different_hash) {
+    constexpr auto value = std::make_tuple(1, true);
+    EXPECT_NE(
+        lowlevel::hash(std::make_tuple(1, true)),
+        lowlevel::hash(std::make_tuple(1, false)));
+}
