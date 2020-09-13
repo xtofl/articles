@@ -83,8 +83,7 @@ instance with an extra function.
 
 ```python
 class Pipeline:
-    """builder for function composition"""
-    def __init__(self, functions = tuple()):
+    def __init__(self, functions = (lambda x: x,)):
         self.functions = functions
 
     def __or__(self, f):
@@ -92,23 +91,20 @@ class Pipeline:
     
     def __call__(self, arg):
         return functools.reduce(lambda r, f: f(r), self.functions, arg)
+    
+ID = Pipeline()
 ```
 
-And that seems to be all.  It can be tested easily with e.g. `pytest` - a favourite of mine:
+And that seems to be all. It can be tested easily with e.g. `pytest` - a
+favourite of mine. For the sake of this article, let's assume the `inc` and
+`double` functions to respectively increase and double a value.
 
 ```python
-
-def test_everything_starts_with_an_empty_pipeline():
-    """empty pipeline is the identity function"""
-    p = Pipeline()
-    assert all(p(x) == x for x in (1, 2, "abcd", None))
+def test_everything_starts_with_the_identity_function():
+    assert all(ID(x) == x for x in (1, 2, "abcd", None))
 
 def test_pipeline_steps_are_applied_in_order():
-    inc = lambda x: x+1
-    double = lambda x: x*2
-
-    pipeline = Pipeline() | inc | double
-
+    pipeline = ID | inc | double
     assert pipeline(0) == (0+1) * 2
     assert pipeline(3) == (3+1) * 2
 ```
@@ -116,3 +112,71 @@ def test_pipeline_steps_are_applied_in_order():
 ## But still... how???
 
 Now let's explain this step by step.
+
+### Building the Pipeline
+
+The `Pipeline` class is our container of functions to be composed. It does so
+by storing them in a tuple (`self.functions`).
+
+Now there is this funky member ` __or__(self, f)`. Its sole purpose is to
+provide the 'pipe' syntax we know from shell scripting: `p | inc | double`; and
+in Python, this is achieved through [operator
+overloading](https://docs.python.org/3/reference/datamodel.html#object.__or__).
+
+We could have created a custom name ('and_then') to achieve the same functionality:
+
+```python
+    def and_then(self, f):
+      return Pipeline(self.functions + (f,))
+
+...
+ID.and_then(double).and_then(inc)(10)
+```
+
+But choosing  `__or__` as a member name tells Python we want this to be used when a `Pipeline` object is or-ed/piped to a function.
+
+### Calling the Pipeline
+
+Again, another special member: the `__call__` function. You probably guessed
+it, but this is what makes objects behave like a function.
+
+Here, too, we could have called it something else, like `invoke_with`.  A non-special-member pipeline would have looked like this:
+
+```python
+ID.and_then(inc).and_then(double).invoke_with(10)
+```
+
+But choosing `__call__` tells Python to choose this method when the braces are used:
+
+```python
+(ID | inc | double)(10)
+```
+
+### But What's With That Funny ID Stuff?
+
+What I would _really_ want to write is something this:
+
+```python
+
+twentytwo = 10 >> inc | double
+fourty_eight = "0x18" >> from_hex | double
+```
+
+But in Python, I don't know how.  I can _almost_ work around it by adding another trick-helper class that reverses things:
+
+```python
+class WithArg:
+    def __init__(self, value):
+        self.value = value
+    def __call__(self, p: Pipeline):
+        return p(self.value)
+
+def test_an_almost_natural_pipeline_calling_order():
+    assert WithArg(10)(ID | inc | double) == (10+1) * 2
+```
+
+# Conclusion
+
+Languages allow you to build your own set of constructs these days.  We can make use of this to mimic notations from a known domain.
+
+No language is perfect, though, but we can get close enough to be useful.
