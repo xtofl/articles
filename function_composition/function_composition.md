@@ -175,6 +175,39 @@ def test_an_almost_natural_pipeline_calling_order():
     assert WithArg(10)(ID | inc | double) == (10+1) * 2
 ```
 
+# Limitations
+
+The pipes you can build with the code in this article are nice, but lack still
+one important aspect of the ones you use on you shell. It has to do with
+breaking structure.
+
+Take a look at [this
+pipeline](https://www.howtogeek.com/438882/how-to-use-pipes-on-linux/):
+
+```bash
+function top5 {
+   grep "page" | awk '{print $5 " " $3 " " $9}' | sort -n | tail -5
+}
+```
+
+What we see here is a line-based `grep` and `awk`. But then comes `sort`. How
+is this different? Wel, it will swallow all of its input before generating
+output.
+
+The python pipeline will allow us to compose functions that accept and return
+data in lock step. `ID | grep("page") | print_elements(5, 3, 9)` is going to
+process a single argument to produce a single value. How are we going to break
+free from that? Parts of the pipe need to be able to 'buffer' their input to
+produce one output (or a stream?) when the input stops.
+
+Indeed, text based processing has two kinds of events: new-line, and
+end-of-file. As a matter of fact, all of these command line stream-processing
+tools are composed of a buffering/chunking part and a chunk-processing part. We
+just _may_ use this knowledge to make our pipeline smarter. But not in this
+post.
+
+
+
 # Conclusion
 
 Languages allow you to build your own set of constructs these days.  We can make use of this to mimic notations from a known domain.
