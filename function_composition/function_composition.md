@@ -52,7 +52,10 @@ In functional programming, and in math, this concept is known as point-free func
 
 
 ```python
-read_lines("urls.txt") | explode_url | tuple_get(1) | filter(ends_with(".com"))
+read_lines("urls.txt") \
+    | explode_url \
+    | tuple_get(1) \
+    | filter(ends_with(".com"))
 ```
 
 ## But... how?
