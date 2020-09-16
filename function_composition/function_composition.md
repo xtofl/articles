@@ -104,9 +104,11 @@ class Pipeline:
 ID = Pipeline()
 ```
 
-And that seems to be all. It can be tested easily with e.g. `pytest` - a
-favourite of mine. For the sake of this article, let's assume the `inc` and
-`double` functions to respectively increase and double a value.
+### Testing it
+
+And that seems to be all. It can be demoed easily with e.g. `pytest` . For the
+sake of this article, let's assume the `inc` and `double` functions to
+respectively increase and double a value.
 
 ```python
 def test_everything_starts_with_the_identity_function():
@@ -125,9 +127,14 @@ Now let's explain this step by step.
 ### Building the Pipeline
 
 The `Pipeline` class is our container of functions to be composed. It does so
-by storing them in a tuple (`self.functions`).
+by storing them in a tuple (`self.functions`). (As an aside, I prefer `tuple`
+rather than `list` for its immutability)
 
-Now there is this funky member ` __or__(self, f)`. Its sole purpose is to
+The module also adds a very first object we can use as a starting point for our
+construction - a pipeline hat does nothing but returning the identical element
+it receives. It is called `ID`, just like in the functional programming world.
+
+Now our class has this special member ` __or__(self, f)`. Its sole purpose is to
 provide the 'pipe' syntax we know from shell scripting: `p | inc | double`; and
 in Python, this is achieved through [operator
 overloading](https://docs.python.org/3/reference/datamodel.html#object.__or__).
@@ -139,17 +146,23 @@ We could have created a custom name ('and_then') to achieve the same functionali
       return Pipeline(self.functions + (f,))
 
 ...
-ID.and_then(double).and_then(inc)(10)
+ID.and_then(double).and_then(inc)
 ```
 
-But choosing  `__or__` as a member name tells Python we want this to be used when a `Pipeline` object is or-ed/piped to a function.
+But choosing `__or__` as a member name tells Python we want this to be used
+when a `Pipeline` object is or-ed/piped to a function.
 
 ### Calling the Pipeline
 
 Again, another special member: the `__call__` function. You probably guessed
 it, but this is what makes objects behave like a function.
 
-Here, too, we could have called it something else, like `invoke_with`.  A non-special-member pipeline would have looked like this:
+I have implemented it using `functools.reduce`, but you could just as well
+hand-code a loop feeding the first argument to tne first function, the return
+value to the next function, and so on.
+
+Here, too, we could have called it something else, like `invoke_with`. A
+non-special-member pipeline would have looked like this:
 
 ```python
 ID.and_then(inc).and_then(double).invoke_with(10)
