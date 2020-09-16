@@ -11,31 +11,41 @@ how you can introduce pipes into your favourite programming enviroment.
 
 ## What?
 
+Lots of platforms come with a way to build programs out of small blocks. In
+many contexts, there is a convenient way to do this functional composition. We
+can call these 'pipelines'.
+
+This post came to being after a discussion on pipes in bash (slightly controversial analysis on why
+[your bash scritps are rubbish](https://dev.to/taikedz/your-bash-scripts-are-rubbish-use-another-language-5dh7)),
+but the domain is much larger than that.
+
+So this is what we're talking about: a bash script composed of small commands
+connected through pipes.
+
 ```bash
-function url_domain {
-	sed -e "s-http://--" -e "s/\\.com$//g" 
-}
-wget http://malicient.urls | url_domain | grep ".com$" 
+cat urls.txt | sed -e "s-http://--" -e "s/\\.com$//g"  | grep ".com$"
 ```
 
-Or, simulink
-Or, gstreamer?
+The pipe concept exists in different domains, too - sound processing is a nice example (image from [gstreamer website](https://gstreamer.freedesktop.org))
 
-Now look at this
+<img alt="gstreamer sound processing pipeline" src="https://gstreamer.freedesktop.org/documentation/application-development/introduction/images/simple-player.png" height="150px">
+
+Composition is the main driving goal of most programming languages. We chase
+some value through a function, and use its return value as input for another
+function.
+
 
 ```C++
 std::vector<std::string> report;
-for(const auto &url: wget_urls("http://malicient.urls")){
+for(const auto &url: read_lines("urls.txt")){
 	const auto [protocol, domain, path] = explode(url);
 	if (domain.ends_with(".com")){
-		report.push_back(domain); 
+		report.push_back(domain);
 	}
 }
 ```
 
-<!-- convert to voltage -->
-
-Clearly, the simple pipeline thing is way easier to both write and read.
+Clearly, the bash pipeline syntax is way easier to both write and read.
 
 ## What if...
 
@@ -44,22 +54,18 @@ We could use the simplicity of the pipe syntax...
 In functional programming, and in math, this concept is known as point-free
 function composition. You effectively define a pipeline of functions.
 
-```haskell
-split_url $ (\_,domain,_ -> domain) $ (filter ".com$")
-```
-
-```C++
-wget_urls(...) | explode_url | std::get<1> | filter(".com$")
-```
 
 ```python
-source(wget_urls(...)) | explode_url | get(1) | filter(ends_with(".com"))
+read_lines("urls.txt") | explode_url | tuple_get(1) | filter(ends_with(".com"))
 ```
 
 ## But... how?
 
 I'll be using Python for this demo, just for its succinctness. I may add C++
-examples later - C++ allows just a little more syntactic sugar.
+examples later - C++ allows us to add just a little more syntactic sugar with
+function overload resolution.
+
+### Fluent Interfaces
 
 In most programming languages, you have a way to build [fluent
 interfaces](https://en.wikipedia.org/wiki/Fluent_interface), allowing you to
@@ -77,6 +83,9 @@ ServerBuilder()\
 
 This works by creating methods that return builders again (spot the recursion).
 
+
+### Operators
+
 Now if your language allows you to override _operators_ as well, you're golden1
 You can create a class `Pipeline` and a pipe operator that extends a pipeline
 instance with an extra function.
@@ -88,10 +97,10 @@ class Pipeline:
 
     def __or__(self, f):
         return Pipeline(self.functions + (f,))
-    
+
     def __call__(self, arg):
         return functools.reduce(lambda r, f: f(r), self.functions, arg)
-    
+
 ID = Pipeline()
 ```
 
