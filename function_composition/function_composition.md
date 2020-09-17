@@ -62,6 +62,8 @@ read_lines("urls.txt") \
 
 I'll be using Python for this demo, just for its succinctness.  I may add C++ examples later - C++ allows us to add just a little more syntactic sugar with function overload resolution.
 
+I'll start explaining what fluent interfaces are.  Adding operator overloading to the mix, we'll end up with a nice pipeline construction syntax.
+
 ### Fluent Interfaces
 
 In most programming languages, you have a way to build [fluent interfaces](https://en.wikipedia.org/wiki/Fluent_interface), allowing you to chain operations to an object together:
@@ -85,21 +87,27 @@ Now if your language allows you to override _operators_ as well, you're golden1 
 
 ```python
 class Pipeline:
-    def __init__(self, functions = (lambda x: x,)):
+    def __init__(self, functions = tuple()):
         self.functions = functions
 
     def __or__(self, f):
         return Pipeline(self.functions + (f,))
 
     def __call__(self, arg):
-        return functools.reduce(lambda r, f: f(r), self.functions, arg)
+        return functools.reduce(
+            lambda r, f: f(r),  # function
+            self.functions,  # iterable
+            arg)  # initializer
 
+"""pipeline starting element"""
 ID = Pipeline()
 ```
 
 ### Testing it
 
-And that seems to be all.  It can be demoed easily with e.g. `pytest` .  For the sake of this article, let's assume the `inc` and `double` functions to respectively increase and double a value.
+And that seems to be all.
+
+It can be demonstrated easily with e.g. `pytest` .  For the sake of this article, let's assume the `inc` and `double` functions to respectively increase and double a value.
 
 ```python
 def test_everything_starts_with_the_identity_function():
@@ -153,17 +161,17 @@ But choosing `__call__` tells Python to choose this method when the braces are u
 (ID | inc | double)(10)
 ```
 
-### But What's With That Funny ID Stuff?
+### Injecting the first argument
 
 What I would _really_ want to write is something this:
 
 ```python
 
-twentytwo = 10 >> inc | double
-fourty_eight = "0x18" >> from_hex | double
+twentytwo = echo(10) | inc | double
+fourty_eight = echo("0x18") >> from_hex | double
 ```
 
-But in Python, I don't know how.  I can _almost_ work around it by adding another trick-helper class that reverses things:
+So we need another trick-helper class that reverses things:
 
 ```python
 class WithArg:
@@ -171,9 +179,38 @@ class WithArg:
         self.value = value
     def __call__(self, p: Pipeline):
         return p(self.value)
+```
 
-def test_an_almost_natural_pipeline_calling_order():
-    assert WithArg(10)(ID | inc | double) == (10+1) * 2
+Now we can write
+
+```python
+WithArg(10)(ID | inc | double) == (10+1) * 2
+```
+
+If we're willing to give up the `|` operator, we can drop the parentheses, too.  This is due to operator precedence:
+
+```python
+assert 1 + 2*3 == 7
+assert 1 + 2 * 3 == 1 + (2*3)
+assert True | False&True == False
+assert True | False&True == True | (False&True)
+```
+
+So we can use e.g. the multiplication operator for composition, and e.g. right shift for argument injection:
+
+
+```python
+class Pipeline:
+    ...
+    def __mul__(self, f):
+        return self | f
+
+class WithArg:
+    ...
+    def __rshift__(self, p: Pipeline):
+        return p(self.value)
+
+assert WithArg(10) >> ID * inc * double == (10+1) * 2
 ```
 
 # Limitations

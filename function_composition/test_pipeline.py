@@ -2,12 +2,15 @@ from pipeline import ID
 from pipeline import WithArg
 import pytest
 
+
 def test_everything_starts_with_the_identity_function():
     assert all(ID(x) == x for x in (1, 2, "abcd", None))
 
-inc = lambda x: x+1
-double = lambda x: x*2
-from_hex = lambda s: int(s, 16)
+
+def inc(x): return x+1
+def double(x): return x*2
+def from_hex(s): return int(s, 16)
+
 
 def test_pipeline_steps_are_applied_in_order():
     pipeline = ID | inc | double
@@ -18,3 +21,5 @@ def test_pipeline_steps_are_applied_in_order():
 
 def test_an_almost_natural_pipeline_calling_order():
     assert WithArg(10)(ID | inc | double) == (10+1) * 2
+    assert WithArg(10) | (ID | inc | double) == (10+1) * 2
+    assert WithArg(10) >> ID * inc * double == (10+1) * 2
