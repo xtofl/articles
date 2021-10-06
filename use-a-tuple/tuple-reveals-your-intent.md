@@ -8,7 +8,7 @@ cover_image: https://tse4.mm.bing.net/th?id=OIP.fSFioDohpz47KfnWoVvexgHaDt&pid=A
 
 ## Brief
 
-`tuple` is framed as the less potent brother of `list`.  In long-living code, however, this is an asset.  This article shows where `list`-ridden code would be better of using a tuple.
+`tuple` is framed as the less potent brother of `list`.  In long-living code, however, limiting functionality is an asset.  This article shows where `list`-ridden code would be better of using a tuple.
 
 ## Context
 
